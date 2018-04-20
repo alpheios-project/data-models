@@ -3405,6 +3405,7 @@ class Translation {
 
     let res = [];
     translationsList.forEach(function (item) {
+      console.log('translationsList item ', item);
       res.push(new Translation(item.in, item.translations));
     });
 
