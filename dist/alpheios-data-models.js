@@ -2873,6 +2873,7 @@ class Translation {
     // console.log('******** Translation class fetching translations 2 ', res)
 
     // return res
+    console.log('**********update lemma with translation', lemma.word, itemTranslations, itemTranslations.translations);
   }
 }
 
