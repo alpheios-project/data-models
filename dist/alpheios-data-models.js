@@ -2866,7 +2866,7 @@ class Translation {
     // let res = []
     // translationsList.forEach(function (item) {
     // console.log('translationsList item ', item)
-    lemma.addTranslation(new Translation(lemma, itemTranslations.translations));
+    lemma.addTranslation(new Translation(lemma, itemTranslations.translations.join(', ')));
     // res.push(lemma)
     // })
 
