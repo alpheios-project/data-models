@@ -19,12 +19,13 @@ class Translation {
   }
 
   static loadTranslations (lemma, translationsList) {
-    console.log('******** Translation class fetching translations', translationsList)
+    // console.log('******** Translation class fetching translations', translationsList)
 
     let res = []
     translationsList.forEach(function (item) {
-      console.log('translationsList item ', item)
-      res.push(new Translation(lemma, item.translations))
+      // console.log('translationsList item ', item)
+      lemma.addTranslation(new Translation(lemma, item.translations))
+      res.push(lemma)
     })
 
     console.log('******** Translation class fetching translations 2 ', res)
