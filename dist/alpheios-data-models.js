@@ -3399,6 +3399,10 @@ class Translation {
     this.lemma = lemma;
     this.meanings = meanings;
   }
+
+  static loadTranslations (translationsList) {
+    console.log('Translation class fetching translations', translationsList);
+  }
 }
 
 export { constants as Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, ResourceProvider, Translation };

@@ -18,7 +18,7 @@ class Translation {
     this.meanings = meanings
   }
 
-  static function loadTranslations(translationsList) {
+  static loadTranslations (translationsList) {
     console.log('Translation class fetching translations', translationsList)
   }
 }
