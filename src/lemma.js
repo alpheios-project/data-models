@@ -28,8 +28,6 @@ class Lemma {
     this.word = word
     this.principalParts = principalParts
     this.features = {}
-
-    console.log('IS I am in lemma constructor')
   }
 
   get language () {
