@@ -17,5 +17,9 @@ class Translation {
     this.lemma = lemma
     this.meanings = meanings
   }
+
+  static function loadTranslations(translationsList) {
+    console.log('Translation class fetching translations', translationsList)
+  }
 }
 export default Translation
