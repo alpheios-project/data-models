@@ -20,6 +20,15 @@ class Translation {
 
   static loadTranslations (translationsList) {
     console.log('Translation class fetching translations', translationsList)
+
+    let res = []
+    translationsList.forEach(function (item) {
+      res.push(new Translation(item.in, item.translations))
+    })
+
+    console.log('Translation class fetching translations 2 ', res)
+
+    return res
   }
 }
 export default Translation
