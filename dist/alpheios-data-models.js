@@ -3398,13 +3398,13 @@ class Translation {
     this.meanings = meanings;
   }
 
-  static loadTranslations (translationsList) {
+  static loadTranslations (lemma, translationsList) {
     console.log('******** Translation class fetching translations', translationsList);
 
     let res = [];
     translationsList.forEach(function (item) {
       console.log('translationsList item ', item);
-      res.push(new Translation(item.in, item.translations));
+      res.push(new Translation(lemma, item.translations));
     });
 
     console.log('******** Translation class fetching translations 2 ', res);
