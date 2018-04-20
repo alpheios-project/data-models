@@ -2851,7 +2851,7 @@ class Translation {
    * @param [] meanings - A set of definitions.
 
    */
-  constructor (lemma, meanings = []) {
+  constructor (lemma, meanings = '') {
     if (!lemma) {
       throw new Error('Lemma should not be empty.')
     }
