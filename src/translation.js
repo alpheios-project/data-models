@@ -17,5 +17,5 @@ class Translation {
     this.lemma = lemma
     this.meanings = meanings
   }
-
 }
+export default Translation
