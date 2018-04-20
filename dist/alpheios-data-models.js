@@ -2852,27 +2852,16 @@ class Translation {
 
    */
   constructor (lemma, meanings = []) {
-    // if (!lemma) {
-    //   throw new Error('Lemma should not be empty.')
-    // }
+    if (!lemma) {
+      throw new Error('Lemma should not be empty.')
+    }
 
     this.lemma = lemma;
     this.meanings = meanings;
   }
 
   static loadTranslations (lemma, itemTranslations) {
-    // console.log('******** Translation class fetching translations', translationsList)
-
-    // let res = []
-    // translationsList.forEach(function (item) {
-    // console.log('translationsList item ', item)
     lemma.addTranslation(new Translation(lemma, itemTranslations.translations.join(', ')));
-    // res.push(lemma)
-    // })
-
-    // console.log('******** Translation class fetching translations 2 ', res)
-
-    // return res
     console.log('**********update lemma with translation', lemma.word, itemTranslations, itemTranslations.translations);
   }
 }
