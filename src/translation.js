@@ -10,9 +10,9 @@ class Translation {
 
    */
   constructor (lemma, meanings = []) {
-    if (!lemma) {
-      throw new Error('Lemma should not be empty.')
-    }
+    // if (!lemma) {
+    //   throw new Error('Lemma should not be empty.')
+    // }
 
     this.lemma = lemma
     this.meanings = meanings
