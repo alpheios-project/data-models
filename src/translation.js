@@ -28,7 +28,7 @@ class Translation {
       res.push(lemma)
     })
 
-    console.log('******** Translation class fetching translations 2 ', res)
+    // console.log('******** Translation class fetching translations 2 ', res)
 
     return res
   }
