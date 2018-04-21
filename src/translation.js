@@ -18,9 +18,16 @@ class Translation {
     this.meanings = meanings
   }
 
-  static loadTranslations (lemma, itemTranslations) {
-    lemma.addTranslation(new Translation(lemma, itemTranslations.translations.join(', ')))
-    console.log('**********update lemma with translation', lemma.word, itemTranslations, itemTranslations.translations)
+  static readTranslationFromJSONList (lemma, translationsList) {
+    let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
+    return new Translation(lemma, curTranslations.translations.join(', '))
+  }
+
+  static loadTranslations (lemma, translationsList) {
+    lemma.addTranslation(this.readTranslationFromJSONList(lemma, translationsList))
+    // lemma.addTranslation(new Translation(lemma, itemTranslations.translations.join(', ')))
+
+    console.log('**********update lemma with translation', lemma.word, lemma.translation.meanings)
   }
 }
 export default Translation
