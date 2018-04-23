@@ -13,21 +13,20 @@ class Translation {
     if (!lemma) {
       throw new Error('Lemma should not be empty.')
     }
-
     this.lemma = lemma
     this.meanings = meanings
   }
 
   static readTranslationFromJSONList (lemma, translationsList) {
+    if (!translationsList || !Array.isArray(translationsList)) {
+      throw new Error('Recieved not proper translation list', translationsList)
+    }
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
     return new Translation(lemma, curTranslations.translations.join(', '))
   }
 
   static loadTranslations (lemma, translationsList) {
     lemma.addTranslation(this.readTranslationFromJSONList(lemma, translationsList))
-    // lemma.addTranslation(new Translation(lemma, itemTranslations.translations.join(', ')))
-
-    console.log('**********update lemma with translation', lemma.word, lemma.translation.meanings)
   }
 }
 export default Translation
