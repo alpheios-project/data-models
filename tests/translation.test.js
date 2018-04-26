@@ -53,13 +53,11 @@ describe('Translation object', () => {
         ]
       }
     ]
+    let expected = Translation.readTranslationFromJSONList(lemma, testJSON)
     Translation.loadTranslations(lemma, testJSON)
 
     expect(lemma.translation).not.toBe(undefined)
-    expect(lemma.translation).toEqual({
-      lemma: lemma,
-      meanings: ['to desire/love/wish/longing (passionate); to lust; to greed, appetite; to desire for gain;']
-    })
+    expect(lemma.translation).toEqual(expected)
   })
 
   afterAll(() => {
