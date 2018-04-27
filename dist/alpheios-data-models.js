@@ -2864,14 +2864,14 @@ class Translation {
     if (meaningsString.length === 0) {
       return []
     } else {
-      return meaningsString.split(divider).map(function (item) { return item.trim() })
+      return meaningsString.split(divider)// .map(function (item) { return item.trim() })
     }
   }
   static readTranslationFromJSONList (lemma, languageCode, translationsList) {
     if (!translationsList || !Array.isArray(translationsList)) {
-      console.log('**************', !translationsList);
-      console.log('**************', !Array.isArray(translationsList));
-      console.log('Recieved not proper translation list', translationsList);
+      // console.log('**************', !translationsList)
+      // console.log('**************', !Array.isArray(translationsList))
+      // console.log('Recieved not proper translation list', translationsList)
       throw new Error('Recieved not proper translation list', translationsList)
     }
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word });
