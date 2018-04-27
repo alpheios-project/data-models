@@ -27,7 +27,7 @@ class Translation {
       // console.log('convertMeaningsToArray step3', meaningsString.split(divider).map(function (item) { return item.trim() }))
       meaningsString = meaningsString.trim()
       if (meaningsString.substr(-1) === ';') {
-        meaningsString = meaningsString.substr(0, meaningsString.length)
+        meaningsString = meaningsString.substr(0, meaningsString.length - 1)
       }
       return meaningsString.split(divider).map(function (item) { return item.trim() })
     }
