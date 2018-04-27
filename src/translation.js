@@ -28,7 +28,8 @@ class Translation {
   static readTranslationFromJSONList (lemma, languageCode, translationsList) {
     if (!translationsList || !Array.isArray(translationsList)) {
       console.log('**************', !translationsList)
-      console.log('**************', !Array.isArray(translationsList)
+      console.log('**************', !Array.isArray(translationsList))
+      console.log('Recieved not proper translation list', translationsList)
       throw new Error('Recieved not proper translation list', translationsList)
     }
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
