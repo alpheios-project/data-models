@@ -22,7 +22,10 @@ class Translation {
     if (meaningsString.length === 0) {
       return []
     } else {
-      return meaningsString.split(divider)// .map(function (item) { return item.trim() })
+      console.log('convertMeaningsToArray step1', meaningsString)
+      console.log('convertMeaningsToArray step2', meaningsString.split(divider))
+      console.log('convertMeaningsToArray step3', meaningsString.split(divider).map(function (item) { return item.trim() }))
+      return meaningsString.split(divider).map(function (item) { return item.trim() })
     }
   }
   static readTranslationFromJSONList (lemma, languageCode, translationsList) {
