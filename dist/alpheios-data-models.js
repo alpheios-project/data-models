@@ -2864,9 +2864,13 @@ class Translation {
     if (meaningsString.length === 0) {
       return []
     } else {
-      console.log('convertMeaningsToArray step1', meaningsString);
-      console.log('convertMeaningsToArray step2', meaningsString.split(divider));
-      console.log('convertMeaningsToArray step3', meaningsString.split(divider).map(function (item) { return item.trim() }));
+      // console.log('convertMeaningsToArray step1', meaningsString)
+      // console.log('convertMeaningsToArray step2', meaningsString.split(divider))
+      // console.log('convertMeaningsToArray step3', meaningsString.split(divider).map(function (item) { return item.trim() }))
+      meaningsString = meaningsString.trim();
+      if (meaningsString.substr(-1) === ';') {
+        meaningsString = meaningsString.substr(0, meaningsString.length);
+      }
       return meaningsString.split(divider).map(function (item) { return item.trim() })
     }
   }
