@@ -9,38 +9,21 @@ class Translation {
    * @param [] meanings - A set of definitions.
 
    */
-  constructor (lemma, languageCode, meaningsString = '') {
+  constructor (lemma, languageCode, translations = []) {
     if (!lemma) {
       throw new Error('Lemma should not be empty.')
     }
     this.lemmaWord = lemma.word
     this.languageCode = languageCode
-    this.glosses = Translation.convertMeaningsToArray(meaningsString)
+    this.glosses = translations
   }
 
-  static convertMeaningsToArray (meaningsString, divider = ';') {
-    if (meaningsString.length === 0) {
-      return []
-    } else {
-      // console.log('convertMeaningsToArray step1', meaningsString)
-      // console.log('convertMeaningsToArray step2', meaningsString.split(divider))
-      // console.log('convertMeaningsToArray step3', meaningsString.split(divider).map(function (item) { return item.trim() }))
-      meaningsString = meaningsString.trim()
-      if (meaningsString.substr(-1) === ';') {
-        meaningsString = meaningsString.substr(0, meaningsString.length - 1)
-      }
-      return meaningsString.split(divider).map(function (item) { return item.trim() })
-    }
-  }
   static readTranslationFromJSONList (lemma, languageCode, translationsList) {
     if (!translationsList || !Array.isArray(translationsList)) {
-      // console.log('**************', !translationsList)
-      // console.log('**************', !Array.isArray(translationsList))
-      // console.log('Recieved not proper translation list', translationsList)
       throw new Error('Recieved not proper translation list', translationsList)
     }
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
-    return new Translation(lemma, languageCode, curTranslations.translations.join(', '))
+    return new Translation(lemma, languageCode, curTranslations.translations)
   }
 
   static loadTranslations (lemma, languageCode, translationsList) {
