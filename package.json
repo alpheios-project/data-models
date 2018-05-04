@@ -2,7 +2,7 @@
   "name": "alpheios-data-models",
   "version": "1.1.7",
   "description": "Alpheios Data Models",
-  "main": "dist/alpheios-data-models.js",
+  "main": "dist/alpheios-data-models.min.js",
   "directories": {
     "doc": "doc"
   },

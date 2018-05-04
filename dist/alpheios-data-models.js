@@ -737,7 +737,7 @@ class Definition {
 /*!*******************!*\
   !*** ./driver.js ***!
   \*******************/
-/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, ResourceProvider */
+/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, ResourceProvider, Translation */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -794,6 +794,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _resource_provider_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./resource_provider.js */ "./resource_provider.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResourceProvider", function() { return _resource_provider_js__WEBPACK_IMPORTED_MODULE_17__["default"]; });
+
+/* harmony import */ var _translation_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./translation.js */ "./translation.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Translation", function() { return _translation_js__WEBPACK_IMPORTED_MODULE_18__["default"]; });
+
+
+
 
 
 
@@ -2313,11 +2319,10 @@ class Inflection {
      * @param {prefix} prefix - a prefix of a word
      * @param {example} example - example
      */
-  constructor (stem, language, suffix = null, prefix = null, example = null) {
-    if (!stem) {
-      throw new Error('Stem should not be empty.')
+  constructor (stem = null, language, suffix = null, prefix = null, example = null) {
+    if (!stem && !suffix) {
+      throw new Error('At least stem or suffix must be defined')
     }
-
     if (!language) {
       throw new Error('Language should not be empty.')
     }
@@ -2352,7 +2357,7 @@ class Inflection {
 
   get form () {
     let form = this.prefix ? this.prefix : ''
-    form = form + this.stem
+    form = this.stem ? form + this.stem : form
     form = this.suffix ? form + this.suffix : form
     return form
   }
@@ -2416,7 +2421,7 @@ class Inflection {
       }
 
       if (!_language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].compareLanguages(element.languageID, this.languageID)) {
-        throw new Error(`Language "${element.languageID.toString()}" of a feature does not match 
+        throw new Error(`Language "${element.languageID.toString()}" of a feature does not match
           a language "${this.languageID.toString()}" of an Inflection object.`)
       }
 
@@ -3542,6 +3547,8 @@ class LatinLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
 /* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
+/* harmony import */ var _translation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./translation.js */ "./translation.js");
+
 
 
 
@@ -3555,6 +3562,8 @@ class Lemma {
    * @param {symbol | string} languageID - A language ID (symbol, please use this) or a language code of a word.
    * @param {string[]} principalParts - the principalParts of a lemma.
    * @param {Object} features - the grammatical features of a lemma.
+
+   * @param {Translation} transaltions - translations from python service
    */
   constructor (word, languageID, principalParts = [], features = {}) {
     if (!word) {
@@ -3656,6 +3665,22 @@ class Lemma {
    */
   get key () {
     return [this.word, _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageCodeFromId(this.languageID), ...Object.values(this.features)].join('-')
+  }
+
+  /**
+   * Sets a translation from python service.
+   * @param {Translation} translation - A translation object
+   */
+  addTranslation (translation) {
+    if (!translation) {
+      throw new Error('translation data cannot be empty.')
+    }
+
+    if (!(translation instanceof _translation_js__WEBPACK_IMPORTED_MODULE_2__["default"])) {
+      throw new Error('translation data must be a Translation object.')
+    }
+
+    this.translation = translation
   }
 }
 
@@ -3930,6 +3955,52 @@ class ResourceProvider {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (ResourceProvider);
+
+
+/***/ }),
+
+/***/ "./translation.js":
+/*!************************!*\
+  !*** ./translation.js ***!
+  \************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * stores a scope of lemma translations from python service
+ * Contains a primary Lemma object
+ */
+class Translation {
+  /**
+   * Initializes a Translation object.
+   * @param {Lemma} lemma - A lemma object.
+   * @param [] meanings - A set of definitions.
+
+   */
+  constructor (lemma, languageCode, translations = []) {
+    if (!lemma) {
+      throw new Error('Lemma should not be empty.')
+    }
+    this.lemmaWord = lemma.word
+    this.languageCode = languageCode
+    this.glosses = translations
+  }
+
+  static readTranslationFromJSONList (lemma, languageCode, translationsList) {
+    if (!translationsList || !Array.isArray(translationsList)) {
+      throw new Error('Recieved not proper translation list', translationsList)
+    }
+    let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
+    return new Translation(lemma, languageCode, curTranslations.translations)
+  }
+
+  static loadTranslations (lemma, languageCode, translationsList) {
+    lemma.addTranslation(this.readTranslationFromJSONList(lemma, languageCode, translationsList))
+  }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Translation);
 
 
 /***/ })
