@@ -1,5 +1,6 @@
 import LanguageModel from './language_model.js'
 import * as Constants from './constants.js'
+import Feature from './feature.js'
 
 let typeFeatures = new Map()
 let typeFeaturesInitialized = false
@@ -73,5 +74,41 @@ export default class ArabicLanguageModel extends LanguageModel {
    */
   static getPunctuation () {
     return ".,;:!?'\"(){}\\[\\]<>/\\\u00A0\u2010\u2011\u2012\u2013\u2014\u2015\u2018\u2019\u201C\u201D\u0387\u00B7\n\r"
+  }
+
+  /**
+   * Aggregate inflections for display according to language model characteristics
+   */
+  static aggregateInflectionsForDisplay (inflections) {
+    // TODO at some point we might want to be able to check the provider in here
+    // because this will really only work for the Aramorph parser
+    let aggregated = []
+    let aggregates = {'noun': [], 'adjective': []}
+    for (let infl of inflections) {
+      if (infl[Feature.types.morph] && infl[Feature.types.morph].value.match(/ADJ[uaiNK]/)) {
+        aggregates.adjective.push(infl)
+      } else if (infl[Feature.types.morph] && infl[Feature.types.morph].value.match(/NOUN[uaiNK]/)) {
+        aggregates.noun.push(infl)
+      } else {
+        aggregated.push(infl)
+      }
+    }
+    for (let type of Object.keys(aggregates)) {
+      let base = aggregated.filter((i) => i[Feature.types.part].value === type)
+      if (base.length === 1) {
+        for (let infl of aggregates[type]) {
+          base[0].addAltSuffix(infl.suffix)
+          if (infl.example) {
+            let exmatch = infl.example.match(/\[(.*?)\]/)
+            if (exmatch) {
+              base[0].addAltExample(exmatch[1])
+            }
+          }
+        }
+      } else {
+        aggregated.push(...aggregates[type])
+      }
+    }
+    return aggregated
   }
 }

@@ -2,6 +2,8 @@
 'use strict'
 import * as Constants from '../src/constants.js'
 import LMF from '../src/language_model_factory.js'
+import Feature from '../src/feature'
+import Inflection from '../src/inflection'
 
 describe('LanguageModelFactory object', () => {
   'use strict'
@@ -25,5 +27,27 @@ describe('LanguageModelFactory object', () => {
     expect(alt[3]).toEqual('\u{0627}\u{0652}\u{0627}')
     expect(alt[4]).toEqual('\u{0627}\u{0627}')
     expect(alt[5]).toEqual('')
+  })
+
+  test('aggregation of inflections', () => {
+    let pofs = new Feature(Feature.types.part, 'adjective', Constants.LANG_ARABIC)
+    let infla = new Inflection('صَغِير', Constants.LANG_ARABIC, null, null, null)
+    infla.addFeature(pofs)
+    infla.addFeature(new Feature(Feature.types.morph, 'DETSagiyr/ADJ', Constants.LANG_ARABIC))
+    let inflb = new Inflection('صَغِير', Constants.LANG_ARABIC, 'u', null, 'the + small/young + [def.nom.]')
+    inflb.addFeature(pofs)
+    inflb.addFeature(new Feature(Feature.types.morph, 'DETSagiyr/ADJu', Constants.LANG_ARABIC))
+    let inflc = new Inflection('صَغِير', Constants.LANG_ARABIC, 'a', null, 'the + small/young + [def.acc.]')
+    inflc.addFeature(pofs)
+    inflc.addFeature(new Feature(Feature.types.morph, 'DETSagiyr/ADJa', Constants.LANG_ARABIC))
+    let infld = new Inflection('صَغِير', Constants.LANG_ARABIC, 'i', null, 'the + small/young + [def.gen.]')
+    infld.addFeature(pofs)
+    infld.addFeature(new Feature(Feature.types.morph, 'DETSagiyr/ADJi', Constants.LANG_ARABIC))
+    let mockInflections = [infla, inflb, inflc, infld]
+    let aggregated = arabicModel.aggregateInflectionsForDisplay(mockInflections)
+    expect(mockInflections.length).toBe(4)
+    expect(aggregated.length).toBe(1)
+    expect(aggregated[0].altSuffixes).toEqual(['u', 'a', 'i'])
+    expect(aggregated[0].altExamples).toEqual(['def.nom.', 'def.acc.', 'def.gen.'])
   })
 })

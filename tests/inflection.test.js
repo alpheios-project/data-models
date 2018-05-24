@@ -19,6 +19,8 @@ describe('Inflection object', () => {
       suffix: null,
       prefix: null,
       example: null,
+      altSuffixes: [],
+      altExamples: [],
 
       languageCode: grc,
       languageID: Constants.LANG_GREEK,

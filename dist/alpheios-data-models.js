@@ -93,6 +93,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ArabicLanguageModel; });
 /* harmony import */ var _language_model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model.js */ "./language_model.js");
 /* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants.js */ "./constants.js");
+/* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
+
 
 
 
@@ -168,6 +170,42 @@ class ArabicLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0_
    */
   static getPunctuation () {
     return ".,;:!?'\"(){}\\[\\]<>/\\\u00A0\u2010\u2011\u2012\u2013\u2014\u2015\u2018\u2019\u201C\u201D\u0387\u00B7\n\r"
+  }
+
+  /**
+   * Aggregate inflections for display according to language model characteristics
+   */
+  static aggregateInflectionsForDisplay (inflections) {
+    // TODO at some point we might want to be able to check the provider in here
+    // because this will really only work for the Aramorph parser
+    let aggregated = []
+    let aggregates = {'noun': [], 'adjective': []}
+    for (let infl of inflections) {
+      if (infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph] && infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph].value.match(/ADJ[uaiNK]/)) {
+        aggregates.adjective.push(infl)
+      } else if (infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph] && infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph].value.match(/NOUN[uaiNK]/)) {
+        aggregates.noun.push(infl)
+      } else {
+        aggregated.push(infl)
+      }
+    }
+    for (let type of Object.keys(aggregates)) {
+      let base = aggregated.filter((i) => i[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.part].value === type)
+      if (base.length === 1) {
+        for (let infl of aggregates[type]) {
+          base[0].addAltSuffix(infl.suffix)
+          if (infl.example) {
+            let exmatch = infl.example.match(/\[(.*?)\]/)
+            if (exmatch) {
+              base[0].addAltExample(exmatch[1])
+            }
+          }
+        }
+      } else {
+        aggregated.push(...aggregates[type])
+      }
+    }
+    return aggregated
   }
 }
 
@@ -2365,6 +2403,12 @@ class Inflection {
 
     // Example may not be provided
     this.example = example
+
+    // alternative suffixes may not be provided
+    this.altSuffixes = []
+
+    // alternative examples may not be provided
+    this.altExamples = []
   }
 
   get form () {
@@ -2487,6 +2531,22 @@ class Inflection {
       return this[featureName].values.includes(featureValue)
     }
     return false
+  }
+
+  /**
+   * add an alternative suffix for this inflection
+   * @param {string} suffix the alternative suffix
+   */
+  addAltSuffix (suffix) {
+    this.altSuffixes.push(suffix)
+  }
+
+  /**
+   * add an alternative example for this inflection
+   * @param {string} example the alternative example
+   */
+  addAltExample (examples) {
+    this.altExamples.push(examples)
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Inflection);
@@ -3057,9 +3117,10 @@ class LanguageModel {
    */
   static groupInflectionsForDisplay (inflections) {
     let grouped = new Map()
+    let aggregated = this.aggregateInflectionsForDisplay(inflections)
 
     // group inflections by part of speech
-    for (let infl of inflections) {
+    for (let infl of aggregated) {
       let groupingKey = new _inflection_grouping_key_js__WEBPACK_IMPORTED_MODULE_4__["default"](infl,
         [_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.part, _feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.declension, _feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.dialect, _feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.comparison],
         {
@@ -3166,6 +3227,16 @@ class LanguageModel {
       kv[1].inflections = Array.from(inflgrp.values())
     }
     return Array.from(grouped.values())
+  }
+
+  /**
+   * Aggregate inflections for display according to language model characteristics
+   * @param {Inflection[]} inflections an array of inflections
+   * @return Inflection[] the aggregated inflections
+   */
+  static aggregateInflectionsForDisplay (inflections) {
+    // default is just to do nothing
+    return inflections
   }
 
   /**
