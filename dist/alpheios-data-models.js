@@ -177,33 +177,30 @@ class ArabicLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0_
    */
   static aggregateInflectionsForDisplay (inflections) {
     // TODO at some point we might want to be able to check the provider in here
-    // because this will really only work for the Aramorph parser
+    // because this really only applies to the specifics of the Aramorph parser
     let aggregated = []
-    let aggregates = {'noun': [], 'adjective': []}
+    let aggregates = { [_constants_js__WEBPACK_IMPORTED_MODULE_1__["POFS_NOUN"]]: [], [_constants_js__WEBPACK_IMPORTED_MODULE_1__["POFS_ADJECTIVE"]]: [] }
     for (let infl of inflections) {
       if (infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph] && infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph].value.match(/ADJ[uaiNK]/)) {
         aggregates.adjective.push(infl)
-      } else if (infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph] && infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph].value.match(/NOUN[uaiNK]/)) {
+      } else if (infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph] && infl[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.morph].value.match(/NOUN(_PROP)?[uaiNK]/)) {
         aggregates.noun.push(infl)
       } else {
+        // we are also going to keep the examples out of the display for now
+        infl.example = null
         aggregated.push(infl)
       }
     }
     for (let type of Object.keys(aggregates)) {
       let base = aggregated.filter((i) => i[_feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.part].value === type)
-      if (base.length === 1) {
-        for (let infl of aggregates[type]) {
-          base[0].addAltSuffix(infl.suffix)
-          if (infl.example) {
-            let exmatch = infl.example.match(/\[(.*?)\]/)
-            if (exmatch) {
-              base[0].addAltExample(exmatch[1])
-            }
-          }
-        }
-      } else {
+      if (base.length !== 1) {
+        // if we don't have the base form then we don't really know what to do here
+        // so just put the inflection back in the ones available for display
         aggregated.push(...aggregates[type])
       }
+      // we may decide we want to keep the extra suffix and morph information
+      // from the alternate inflections but for now we just will drop it from
+      // the inflections that are displayed
     }
     return aggregated
   }
@@ -2403,12 +2400,6 @@ class Inflection {
 
     // Example may not be provided
     this.example = example
-
-    // alternative suffixes may not be provided
-    this.altSuffixes = []
-
-    // alternative examples may not be provided
-    this.altExamples = []
   }
 
   get form () {
@@ -2531,22 +2522,6 @@ class Inflection {
       return this[featureName].values.includes(featureValue)
     }
     return false
-  }
-
-  /**
-   * add an alternative suffix for this inflection
-   * @param {string} suffix the alternative suffix
-   */
-  addAltSuffix (suffix) {
-    this.altSuffixes.push(suffix)
-  }
-
-  /**
-   * add an alternative example for this inflection
-   * @param {string} example the alternative example
-   */
-  addAltExample (examples) {
-    this.altExamples.push(examples)
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Inflection);

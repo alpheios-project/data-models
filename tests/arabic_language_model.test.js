@@ -29,8 +29,8 @@ describe('LanguageModelFactory object', () => {
     expect(alt[5]).toEqual('')
   })
 
-  test('aggregation of inflections', () => {
-    let pofs = new Feature(Feature.types.part, 'adjective', Constants.LANG_ARABIC)
+  test('aggregation of adjective inflections', () => {
+    let pofs = new Feature(Feature.types.part, Constants.POFS_ADJECTIVE, Constants.LANG_ARABIC)
     let infla = new Inflection('صَغِير', Constants.LANG_ARABIC, null, null, null)
     infla.addFeature(pofs)
     infla.addFeature(new Feature(Feature.types.morph, 'DETSagiyr/ADJ', Constants.LANG_ARABIC))
@@ -43,6 +43,46 @@ describe('LanguageModelFactory object', () => {
     let infld = new Inflection('صَغِير', Constants.LANG_ARABIC, 'i', null, 'the + small/young + [def.gen.]')
     infld.addFeature(pofs)
     infld.addFeature(new Feature(Feature.types.morph, 'DETSagiyr/ADJi', Constants.LANG_ARABIC))
+    let mockInflections = [infla, inflb, inflc, infld]
+    let aggregated = arabicModel.aggregateInflectionsForDisplay(mockInflections)
+    expect(mockInflections.length).toBe(4)
+    expect(aggregated.length).toBe(1)
+  })
+
+  test('aggregation of noun inflections', () => {
+    let pofs = new Feature(Feature.types.part, Constants.POFS_NOUN, Constants.LANG_ARABIC)
+    let infla = new Inflection('سُلْطان', Constants.LANG_ARABIC, null, null, null)
+    infla.addFeature(pofs)
+    infla.addFeature(new Feature(Feature.types.morph, 'NOUN', Constants.LANG_ARABIC))
+    let inflb = new Inflection('سُلْطان', Constants.LANG_ARABIC, 'u', null, null)
+    inflb.addFeature(pofs)
+    inflb.addFeature(new Feature(Feature.types.morph, 'NOUNu/CASE_DEF_NOM', Constants.LANG_ARABIC))
+    let inflc = new Inflection('سُلْطان', Constants.LANG_ARABIC, 'a', null, null)
+    inflc.addFeature(pofs)
+    inflc.addFeature(new Feature(Feature.types.morph, 'NOUNa/CASE_DEF_NOM', Constants.LANG_ARABIC))
+    let infld = new Inflection('سُلْطان', Constants.LANG_ARABIC, 'i', null, null)
+    infld.addFeature(pofs)
+    infld.addFeature(new Feature(Feature.types.morph, 'NOUNi/CASE_DEF_NOM', Constants.LANG_ARABIC))
+    let mockInflections = [infla, inflb, inflc, infld]
+    let aggregated = arabicModel.aggregateInflectionsForDisplay(mockInflections)
+    expect(mockInflections.length).toBe(4)
+    expect(aggregated.length).toBe(1)
+  })
+
+  test('aggregation of proper noun inflections', () => {
+    let pofs = new Feature(Feature.types.part, Constants.POFS_NOUN, Constants.LANG_ARABIC)
+    let infla = new Inflection('سُلْطان', Constants.LANG_ARABIC, null, null, null)
+    infla.addFeature(pofs)
+    infla.addFeature(new Feature(Feature.types.morph, 'NOUN_PROP', Constants.LANG_ARABIC))
+    let inflb = new Inflection('سُلْطان', Constants.LANG_ARABIC, 'u', null, null)
+    inflb.addFeature(pofs)
+    inflb.addFeature(new Feature(Feature.types.morph, 'NOUN_PROPu/CASE_DEF_NOM', Constants.LANG_ARABIC))
+    let inflc = new Inflection('سُلْطان', Constants.LANG_ARABIC, 'a', null, null)
+    inflc.addFeature(pofs)
+    inflc.addFeature(new Feature(Feature.types.morph, 'NOUN_PROPa/CASE_DEF_NOM', Constants.LANG_ARABIC))
+    let infld = new Inflection('سُلْطان', Constants.LANG_ARABIC, 'i', null, null)
+    infld.addFeature(pofs)
+    infld.addFeature(new Feature(Feature.types.morph, 'NOUN_PROPi/CASE_DEF_NOM', Constants.LANG_ARABIC))
     let mockInflections = [infla, inflb, inflc, infld]
     let aggregated = arabicModel.aggregateInflectionsForDisplay(mockInflections)
     expect(mockInflections.length).toBe(4)

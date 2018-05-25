@@ -81,15 +81,17 @@ export default class ArabicLanguageModel extends LanguageModel {
    */
   static aggregateInflectionsForDisplay (inflections) {
     // TODO at some point we might want to be able to check the provider in here
-    // because this will really only work for the Aramorph parser
+    // because this really only applies to the specifics of the Aramorph parser
     let aggregated = []
-    let aggregates = {'noun': [], 'adjective': []}
+    let aggregates = { [Constants.POFS_NOUN]: [], [Constants.POFS_ADJECTIVE]: [] }
     for (let infl of inflections) {
       if (infl[Feature.types.morph] && infl[Feature.types.morph].value.match(/ADJ[uaiNK]/)) {
         aggregates.adjective.push(infl)
-      } else if (infl[Feature.types.morph] && infl[Feature.types.morph].value.match(/NOUN[uaiNK]/)) {
+      } else if (infl[Feature.types.morph] && infl[Feature.types.morph].value.match(/NOUN(_PROP)?[uaiNK]/)) {
         aggregates.noun.push(infl)
       } else {
+        // we are also going to keep the examples out of the display for now
+        infl.example = null
         aggregated.push(infl)
       }
     }
