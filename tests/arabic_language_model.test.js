@@ -47,7 +47,5 @@ describe('LanguageModelFactory object', () => {
     let aggregated = arabicModel.aggregateInflectionsForDisplay(mockInflections)
     expect(mockInflections.length).toBe(4)
     expect(aggregated.length).toBe(1)
-    expect(aggregated[0].altSuffixes).toEqual(['u', 'a', 'i'])
-    expect(aggregated[0].altExamples).toEqual(['def.nom.', 'def.acc.', 'def.gen.'])
   })
 })

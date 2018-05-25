@@ -66,12 +66,6 @@ class Inflection {
 
     // Example may not be provided
     this.example = example
-
-    // alternative suffixes may not be provided
-    this.altSuffixes = []
-
-    // alternative examples may not be provided
-    this.altExamples = []
   }
 
   get form () {
@@ -194,22 +188,6 @@ class Inflection {
       return this[featureName].values.includes(featureValue)
     }
     return false
-  }
-
-  /**
-   * add an alternative suffix for this inflection
-   * @param {string} suffix the alternative suffix
-   */
-  addAltSuffix (suffix) {
-    this.altSuffixes.push(suffix)
-  }
-
-  /**
-   * add an alternative example for this inflection
-   * @param {string} example the alternative example
-   */
-  addAltExample (examples) {
-    this.altExamples.push(examples)
   }
 }
 export default Inflection

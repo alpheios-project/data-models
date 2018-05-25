@@ -95,19 +95,14 @@ export default class ArabicLanguageModel extends LanguageModel {
     }
     for (let type of Object.keys(aggregates)) {
       let base = aggregated.filter((i) => i[Feature.types.part].value === type)
-      if (base.length === 1) {
-        for (let infl of aggregates[type]) {
-          base[0].addAltSuffix(infl.suffix)
-          if (infl.example) {
-            let exmatch = infl.example.match(/\[(.*?)\]/)
-            if (exmatch) {
-              base[0].addAltExample(exmatch[1])
-            }
-          }
-        }
-      } else {
+      if (base.length !== 1) {
+        // if we don't have the base form then we don't really know what to do here
+        // so just put the inflection back in the ones available for display
         aggregated.push(...aggregates[type])
       }
+      // we may decide we want to keep the extra suffix and morph information
+      // from the alternate inflections but for now we just will drop it from
+      // the inflections that are displayed
     }
     return aggregated
   }
