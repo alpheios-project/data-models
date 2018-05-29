@@ -70,7 +70,7 @@ describe('LanguageModelFactory object', () => {
   })
 
   test('aggregation of proper noun inflections', () => {
-    let pofs = new Feature(Feature.types.part, Constants.POFS_NOUN, Constants.LANG_ARABIC)
+    let pofs = new Feature(Feature.types.part, Constants.POFS_NOUN_PROPER, Constants.LANG_ARABIC)
     let infla = new Inflection('سُلْطان', Constants.LANG_ARABIC, null, null, null)
     infla.addFeature(pofs)
     infla.addFeature(new Feature(Feature.types.morph, 'NOUN_PROP', Constants.LANG_ARABIC))
