@@ -1,6 +1,6 @@
 import Feature from './feature.js'
 import LMF from './language_model_factory.js'
-import Constants from './constants.js'
+import * as Constants from './constants.js'
 /*
  Hierarchical structure of return value of a morphological analyzer:
 

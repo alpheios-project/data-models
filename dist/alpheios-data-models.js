@@ -2528,7 +2528,7 @@ class Inflection {
   get form () {
     let form, prefix, suffix
 
-    if (this.model.direction === _constants_js__WEBPACK_IMPORTED_MODULE_2__["default"].LANG_DIR_RTL) {
+    if (this.model.direction === _constants_js__WEBPACK_IMPORTED_MODULE_2__["LANG_DIR_RTL"]) {
       prefix = this.prefix ? ` - ${this.prefix}` : ''
       suffix = this.suffix ? `${this.suffix} - ` : ''
 
