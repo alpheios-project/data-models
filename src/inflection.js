@@ -1,5 +1,6 @@
 import Feature from './feature.js'
 import LMF from './language_model_factory.js'
+import Constants from './constants.js'
 /*
  Hierarchical structure of return value of a morphological analyzer:
 
@@ -69,9 +70,20 @@ class Inflection {
   }
 
   get form () {
-    let form = this.prefix ? this.prefix : ''
-    form = this.stem ? form + this.stem : form
-    form = this.suffix ? form + this.suffix : form
+    let form, prefix, suffix
+
+    if (this.model.direction === Constants.LANG_DIR_RTL) {
+      prefix = this.prefix ? ` - ${this.prefix}` : ''
+      suffix = this.suffix ? `${this.suffix} - ` : ''
+
+      form = suffix + this.stem + prefix
+    } else {
+      prefix = this.prefix ? `${this.prefix} - ` : ''
+      suffix = this.suffix ? ` - ${this.suffix}` : ''
+
+      form = prefix + this.stem + suffix
+    }
+
     return form
   }
 

@@ -2453,6 +2453,8 @@ const i18n = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
 /* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants.js */ "./constants.js");
+
 
 
 /*
@@ -2524,9 +2526,20 @@ class Inflection {
   }
 
   get form () {
-    let form = this.prefix ? this.prefix : ''
-    form = this.stem ? form + this.stem : form
-    form = this.suffix ? form + this.suffix : form
+    let form, prefix, suffix
+
+    if (this.model.direction === _constants_js__WEBPACK_IMPORTED_MODULE_2__["default"].LANG_DIR_RTL) {
+      prefix = this.prefix ? ` - ${this.prefix}` : ''
+      suffix = this.suffix ? `${this.suffix} - ` : ''
+
+      form = suffix + this.stem + prefix
+    } else {
+      prefix = this.prefix ? `${this.prefix} - ` : ''
+      suffix = this.suffix ? ` - ${this.suffix}` : ''
+
+      form = prefix + this.stem + suffix
+    }
+
     return form
   }
 
