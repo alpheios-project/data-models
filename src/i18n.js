@@ -5,143 +5,143 @@ export const i18n = {
   en: {
     feminine: {
       full: 'feminine',
-      abbr: 'f'
+      abbr: 'f.'
     },
     masculine: {
       full: 'masculine',
-      abbr: 'm'
+      abbr: 'm.'
     },
     neuter: {
       full: 'neuter',
-      abbr: 'n'
+      abbr: 'n.'
     },
     nominative: {
       full: 'nominative',
-      abbr: 'npm'
+      abbr: 'nom.'
     },
     accusative: {
       full: 'accusative',
-      abbr: 'acc'
+      abbr: 'acc.'
     },
     genitive: {
       full: 'genitive',
-      abbr: 'gen'
+      abbr: 'gen.'
     },
     vocative: {
       full: 'vocative',
-      abbr: 'voc'
+      abbr: 'voc.'
     },
     ablative: {
       full: 'ablative',
-      abbr: 'abl'
+      abbr: 'abl.'
     },
     locative: {
       full: 'locative',
-      abbr: 'loc'
+      abbr: 'loc.'
     },
     dative: {
       full: 'dative',
-      abbr: 'dat'
+      abbr: 'dat.'
     },
     positive: {
       full: 'positive',
-      abbr: 'pos'
+      abbr: 'pos.'
     },
     comparative: {
       full: 'comparative',
-      abbr: 'com'
+      abbr: 'com.'
     },
     superlative: {
       full: 'superlative',
-      abbr: 'sup'
+      abbr: 'sup.'
     },
     singular: {
       full: 'singular',
-      abbr: 's'
+      abbr: 's.'
     },
     plural: {
       full: 'plural',
-      abbr: 'p'
+      abbr: 'p.'
     },
     dual: {
       full: 'dual',
-      abbr: 'dl'
+      abbr: 'dl.'
     },
     present: {
       full: 'present',
-      abbr: 'pr'
+      abbr: 'pr.'
     },
     imperfect: {
       full: 'imperfect',
-      abbr: 'imp'
+      abbr: 'imp.'
     },
     perfect: {
       full: 'perfect',
-      abbr: 'perf'
+      abbr: 'perf.'
     },
     plusquamperfect: {
       full: 'plusquamperfect',
-      abbr: 'pqpf'
+      abbr: 'pqpf.'
     },
-    future_perfect: {
+    'future perfect': {
       full: 'future perfect',
-      abbr: 'fex'
+      abbr: 'fex.'
     },
     future: {
       full: 'future',
-      abbr: 'fut'
+      abbr: 'fut.'
     },
     aorist: {
       full: 'aorist',
-      abbr: 'aor'
+      abbr: 'aor.'
     },
     indicative: {
       full: 'indicative',
-      abbr: 'ind'
+      abbr: 'ind.'
     },
     subjunctive: {
       full: 'subjunctive',
-      abbr: 'sub'
+      abbr: 'sub.'
     },
     infinitive: {
       full: 'infinitive',
-      abbr: 'inf'
+      abbr: 'inf.'
     },
     imperative: {
       full: 'imperative',
-      abbr: 'imp'
+      abbr: 'imp.'
     },
     supine: {
       full: 'supine',
-      abbr: 'sup'
+      abbr: 'sup.'
     },
     participle: {
       full: 'participle',
-      abbr: 'par'
+      abbr: 'par.'
     },
     optative: {
       full: 'optative',
-      abbr: 'opt'
+      abbr: 'opt.'
     },
     active: {
       full: 'active',
-      abbr: 'act'
+      abbr: 'act.'
     },
     passive: {
       full: 'passive',
-      abbr: 'pass'
+      abbr: 'pass.'
     },
     middle: {
       full: 'middle',
-      abbr: 'mid'
+      abbr: 'mid.'
     },
-    medio_passive: {
-      full: 'medio passive',
-      abbr: 'mp'
+    mediopassive: {
+      full: 'mediopassive',
+      abbr: 'mp.'
     },
     deponens: {
       full: 'deponens',
-      abbr: 'dep'
+      abbr: 'dep.'
     }
   }
 }

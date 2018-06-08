@@ -42,7 +42,7 @@ describe('Feature object', () => {
 
   it('expects toLocaleStringAbbr to return abbreviation if defined', () => {
     let f = new Feature(Feature.types.gender, 'feminine', Constants.LANG_LATIN)
-    expect(f.toLocaleStringAbbr()).toEqual('f')
+    expect(f.toLocaleStringAbbr()).toEqual('f.')
   })
   it('expects toLocaleStringAbbr to return value if no abbreviation defined', () => {
     let f = new Feature(Feature.types.gender, 'unknown', Constants.LANG_LATIN)
