@@ -2526,18 +2526,21 @@ class Inflection {
   }
 
   get form () {
-    let form, prefix, suffix
+    let form, prefix, suffix, divider, stem
+
+    stem = this.stem ? this.stem : ''
+    divider = this.stem ? ' - ' : ''
 
     if (this.model.direction === _constants_js__WEBPACK_IMPORTED_MODULE_2__["LANG_DIR_RTL"]) {
-      prefix = this.prefix ? ` - ${this.prefix}` : ''
-      suffix = this.suffix ? `${this.suffix} - ` : ''
+      prefix = this.prefix ? divider + this.prefix : ''
+      suffix = this.suffix ? this.suffix + divider : ''
 
-      form = suffix + this.stem + prefix
+      form = suffix + stem + prefix
     } else {
-      prefix = this.prefix ? `${this.prefix} - ` : ''
-      suffix = this.suffix ? ` - ${this.suffix}` : ''
+      prefix = this.prefix ? this.prefix + divider : ''
+      suffix = this.suffix ? divider + this.suffix : ''
 
-      form = prefix + this.stem + suffix
+      form = prefix + stem + suffix
     }
 
     return form
