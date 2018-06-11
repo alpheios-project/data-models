@@ -8,6 +8,8 @@
   },
   "scripts": {
     "test": "standard --fix && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test-components1": "standard --fix && jest tests/inflection.test.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+
     "build": "standard --fix && node --experimental-modules ./node_modules/alpheios-node-build/dist/build.mjs all all lib",
     "build-prod": "standard --fix && node --experimental-modules ./node_modules/alpheios-node-build/dist/build.mjs all production lib",
     "build-dev": "standard --fix && node --experimental-modules ./node_modules/alpheios-node-build/dist/build.mjs all development lib",
@@ -56,6 +58,7 @@
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",
+    "uuid": "^3.2.1",
     "vue-loader": "^15.0.0-rc.2",
     "vue-style-loader": "^4.1.0",
     "vue-svg-loader": "^0.5.0",
@@ -69,7 +72,8 @@
     "verbose": true
   },
   "peerDependencies": {
-    "intl-messageformat": "^2.1.0"
+    "intl-messageformat": "^2.1.0",
+    "uuid": "3.x.x"
   },
   "eslintConfig": {
     "env": {
