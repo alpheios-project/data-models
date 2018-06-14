@@ -88,7 +88,73 @@ describe('feature.test.js', () => {
     expect(feature1.isEqual(feature1)).toBeTruthy()
   })
 
-  it('5 Feature - check get types, isAllowedType, defaultSortOrder, joinSeparator, defaultImporterName', () => {
+  it('5 Feature -  isEqual variants check', () => {
+    let a, b
+
+    // expects isEqual to correctly equate two single value features
+    a = new Feature(Feature.types.note, 'valuea', latID)
+    b = new Feature(Feature.types.note, 'valuea', latID)
+    expect(a.isEqual(b)).toBeTruthy()
+
+    // expects isEqual to correctly equate two multi value features
+    a = new Feature(Feature.types.note, ['valuea', 'valueb'], latID)
+    b = new Feature(Feature.types.note, ['valuea', 'valueb'], latID)
+    expect(a.isEqual(b)).toBeTruthy()
+
+    // expects isEqual to correctly not equate two single value features
+    a = new Feature(Feature.types.note, 'valuea', latID)
+    b = new Feature(Feature.types.note, 'valueb', latID)
+    expect(a.isEqual(b)).toBeFalsy()
+
+    // expects isEqual to correctly not equate two multi value features
+    a = new Feature(Feature.types.note, ['valuea', 'valueb'], latID)
+    b = new Feature(Feature.types.note, ['valuea', 'valuec'], latID)
+    expect(a.isEqual(b)).toBeFalsy()
+
+    // expects isEqual to correctly not equate two single value features of different type
+    a = new Feature(Feature.types.note, 'valuea', Constants.LANG_LATIN)
+    b = new Feature(Feature.types.frequency, 'valuea', Constants.LANG_LATIN)
+    expect(a.isEqual(b)).toBeFalsy()
+
+    // expects isEqual to correctly not equate two single value features of different language
+    a = new Feature(Feature.types.note, 'valuea', Constants.LANG_GREEK)
+    b = new Feature(Feature.types.note, 'valuea', Constants.LANG_LATIN)
+    expect(a.isEqual(b)).toBeFalsy()
+
+    a = new Feature(Feature.types.note, 'valuea', Constants.LANG_GREEK)
+    b = new Feature(Feature.types.note, 'valuea', Constants.LANG_LATIN)
+    expect(a.isEqual(b)).toBeFalsy()
+  })
+
+  it('6 Feature - compareTo variants check', () => {
+    let a, b
+
+    // expects to Feature a to be sorted after Feature b
+    a = new Feature(Feature.types.frequency, [['lower', 1]], Constants.LANG_GREEK)
+    b = new Feature(Feature.types.frequency, [['higher', 2]], Constants.LANG_GREEK)
+    expect(a.compareTo(b)).toBeGreaterThan(0)
+    expect([a, b].sort((a, b) => a.compareTo(b))).toEqual([b, a])
+
+    // expects to Feature a to be sorted before Feature b
+    a = new Feature(Feature.types.frequency, [['lower', 3]], Constants.LANG_GREEK)
+    b = new Feature(Feature.types.frequency, [['higher', 1]], Constants.LANG_GREEK)
+    expect(a.compareTo(b)).toBeLessThan(0)
+    expect([a, b].sort((a, b) => a.compareTo(b))).toEqual([a, b])
+
+    // expects to Feature a to be sorted the same as Feature b
+    a = new Feature(Feature.types.frequency, [['same', 1]], Constants.LANG_GREEK)
+    b = new Feature(Feature.types.frequency, [['same', 1]], Constants.LANG_GREEK)
+    expect(a.compareTo(b)).toEqual(0)
+    expect([a, b].sort((a, b) => a.compareTo(b))).toEqual([a, b])
+
+    // expects to multi-valued Features to sort correctly
+    a = new Feature(Feature.types.frequency, [['lower', 1], ['highest', 3]], Constants.LANG_GREEK)
+    b = new Feature(Feature.types.frequency, [['higher', 2]], Constants.LANG_GREEK)
+    expect(a.compareTo(b)).toBeLessThan(0)
+    expect([a, b].sort((a, b) => a.compareTo(b))).toEqual([a, b])
+  })
+
+  it('7 Feature - check get types, isAllowedType, defaultSortOrder, joinSeparator, defaultImporterName', () => {
     expect(Feature.types).toBeInstanceOf(Object)
     expect(Feature.defaultSortOrder).toBeGreaterThan(0)
     expect(Feature.joinSeparator.length).toBeGreaterThan(0)
@@ -98,7 +164,7 @@ describe('feature.test.js', () => {
     expect(Feature.isAllowedType('fooword')).toBeFalsy()
   })
 
-  it('6 Feature - check items, values, value, getValue, valQty, isEmpty, isSingle, isMultiple, hasValue, hasValues, hasSomeValues', () => {
+  it('8 Feature - check items, values, value, getValue, valQty, isEmpty, isSingle, isMultiple, hasValue, hasValues, hasSomeValues', () => {
     let feature = new Feature('word', [ ['foovalue1', 2], ['foovalue2', 1] ], latID)
 
     expect(feature.items).toEqual(feature._data)
@@ -122,7 +188,7 @@ describe('feature.test.js', () => {
     expect(feature.hasSomeValues(['foovalue4', 'foovalue3'])).toBeFalsy()
   })
 
-  it('7 Feature - check addValue, addValues, removeValue', () => {
+  it('9 Feature - check addValue, addValues, removeValue', () => {
     let feature = new Feature('word', [ ['foovalue1', 2], ['foovalue2', 1] ], latID)
 
     let checkRes = [
@@ -169,7 +235,7 @@ describe('feature.test.js', () => {
     expect(console.warn).toHaveBeenCalledWith(`This feature is not implemented yet`)
   })
 
-  it('8 Feature - check createFeature, createFeatures, getCopy', () => {
+  it('10 Feature - check createFeature, createFeatures, getCopy', () => {
     let feature = new Feature('word', 'fooword', latID)
 
     let res1 = feature.createFeature('fooword2')
@@ -194,7 +260,7 @@ describe('feature.test.js', () => {
     expect(res3._data).toEqual([{ value: 'fooword', sortOrder: 1 }])
   })
 
-  it('9 Feature - check toLocaleStringAbbr', () => {
+  it('11 Feature - check toLocaleStringAbbr', () => {
     let f1 = new Feature(Feature.types.gender, 'feminine', latID)
     expect(f1.toLocaleStringAbbr()).toEqual('f.')
 
@@ -202,7 +268,7 @@ describe('feature.test.js', () => {
     expect(f2.toLocaleStringAbbr()).toEqual('unknown')
   })
 
-  it('10 Feature - check addImporter, getImporter', () => {
+  it('12 Feature - check addImporter, getImporter', () => {
     let feature = new Feature('word', 'fooword', latID)
     feature.addImporter()
 
@@ -223,7 +289,7 @@ describe('feature.test.js', () => {
     }).toThrow(new Error(`Importer "fooname1" does not exist`))
   })
 
-  it('11 Feature - check addFromImporter', () => {
+  it('13 Feature - check addFromImporter', () => {
     let feature = new Feature('word', 'fooword', latID)
 
     expect(function () {
@@ -248,7 +314,7 @@ describe('feature.test.js', () => {
     expect(feature._data).toEqual([{ value: 'foovalue1', sortOrder: 2 }, { value: 'fooword', sortOrder: 1 }])
   })
 
-  it('12 Feature - check createFromImporter', () => {
+  it('14 Feature - check createFromImporter', () => {
     let feature = new Feature('word', 'fooword', latID)
 
     expect(function () {
