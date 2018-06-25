@@ -35,7 +35,7 @@ export default class Feature {
    * @param allowedValues - If feature has a restricted set of allowed values, here will be a list of those
    * values. An order of those values can define a sort order.
    */
-  constructor (type, data, languageID, sortOrder = 1, allowedValues = []) {
+  constructor (type, data, languageID, sortOrder = 1, allowedValues = [], logger = null) {
     if (!Feature.isAllowedType(type)) {
       throw new Error('Features of "' + type + '" type are not supported.')
     }
@@ -45,6 +45,8 @@ export default class Feature {
     if (!languageID) {
       throw new Error('No language ID is provided')
     }
+
+    this.logger = logger
 
     this.type = type
     this.languageID = languageID
@@ -295,7 +297,11 @@ export default class Feature {
       })
       this.sort() // Resort an array to place an inserted value to the proper place
     } else {
-      console.warn(`Value "${value}" already exists. If you want to change it, use "getValue" to access it directly.`)
+      if (this.logger) {
+        this.logger.warn(`Value "${value}" already exists. If you want to change it, use "getValue" to access it directly.`)
+      } else {
+        console.warn(`Value "${value}" already exists. If you want to change it, use "getValue" to access it directly.`)
+      }
     }
     return this
   }
@@ -313,7 +319,11 @@ export default class Feature {
       this._data = this._data.concat(normalizedData)
       this.sort() // Resort an array to place an inserted value to the proper place
     } else {
-      console.warn(`One or several values from "${values}" already exist. If you want to change it, use "getValue" to access a value directly.`)
+      if (this.logger) {
+        this.logger.warn(`One or several values from "${values}" already exist. If you want to change it, use "getValue" to access a value directly.`)
+      } else {
+        console.warn(`One or several values from "${values}" already exist. If you want to change it, use "getValue" to access a value directly.`)
+      }
     }
     return this
   }
@@ -338,7 +348,7 @@ export default class Feature {
    */
   createFeature (value, sortOrder = this.constructor.defaultSortOrder) {
     // TODO: Add a check of if the value exists in a source Feature object
-    return new Feature(this.type, [[value, sortOrder]], this.languageID, this.sortOrder, this.allowedValues)
+    return new Feature(this.type, [[value, sortOrder]], this.languageID, this.sortOrder, this.allowedValues, this.logger)
   }
 
   /**
@@ -349,7 +359,7 @@ export default class Feature {
    * @return {Feature} A new Ftr object.
    */
   createFeatures (data) {
-    return new Feature(this.type, data, this.languageID, this.sortOrder, this.allowedValues)
+    return new Feature(this.type, data, this.languageID, this.sortOrder, this.allowedValues, this.logger)
   }
 
   /**
@@ -357,7 +367,7 @@ export default class Feature {
    */
   getCopy () {
     let values = this._data.map(item => [item.value, item.sortOrder])
-    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues.slice())
+    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues.slice(), this.logger)
   }
 
   /**
@@ -425,6 +435,6 @@ export default class Feature {
     The values will be a multidimensional array that will require flattening.
      */
     values = values.reduce((acc, cv) => acc.concat(cv), [])
-    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues)
+    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues, this.logger)
   }
 }
