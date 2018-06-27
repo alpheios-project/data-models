@@ -2061,8 +2061,10 @@ class GreekLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
       suffixBased: false,
       pronounClassRequired: false
     }
+    // console.log('**********************getInflectionConstraints', inflection[Feature.types.part].value)
     if (inflection.hasOwnProperty(_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part)) {
-      if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"] || inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_NUMERAL"] || inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_ARTICLE"]) {
+      if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"] ||
+          inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_NUMERAL"]) {
         constraints.fullFormBased = true
       } else {
         constraints.suffixBased = true
@@ -2070,6 +2072,8 @@ class GreekLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
     } else {
       console.warn(`Unable to set grammar: part of speech data is missing or is incorrect`, inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part])
     }
+
+    // console.log('**********************getInflectionConstraints constraints', constraints)
 
     constraints.pronounClassRequired =
       _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].compareLanguages(GreekLanguageModel.languageID, inflection.languageID) &&
