@@ -1031,7 +1031,7 @@ class Feature {
    * @param allowedValues - If feature has a restricted set of allowed values, here will be a list of those
    * values. An order of those values can define a sort order.
    */
-  constructor (type, data, languageID, sortOrder = 1, allowedValues = [], logger = null) {
+  constructor (type, data, languageID, sortOrder = 1, allowedValues = []) {
     if (!Feature.isAllowedType(type)) {
       throw new Error('Features of "' + type + '" type are not supported.')
     }
@@ -1041,8 +1041,6 @@ class Feature {
     if (!languageID) {
       throw new Error('No language ID is provided')
     }
-
-    this.logger = logger
 
     this.type = type
     this.languageID = languageID
@@ -1293,11 +1291,7 @@ class Feature {
       })
       this.sort() // Resort an array to place an inserted value to the proper place
     } else {
-      if (this.logger) {
-        this.logger.warn(`Value "${value}" already exists. If you want to change it, use "getValue" to access it directly.`)
-      } else {
-        console.warn(`Value "${value}" already exists. If you want to change it, use "getValue" to access it directly.`)
-      }
+      console.warn(`Value "${value}" already exists. If you want to change it, use "getValue" to access it directly.`)
     }
     return this
   }
@@ -1315,11 +1309,7 @@ class Feature {
       this._data = this._data.concat(normalizedData)
       this.sort() // Resort an array to place an inserted value to the proper place
     } else {
-      if (this.logger) {
-        this.logger.warn(`One or several values from "${values}" already exist. If you want to change it, use "getValue" to access a value directly.`)
-      } else {
-        console.warn(`One or several values from "${values}" already exist. If you want to change it, use "getValue" to access a value directly.`)
-      }
+      console.warn(`One or several values from "${values}" already exist. If you want to change it, use "getValue" to access a value directly.`)
     }
     return this
   }
@@ -1344,7 +1334,7 @@ class Feature {
    */
   createFeature (value, sortOrder = this.constructor.defaultSortOrder) {
     // TODO: Add a check of if the value exists in a source Feature object
-    return new Feature(this.type, [[value, sortOrder]], this.languageID, this.sortOrder, this.allowedValues, this.logger)
+    return new Feature(this.type, [[value, sortOrder]], this.languageID, this.sortOrder, this.allowedValues)
   }
 
   /**
@@ -1355,7 +1345,7 @@ class Feature {
    * @return {Feature} A new Ftr object.
    */
   createFeatures (data) {
-    return new Feature(this.type, data, this.languageID, this.sortOrder, this.allowedValues, this.logger)
+    return new Feature(this.type, data, this.languageID, this.sortOrder, this.allowedValues)
   }
 
   /**
@@ -1363,7 +1353,7 @@ class Feature {
    */
   getCopy () {
     let values = this._data.map(item => [item.value, item.sortOrder])
-    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues.slice(), this.logger)
+    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues.slice())
   }
 
   /**
@@ -1431,7 +1421,7 @@ class Feature {
     The values will be a multidimensional array that will require flattening.
      */
     values = values.reduce((acc, cv) => acc.concat(cv), [])
-    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues, this.logger)
+    return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues)
   }
 }
 
@@ -2072,7 +2062,7 @@ class GreekLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
       pronounClassRequired: false
     }
     if (inflection.hasOwnProperty(_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part)) {
-      if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"] || inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_NUMERAL"]) {
+      if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"] || inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_NUMERAL"] || inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_ARTICLE"]) {
         constraints.fullFormBased = true
       } else {
         constraints.suffixBased = true
@@ -2086,7 +2076,6 @@ class GreekLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
       inflection.hasOwnProperty(_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part) &&
       inflection[_feature_js__WEBPACK_IMPORTED_MODULE_3__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"]
 
-    // console.log('*********************getInflectionConstraints', constraints)
     return constraints
   }
 
@@ -2383,12 +2372,7 @@ class Homonym {
    * @returns {string} A language code, as defined in the `languages` object.
    */
   get language () {
-    if (this.logger) {
-      this.logger.warn(`Please use languageID instead`)
-    } else {
-      console.warn(`Please use languageID instead`)
-    }
-
+    console.warn(`Please use languageID instead`)
     return _language_model_factory__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageCodeFromId(this.languageID)
   }
 

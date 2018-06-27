@@ -218,7 +218,7 @@ export default class GreekLanguageModel extends LanguageModel {
       pronounClassRequired: false
     }
     if (inflection.hasOwnProperty(Feature.types.part)) {
-      if (inflection[Feature.types.part].value === Constants.POFS_PRONOUN || inflection[Feature.types.part].value === Constants.POFS_NUMERAL) {
+      if (inflection[Feature.types.part].value === Constants.POFS_PRONOUN || inflection[Feature.types.part].value === Constants.POFS_NUMERAL || inflection[Feature.types.part].value === Constants.POFS_ARTICLE) {
         constraints.fullFormBased = true
       } else {
         constraints.suffixBased = true
@@ -232,7 +232,6 @@ export default class GreekLanguageModel extends LanguageModel {
       inflection.hasOwnProperty(Feature.types.part) &&
       inflection[Feature.types.part].value === Constants.POFS_PRONOUN
 
-    // console.log('*********************getInflectionConstraints', constraints)
     return constraints
   }
 

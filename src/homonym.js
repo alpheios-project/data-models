@@ -48,12 +48,7 @@ class Homonym {
    * @returns {string} A language code, as defined in the `languages` object.
    */
   get language () {
-    if (this.logger) {
-      this.logger.warn(`Please use languageID instead`)
-    } else {
-      console.warn(`Please use languageID instead`)
-    }
-
+    console.warn(`Please use languageID instead`)
     return LMF.getLanguageCodeFromId(this.languageID)
   }
 
