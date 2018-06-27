@@ -217,10 +217,8 @@ export default class GreekLanguageModel extends LanguageModel {
       suffixBased: false,
       pronounClassRequired: false
     }
-    // console.log('**********************getInflectionConstraints', inflection[Feature.types.part].value)
     if (inflection.hasOwnProperty(Feature.types.part)) {
-      if (inflection[Feature.types.part].value === Constants.POFS_PRONOUN ||
-          inflection[Feature.types.part].value === Constants.POFS_NUMERAL) {
+      if ([Constants.POFS_PRONOUN, Constants.POFS_NUMERAL].includes(inflection[Feature.types.part].value)) {
         constraints.fullFormBased = true
       } else {
         constraints.suffixBased = true
@@ -228,8 +226,6 @@ export default class GreekLanguageModel extends LanguageModel {
     } else {
       console.warn(`Unable to set grammar: part of speech data is missing or is incorrect`, inflection[Feature.types.part])
     }
-
-    // console.log('**********************getInflectionConstraints constraints', constraints)
 
     constraints.pronounClassRequired =
       LanguageModelFactory.compareLanguages(GreekLanguageModel.languageID, inflection.languageID) &&
