@@ -194,7 +194,10 @@ export default class LatinLanguageModel extends LanguageModel {
       pronounClassRequired: false
     }
     if (inflection.hasOwnProperty(Feature.types.part)) {
-      if (inflection[Feature.types.part].value === Constants.POFS_PRONOUN) {
+      if (inflection[Feature.types.part].value === Constants.POFS_VERB) {
+        grammar.fullFormBased = true
+        grammar.suffixBased = true
+      } if (inflection[Feature.types.part].value === Constants.POFS_PRONOUN) {
         grammar.fullFormBased = true
       } else {
         grammar.suffixBased = true

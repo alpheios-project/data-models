@@ -2695,7 +2695,14 @@ class Inflection {
 
   compareWithWord (word, normalize = true) {
     const model = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageModel(this.languageID)
-    const value = this.constraints.suffixBased ? this.suffix : this.form
+    let value
+
+    if (!this.constraints.irregularVerb) {
+      value = this.constraints.suffixBased ? this.suffix : this.form
+    } else {
+      value = this[_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].types.fullForm] ? this[_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].types.fullForm].value : this.form
+    }
+    // const value = this.constraints.irregularVerb ? this.form : (this.constraints.suffixBased ? this.suffix : this.form)
     return normalize
       ? model.normalizeWord(value) === model.normalizeWord(word)
       : value === word
@@ -3843,7 +3850,10 @@ class LatinLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
       pronounClassRequired: false
     }
     if (inflection.hasOwnProperty(_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part)) {
-      if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"]) {
+      if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_VERB"]) {
+        grammar.fullFormBased = true
+        grammar.suffixBased = true
+      } if (inflection[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part].value === _constants_js__WEBPACK_IMPORTED_MODULE_2__["POFS_PRONOUN"]) {
         grammar.fullFormBased = true
       } else {
         grammar.suffixBased = true
