@@ -2702,7 +2702,7 @@ class Inflection {
     } else {
       value = this[_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].types.fullForm] ? this[_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].types.fullForm].value : this.form
     }
-    // const value = this.constraints.irregularVerb ? this.form : (this.constraints.suffixBased ? this.suffix : this.form)
+
     return normalize
       ? model.normalizeWord(value) === model.normalizeWord(word)
       : value === word

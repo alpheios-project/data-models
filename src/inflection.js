@@ -118,7 +118,7 @@ class Inflection {
     } else {
       value = this[Feature.types.fullForm] ? this[Feature.types.fullForm].value : this.form
     }
-    // const value = this.constraints.irregularVerb ? this.form : (this.constraints.suffixBased ? this.suffix : this.form)
+
     return normalize
       ? model.normalizeWord(value) === model.normalizeWord(word)
       : value === word
