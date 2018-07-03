@@ -208,4 +208,23 @@ describe('inflection.test.js', () => {
 
     expect(inflection.compareWithWordDependsOnType('stem - suffix', 'Form')).toBeTruthy()
   })
+
+  it('19 Inflection - hasFeatureValue', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+
+    expect(inflection.hasFeatureValue(Feature.types.part, Constants.POFS_VERB)).toBeTruthy()
+    expect(inflection.hasFeatureValue(Feature.types.fullForm, 'foo')).toBeFalsy()
+  })
+
+  it('20 Inflection - addFeatures', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+
+    expect(() => { inflection.addFeatures('foo') }).toThrowError(/must be in an array/)
+
+    inflection.addFeatures([new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN), new Feature(Feature.types.fullForm, 'foo', Constants.LANG_LATIN)])
+
+    expect(inflection.hasFeatureValue(Feature.types.part, Constants.POFS_VERB)).toBeTruthy()
+    expect(inflection.hasFeatureValue(Feature.types.fullForm, 'foo')).toBeTruthy()
+  })
 })
