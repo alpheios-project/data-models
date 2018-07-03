@@ -159,4 +159,53 @@ describe('inflection.test.js', () => {
     expect(inflection.suffix).toEqual('suffix')
     expect(inflection.languageID).toEqual(Constants.LANG_LATIN)
   })
+
+  it('14 Inflection - compareWithWordDependsOnType for non-verbs', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_NOUN, Constants.LANG_LATIN))
+    inflection.setConstraints()
+
+    expect(inflection.compareWithWordDependsOnType('suffix', 'Suffix')).toBeTruthy()
+  })
+
+  it('15 Inflection - compareWithWordDependsOnType for only regular verb with suffix', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+    inflection.setConstraints()
+
+    expect(inflection.compareWithWordDependsOnType('suffix', 'Suffix')).toBeTruthy()
+  })
+
+  it('16 Inflection - compareWithWordDependsOnType for irregular verb with suffix', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+    inflection.setConstraints()
+    inflection.constraints.irregularVerb = true
+
+    expect(inflection.compareWithWordDependsOnType('suffix', 'Suffix')).toBeTruthy()
+  })
+
+  it('17 Inflection - compareWithWordDependsOnType for irregular verb with fullForm with form', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+    inflection.addFeature(new Feature(Feature.types.fullForm, 'stemsuffix', Constants.LANG_LATIN))
+    inflection.setConstraints()
+    inflection.constraints.irregularVerb = true
+
+    expect(inflection.compareWithWordDependsOnType('stemsuffix', 'Form')).toBeTruthy()
+  })
+
+  it('18 Inflection - compareWithWordDependsOnType for irregular verb without fullForm with form', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+    inflection.setConstraints()
+    inflection.constraints.irregularVerb = true
+
+    expect(inflection.compareWithWordDependsOnType('stem - suffix', 'Form')).toBeTruthy()
+  })
 })
