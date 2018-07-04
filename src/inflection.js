@@ -130,14 +130,7 @@ class Inflection {
 
   compareWithWord (word, normalize = true) {
     const model = LMF.getLanguageModel(this.languageID)
-    let value
-
-    if (!this.constraints.irregularVerb) {
-      value = this.constraints.suffixBased ? this.suffix : this.form
-    } else {
-      value = this[Feature.types.fullForm] ? this[Feature.types.fullForm].value : this.form
-    }
-
+    const value = this.constraints.suffixBased ? this.suffix : this.form
     return normalize
       ? model.normalizeWord(value) === model.normalizeWord(word)
       : value === word

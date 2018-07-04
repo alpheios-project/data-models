@@ -133,18 +133,6 @@ describe('inflection.test.js', () => {
     expect(inflection2.compareWithWord('stem - suffix')).toBeTruthy()
   })
 
-  it('12.3 Inflection - compare with word irregularVerb', () => {
-    let inflection3 = new Inflection('stem', 'lat', 'suffix')
-
-    inflection3.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
-    inflection3.addFeature(new Feature(Feature.types.fullForm, 'fullForm', Constants.LANG_LATIN))
-    inflection3.setConstraints()
-    inflection3.constraints.irregularVerb = true
-
-    expect(inflection3.compareWithWord('stem - suffix')).toBeFalsy()
-    expect(inflection3.compareWithWord('fullForm')).toBeTruthy()
-  })
-
   it('13 Inflection - readObject from JSON', () => {
     let testJSON = {
       stem: 'stem',
