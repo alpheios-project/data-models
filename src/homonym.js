@@ -78,5 +78,17 @@ class Homonym {
     }
     return inflections
   }
+
+  /**
+   * Disambiguate a homymyn object with another
+   * @param {Homonym} homonym the homonym to use to disambiguate
+   */
+  disambiguate (homonym) {
+    for (let lexeme of this.lexemes) {
+      for (let disambiguator of homonym.lexemes) {
+        lexeme.disambiguate(disambiguator)
+      }
+    }
+  }
 }
 export default Homonym

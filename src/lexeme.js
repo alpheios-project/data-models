@@ -2,6 +2,7 @@ import Lemma from './lemma.js'
 import Inflection from './inflection.js'
 import DefinitionSet from './definition-set'
 import LMF from './language_model_factory'
+import Feature from './feature.js'
 
 /**
  * A basic unit of lexical meaning. Contains a primary Lemma object, one or more Inflection objects
@@ -59,6 +60,27 @@ class Lexeme {
     return Object.entries(this.lemma.features).length > 0 ||
       !this.meaning.isEmpty() ||
       this.inflections.length > 0
+  }
+
+  /**
+   * disambiguate a Lexeme with a supplied Lexeme
+   * @param {Lexeme} lexeme the lexeme to use for disambiguation
+   */
+  disambiguate (lexeme) {
+    // lemma and lemma part of speech must match
+    if (this.lemma === lexeme.lemma && this.lemma.features[Feature.types.part] && lexeme.lemma.features[Feature.types.part] &&
+      this.lemma.features[Feature.types.part].isEqual(lexeme.lemma.features[Feature.types.part])) {
+      let keepInflections = []
+      // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
+      for (let inflection of this.inflections) {
+        if (inflection.disambiguatedBy(lexeme.inflections[0])) {
+          keepInflections.push(inflection)
+        }
+      }
+      if (keepInflections.length > 0) {
+        this.inflections = keepInflections
+      }
+    }
   }
 
   getGroupedInflections () {

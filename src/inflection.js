@@ -136,6 +136,22 @@ class Inflection {
       : value === word
   }
 
+  /**
+   * Check to see if the supplied inflection can disambiguate this one
+   * @param {Inflection} infl Inflection object to be used for disambiguation
+   *                          Must have the obligatoryMatches constraint set
+   */
+  disambiguatedBy (infl) {
+    let matched = true
+    for (let feature of infl.constraints.obligatoryMatches) {
+      if (!this[feature] || !this[feature].isEqual(infl[feature])) {
+        matched = false
+        break
+      }
+    }
+    return matched
+  }
+
   static readObject (jsonObject) {
     let inflection =
       new Inflection(

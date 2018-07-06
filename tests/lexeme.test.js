@@ -203,4 +203,23 @@ describe('lexeme.test.js', () => {
     lexemes = [ mockLexemeSix, mockLexemeSeven ] // null, null
     expect(lexemes.sort(sortFunc)).toEqual([mockLexemeSix, mockLexemeSeven])
   })
+  it('7 Lexeme - disambiguate', () => {
+    lemma.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    let inflection1 = new Inflection('stem1', 'grc')
+    inflection1.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    inflection1.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_GREEK))
+    let inflection2 = new Inflection('stem1', 'grc')
+    inflection2.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    inflection2.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
+    let lex = new Lexeme(lemma, [inflection1, inflection2])
+    let inflection3 = new Inflection('word', 'grc')
+    inflection3.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    inflection3.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
+    inflection3.constraints.obligatoryMatches = [Feature.types.part, Feature.types.voice]
+    let disambiguator = new Lexeme(lemma, [inflection3])
+    expect(lex.inflections).toEqual([inflection1, inflection2])
+    lex.disambiguate(disambiguator)
+    // disambiguator is a lexeme with an inflection which matches inflection2
+    expect(lex.inflections).toEqual([inflection2])
+  })
 })
