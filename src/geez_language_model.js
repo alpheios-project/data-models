@@ -42,6 +42,12 @@ export default class GeezLanguageModel extends LanguageModel {
         [
           // TODO Valid Values for gender for gez
         ]
+      ],
+      [
+        Feature.types.mood,
+        [
+          // TODO Valid Values for mood for gez
+        ]
       ]
     ])
   }

@@ -1911,6 +1911,12 @@ class GeezLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__[
         [
           // TODO Valid Values for gender for gez
         ]
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.mood,
+        [
+          // TODO Valid Values for mood for gez
+        ]
       ]
     ])
   }
