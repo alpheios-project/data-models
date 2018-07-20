@@ -1,4 +1,5 @@
 import LanguageModel from './language_model.js'
+import Feature from './feature.js'
 import * as Constants from './constants.js'
 
 let typeFeatures = new Map()
@@ -21,6 +22,29 @@ export default class GeezLanguageModel extends LanguageModel {
   static get direction () { return Constants.LANG_DIR_LTR }
 
   static get baseUnit () { return Constants.LANG_UNIT_WORD }
+  static get featureValues () {
+    return new Map([
+      ...LanguageModel.featureValues,
+      [
+        Feature.types.grmCase,
+        [
+          // TODO Valid Values for case for gez
+        ]
+      ],
+      [
+        Feature.types.number,
+        [
+          // TODO Valid Values for number for gez
+        ]
+      ],
+      [
+        Feature.types.gender,
+        [
+          // TODO Valid Values for gender for gez
+        ]
+      ]
+    ])
+  }
 
   static get typeFeatures () {
     if (!typeFeaturesInitialized) { this.initTypeFeatures() }
