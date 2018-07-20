@@ -3231,6 +3231,13 @@ class LanguageModel {
         ]
       ],
       [
+        _feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.number,
+        [
+          _constants_js__WEBPACK_IMPORTED_MODULE_0__["NUM_SINGULAR"],
+          _constants_js__WEBPACK_IMPORTED_MODULE_0__["NUM_PLURAL"]
+        ]
+      ],
+      [
         _feature_js__WEBPACK_IMPORTED_MODULE_2__["default"].types.age,
         []
       ],
