@@ -2421,6 +2421,18 @@ class Homonym {
     }
     return inflections
   }
+
+  /**
+   * Disambiguate a homymyn object with another
+   * @param {Homonym} homonym the homonym to use to disambiguate
+   */
+  disambiguate (homonym) {
+    for (let lexeme of this.lexemes) {
+      for (let disambiguator of homonym.lexemes) {
+        lexeme.disambiguate(disambiguator)
+      }
+    }
+  }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Homonym);
 
@@ -2736,6 +2748,22 @@ class Inflection {
     return normalize
       ? model.normalizeWord(value) === model.normalizeWord(word)
       : value === word
+  }
+
+  /**
+   * Check to see if the supplied inflection can disambiguate this one
+   * @param {Inflection} infl Inflection object to be used for disambiguation
+   *                          Must have the obligatoryMatches constraint set
+   */
+  disambiguatedBy (infl) {
+    let matched = true
+    for (let feature of infl.constraints.obligatoryMatches) {
+      if (!this[feature] || !this[feature].isEqual(infl[feature])) {
+        matched = false
+        break
+      }
+    }
+    return matched
   }
 
   static readObject (jsonObject) {
@@ -3794,7 +3822,9 @@ class LatinLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
   }
 
   static get typeFeatures () {
-    if (!typeFeaturesInitialized) { this.initTypeFeatures() }
+    if (!typeFeaturesInitialized) {
+      this.initTypeFeatures()
+    }
     return typeFeatures
   }
 
@@ -4061,6 +4091,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inflection_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./inflection.js */ "./inflection.js");
 /* harmony import */ var _definition_set__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./definition-set */ "./definition-set.js");
 /* harmony import */ var _language_model_factory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./language_model_factory */ "./language_model_factory.js");
+/* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
+
 
 
 
@@ -4122,6 +4154,27 @@ class Lexeme {
     return Object.entries(this.lemma.features).length > 0 ||
       !this.meaning.isEmpty() ||
       this.inflections.length > 0
+  }
+
+  /**
+   * disambiguate a Lexeme with a supplied Lexeme
+   * @param {Lexeme} lexeme the lexeme to use for disambiguation
+   */
+  disambiguate (lexeme) {
+    // lemma and lemma part of speech must match
+    if (this.lemma === lexeme.lemma && this.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part] && lexeme.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part] &&
+      this.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part].isEqual(lexeme.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part])) {
+      let keepInflections = []
+      // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
+      for (let inflection of this.inflections) {
+        if (inflection.disambiguatedBy(lexeme.inflections[0])) {
+          keepInflections.push(inflection)
+        }
+      }
+      if (keepInflections.length > 0) {
+        this.inflections = keepInflections
+      }
+    }
   }
 
   getGroupedInflections () {
