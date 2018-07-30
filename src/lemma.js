@@ -126,6 +126,19 @@ class Lemma {
 
     this.translation = translation
   }
+
+  /**
+   * Test to see if two lemmas could represent the same word
+   * @param {Lemma} lemma the lemma to compare
+   * @return {Boolean} true or false
+   */
+  isEqual (lemma) {
+    // returns true if the word and part of speech match
+    return this.word === lemma.word &&
+      this.features[Feature.types.part] &&
+      lemma.features[Feature.types.part] &&
+      this.features[Feature.types.part].isEqual(lemma.features[Feature.types.part])
+  }
 }
 
 export default Lemma

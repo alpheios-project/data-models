@@ -4071,6 +4071,19 @@ class Lemma {
 
     this.translation = translation
   }
+
+  /**
+   * Test to see if two lemmas could represent the same word
+   * @param {Lemma} lemma the lemma to compare
+   * @return {Boolean} true or false
+   */
+  isEqual (lemma) {
+    // returns true if the word and part of speech match
+    return this.word === lemma.word &&
+      this.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part] &&
+      lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part] &&
+      this.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part].isEqual(lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part])
+  }
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Lemma);
@@ -4091,8 +4104,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inflection_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./inflection.js */ "./inflection.js");
 /* harmony import */ var _definition_set__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./definition-set */ "./definition-set.js");
 /* harmony import */ var _language_model_factory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./language_model_factory */ "./language_model_factory.js");
-/* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
-
 
 
 
@@ -4161,9 +4172,7 @@ class Lexeme {
    * @param {Lexeme} lexeme the lexeme to use for disambiguation
    */
   disambiguate (lexeme) {
-    // lemma and lemma part of speech must match
-    if (this.lemma === lexeme.lemma && this.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part] && lexeme.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part] &&
-      this.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part].isEqual(lexeme.lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_4__["default"].types.part])) {
+    if (this.lemma.isEqual(lexeme.lemma)) {
       let keepInflections = []
       // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
       for (let inflection of this.inflections) {
