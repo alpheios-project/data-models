@@ -4093,11 +4093,11 @@ class Lemma {
   }
 
   /**
-   * Test to see if two lemmas could represent the same word
+   * Test to see if two lemmas are full homonyms
    * @param {Lemma} lemma the lemma to compare
    * @return {Boolean} true or false
    */
-  isEqual (lemma) {
+  isFullHomonym (lemma) {
     // returns true if the word and part of speech match
     return this.word === lemma.word &&
       this.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part] &&
@@ -4193,7 +4193,7 @@ class Lexeme {
    * @param {Lexeme} lexeme the lexeme to use for disambiguation
    */
   disambiguate (lexeme) {
-    if (this.lemma.isEqual(lexeme.lemma)) {
+    if (this.lemma.isFullHomonym(lexeme.lemma)) {
       let keepInflections = []
       // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
       for (let inflection of this.inflections) {

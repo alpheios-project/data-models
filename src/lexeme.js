@@ -67,7 +67,7 @@ class Lexeme {
    * @param {Lexeme} lexeme the lexeme to use for disambiguation
    */
   disambiguate (lexeme) {
-    if (this.lemma.isEqual(lexeme.lemma)) {
+    if (this.lemma.isFullHomonym(lexeme.lemma)) {
       let keepInflections = []
       // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
       for (let inflection of this.inflections) {

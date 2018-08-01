@@ -152,7 +152,7 @@ describe('lemma.test.js', () => {
     lemma.addTranslation(translation)
     expect(lemma.translation).toEqual(translation)
   })
-  it('9 Lemma - isEqual method', () => {
+  it('9 Lemma - isFullHomonym method', () => {
     let lemma1 = new Lemma('fooword', Constants.LANG_LATIN)
     let lemma2 = new Lemma('fooword', Constants.LANG_LATIN)
     let lemma3 = new Lemma('fooword', Constants.LANG_LATIN)
@@ -160,8 +160,8 @@ describe('lemma.test.js', () => {
     lemma1.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
     lemma2.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
     lemma3.addFeature(new Feature(Feature.types.part, Constants.POFS_NOUN, Constants.LANG_LATIN))
-    expect(lemma1.isEqual(lemma2)).toBeTruthy()
-    expect(lemma1.isEqual(lemma3)).toBeFalsy()
-    expect(lemma1.isEqual(lemma4)).toBeFalsy()
+    expect(lemma1.isFullHomonym(lemma2)).toBeTruthy()
+    expect(lemma1.isFullHomonym(lemma3)).toBeFalsy()
+    expect(lemma1.isFullHomonym(lemma4)).toBeFalsy()
   })
 })

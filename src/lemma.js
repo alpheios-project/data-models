@@ -129,11 +129,11 @@ class Lemma {
   }
 
   /**
-   * Test to see if two lemmas could represent the same word
+   * Test to see if two lemmas are full homonyms
    * @param {Lemma} lemma the lemma to compare
    * @return {Boolean} true or false
    */
-  isEqual (lemma) {
+  isFullHomonym (lemma) {
     // returns true if the word and part of speech match
     return this.word === lemma.word &&
       this.features[Feature.types.part] &&
