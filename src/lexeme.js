@@ -63,22 +63,30 @@ class Lexeme {
   }
 
   /**
-   * disambiguate a Lexeme with a supplied Lexeme
-   * @param {Lexeme} lexeme the lexeme to use for disambiguation
+   * disambiguate one Lexeme with another supplied Lexeme
+   * @param {Lexeme} base the lexeme to be disambiguated
+   * @param {Lexeme} disambiguator the lexeme to use for disambiguation
+   * @return {Lexeme} the disambiguated lexeme
    */
-  disambiguate (lexeme) {
-    if (this.lemma.isFullHomonym(lexeme.lemma)) {
+  static disambiguate (base, disambiguator) {
+    let disambiguated = base
+    if (base.lemma.isFullHomonym(disambiguator.lemma)) {
       let keepInflections = []
       // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
-      for (let inflection of this.inflections) {
-        if (inflection.disambiguatedBy(lexeme.inflections[0])) {
-          keepInflections.push(inflection)
+      for (let inflection of base.inflections) {
+        for (let disambiguatorInflection of disambiguator.inflections) {
+          if (inflection.disambiguatedBy(disambiguatorInflection)) {
+            keepInflections.push(inflection)
+          }
         }
       }
+      // if we have identified a subset of inflections to keep, create a new Lexeme
+      // with the revised set of inflections
       if (keepInflections.length > 0) {
-        this.inflections = keepInflections
+        disambiguated = new Lexeme(base.lemma, keepInflections, base.meaning)
       }
     }
+    return disambiguated
   }
 
   getGroupedInflections () {

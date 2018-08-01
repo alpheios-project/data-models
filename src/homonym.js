@@ -96,15 +96,24 @@ class Homonym {
   }
 
   /**
-   * Disambiguate a homymyn object with another
-   * @param {Homonym} homonym the homonym to use to disambiguate
+   * Disambiguate homymyn objects with another
+   * @param {Homonym} base the homonym to use to disambiguate
+   * @param {Homonym[]} disambiguators the homonyms to use to disambiguate
    */
-  disambiguate (homonym) {
-    for (let lexeme of this.lexemes) {
-      for (let disambiguator of homonym.lexemes) {
-        lexeme.disambiguate(disambiguator)
+  static disambiguate (base, disambiguators) {
+    if (disambiguators.length === 0) {
+      return base
+    }
+    let lexemes = []
+    let disambiguator = disambiguators.shift()
+    for (let lexeme of base.lexemes) {
+      for (let otherLexeme of disambiguator.lexemes) {
+        lexemes.push(Lexeme.disambiguate(lexeme, otherLexeme))
       }
     }
+    let disambiguated = new Homonym(lexemes, base.targetWord)
+    console.info('recurse', disambiguated.inflections)
+    return Homonym.disambiguate(disambiguated, disambiguators)
   }
 }
 export default Homonym

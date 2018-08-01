@@ -126,4 +126,28 @@ describe('homonym.test.js', () => {
     let homonym = new Homonym([lexeme])
     expect(homonym.inflections).toEqual([infl1, infl2])
   })
+
+  it('7 Homonym - disambiguate method', () => {
+    let infl1 = new Inflection('stem1', 'grc')
+    let infl2 = new Inflection('stem2', 'grc')
+    const mockLexemeDisambiguate = jest.fn()
+    mockLexemeDisambiguate.mockReturnValue(new Lexeme(new Lemma('word1', 'grc'), [infl1]))
+    Lexeme.disambiguate = mockLexemeDisambiguate
+    let lexeme = new Lexeme(
+      new Lemma('word1', 'grc'),
+      [
+        infl1, infl2
+      ]
+    )
+    let homonym = new Homonym([lexeme])
+    let lexeme2 = new Lexeme(
+      new Lemma('word1', 'grc'),
+      [
+        infl1
+      ]
+    )
+    let homonym2 = new Homonym([lexeme2])
+    let disambiguated = Homonym.disambiguate(homonym, [homonym2])
+    expect(disambiguated.inflections).toEqual([infl1])
+  })
 })

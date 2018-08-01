@@ -220,8 +220,10 @@ describe('lexeme.test.js', () => {
     inflection3.constraints.obligatoryMatches = [Feature.types.part, Feature.types.voice]
     let disambiguator = new Lexeme(lemma2, [inflection3])
     expect(lex.inflections).toEqual([inflection1, inflection2])
-    lex.disambiguate(disambiguator)
+    let result = Lexeme.disambiguate(lex, disambiguator)
     // disambiguator is a lexeme with an inflection which matches inflection2
-    expect(lex.inflections).toEqual([inflection2])
+    expect(result.inflections).toEqual([inflection2])
+    expect(result.lemma).toEqual(lex.lemma)
+    expect(result.meaning).toEqual(lex.meaning)
   })
 })
