@@ -112,7 +112,6 @@ class Homonym {
       }
     }
     let disambiguated = new Homonym(lexemes, base.targetWord)
-    console.info('recurse', disambiguated.inflections)
     return Homonym.disambiguate(disambiguated, disambiguators)
   }
 }

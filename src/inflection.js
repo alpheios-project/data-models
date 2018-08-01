@@ -50,6 +50,7 @@ class Inflection {
     this.languageCode = undefined
     ;({languageID: this.languageID, languageCode: this.languageCode} = LMF.getLanguageAttrs(language))
     this.model = LMF.getLanguageModel(this.languageID)
+    this.features = new Set() // Names of features of this inflection
 
     // A grammar constraints object
     this.constraints = {
@@ -143,7 +144,11 @@ class Inflection {
    */
   disambiguatedBy (infl) {
     let matched = true
-    for (let feature of infl.constraints.obligatoryMatches) {
+    // an inflection with no features can't disambiguate another
+    if (infl.features.length === 0) {
+      matched = false
+    }
+    for (let feature of infl.features) {
       if (!this[feature] || !this[feature].isEqual(infl[feature])) {
         matched = false
         break
@@ -189,6 +194,7 @@ class Inflection {
       }
 
       this[type].push(element)
+      this.features.add(type)
     }
   }
 
@@ -211,6 +217,7 @@ class Inflection {
     }
 
     this[feature.type] = feature
+    this.features.add(feature.type)
   }
 
   /**

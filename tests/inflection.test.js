@@ -225,15 +225,12 @@ describe('inflection.test.js', () => {
     let inflection2 = new Inflection('form', 'lat', null)
     inflection2.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
     inflection2.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_LATIN))
-    inflection2.constraints.obligatoryMatches = [Feature.types.voice, Feature.types.part]
-    // disambiguation requires match on part and voice only
     expect(inflection1.disambiguatedBy(inflection2)).toBeTruthy()
 
     let inflection3 = new Inflection('form', 'lat', null)
     inflection3.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
     inflection3.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_LATIN))
-    inflection3.constraints.obligatoryMatches = [Feature.types.voice, Feature.types.part]
-    // disambiguation requires match on part and voice only - voice is mismatch
+    // voice is mismatch
     expect(inflection1.disambiguatedBy(inflection3)).toBeFalsy()
 
     let inflection4 = new Inflection('form', 'lat', null)
@@ -241,8 +238,15 @@ describe('inflection.test.js', () => {
     inflection4.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_LATIN))
     inflection4.addFeature(new Feature(Feature.types.number, Constants.NUM_SINGULAR, Constants.LANG_LATIN))
     inflection4.addFeature(new Feature(Feature.types.gender, Constants.GEND_FEMININE, Constants.LANG_LATIN))
-    inflection4.constraints.obligatoryMatches = [Feature.types.gender, Feature.types.number, Feature.types.voice, Feature.types.part]
     // disambiguation requires match on part,voice and gender - inflection being disambiguated has no gender so no match
     expect(inflection1.disambiguatedBy(inflection4)).toBeFalsy()
+  })
+
+  it('22 Inflection - features is populated', () => {
+    let inflection = new Inflection('stem', 'lat', 'suffix')
+    inflection.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+    inflection.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_LATIN))
+    inflection.addFeature(new Feature(Feature.types.number, Constants.NUM_SINGULAR, Constants.LANG_LATIN))
+    expect(inflection.features).toEqual(new Set([Feature.types.part, Feature.types.voice, Feature.types.number]))
   })
 })
