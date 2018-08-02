@@ -236,9 +236,16 @@ describe('inflection.test.js', () => {
     let inflection4 = new Inflection('form', 'lat', null)
     inflection4.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
     inflection4.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_LATIN))
-    inflection4.addFeature(new Feature(Feature.types.number, Constants.NUM_SINGULAR, Constants.LANG_LATIN))
-    inflection4.addFeature(new Feature(Feature.types.gender, Constants.GEND_FEMININE, Constants.LANG_LATIN))
-    // disambiguation requires match on part,voice and gender - inflection being disambiguated has no gender so no match
+    inflection4.addFeature(new Feature(Feature.types.number, Constants.NUM_PLURAL, Constants.LANG_LATIN))
+    // disambiguation requires match on part,voice - inflection being disambiguated also has different number so no match
+    expect(inflection1.disambiguatedBy(inflection4)).toBeFalsy()
+
+    let inflection5 = new Inflection('form', 'lat', null)
+    inflection5.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_LATIN))
+    inflection5.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_LATIN))
+    inflection5.addFeature(new Feature(Feature.types.number, Constants.NUM_PLURAL, Constants.LANG_LATIN))
+    inflection5.addFeature(new Feature(Feature.types.gender, Constants.GEND_FEMININE, Constants.LANG_LATIN))
+    // inflection being disambiguated is more specific so it doesn't match
     expect(inflection1.disambiguatedBy(inflection4)).toBeFalsy()
   })
 

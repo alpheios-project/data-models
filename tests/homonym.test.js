@@ -6,6 +6,7 @@ import * as Constants from '@/constants.js'
 import Lexeme from '@/lexeme.js'
 import Lemma from '@/lemma.js'
 import Inflection from '@/inflection.js'
+import Feature from '@/feature.js'
 
 describe('homonym.test.js', () => {
   let lexeme1, lexeme2
@@ -129,25 +130,45 @@ describe('homonym.test.js', () => {
 
   it('7 Homonym - disambiguate method', () => {
     let infl1 = new Inflection('stem1', 'grc')
-    let infl2 = new Inflection('stem2', 'grc')
-    const mockLexemeDisambiguate = jest.fn()
-    mockLexemeDisambiguate.mockReturnValue(new Lexeme(new Lemma('word1', 'grc'), [infl1]))
-    Lexeme.disambiguate = mockLexemeDisambiguate
+    infl1.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_GREEK))
+    let infl2 = new Inflection('stem1', 'grc')
+    infl2.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
+    let lem = new Lemma('word1', 'grc')
+    lem.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
     let lexeme = new Lexeme(
-      new Lemma('word1', 'grc'),
+      lem,
       [
         infl1, infl2
       ]
     )
     let homonym = new Homonym([lexeme])
     let lexeme2 = new Lexeme(
-      new Lemma('word1', 'grc'),
+      lem,
       [
         infl1
       ]
     )
     let homonym2 = new Homonym([lexeme2])
+    // simplest case - homonym with single lexeme, two possible inflections, disambiguator reduces to one
     let disambiguated = Homonym.disambiguate(homonym, [homonym2])
+    expect(disambiguated.isDisambiguated()).toBeTruthy()
     expect(disambiguated.inflections).toEqual([infl1])
+    // homonym with single lexeme, two possible inflections, disambiguator adds a new lexeme
+    let infl3 = new Inflection('stem2', 'grc')
+    infl3.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
+    let lexeme3 = new Lexeme(
+      new Lemma('word2', 'grc'),
+      [
+        infl3
+      ]
+    )
+    let homonym3 = new Homonym([lexeme3])
+    disambiguated = Homonym.disambiguate(homonym, [homonym3])
+    expect(disambiguated.isDisambiguated()).toBeTruthy()
+    expect(disambiguated.lexemes.length).toEqual(2)
+    expect(disambiguated.lexemes[0].inflections).toEqual([infl1, infl2])
+    expect(disambiguated.lexemes[0].disambiguated).toBeFalsy()
+    expect(disambiguated.lexemes[1].inflections).toEqual([infl3])
+    expect(disambiguated.lexemes[1].disambiguated).toBeTruthy()
   })
 })

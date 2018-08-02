@@ -217,13 +217,16 @@ describe('lexeme.test.js', () => {
     let inflection3 = new Inflection('word', 'grc')
     inflection3.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
     inflection3.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
-    inflection3.constraints.obligatoryMatches = [Feature.types.part, Feature.types.voice]
     let disambiguator = new Lexeme(lemma2, [inflection3])
     expect(lex.inflections).toEqual([inflection1, inflection2])
-    let result = Lexeme.disambiguate(lex, disambiguator)
+    let retval = Lexeme.disambiguate(lex, disambiguator)
     // disambiguator is a lexeme with an inflection which matches inflection2
-    expect(result.inflections).toEqual([inflection2])
-    expect(result.lemma).toEqual(lex.lemma)
-    expect(result.meaning).toEqual(lex.meaning)
+    expect(retval.inflections).toEqual([inflection2])
+    expect(retval.lemma).toEqual(lex.lemma)
+    expect(retval.meaning).toEqual(lex.meaning)
+    expect(retval.disambiguated).toBeTruthy()
+    // the original lexeme's inflections should be untouched
+    expect(lex.disambiguated).toBeFalsy()
+    expect(lex.inflections).toEqual([inflection1, inflection2])
   })
 })

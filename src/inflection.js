@@ -140,12 +140,15 @@ class Inflection {
   /**
    * Check to see if the supplied inflection can disambiguate this one
    * @param {Inflection} infl Inflection object to be used for disambiguation
-   *                          Must have the obligatoryMatches constraint set
    */
   disambiguatedBy (infl) {
     let matched = true
-    // an inflection with no features can't disambiguate another
-    if (infl.features.length === 0) {
+    // an inflection can only be disambiguated by its features
+    if (this.features.length === 0 || infl.features.length === 0) {
+      matched = false
+    }
+    // the supplied inflection can be less specific but not more
+    if (infl.features.length > this.features.length) {
       matched = false
     }
     for (let feature of infl.features) {

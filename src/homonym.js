@@ -95,6 +95,10 @@ class Homonym {
     return inflections
   }
 
+  isDisambiguated () {
+    return this.lexemes.filter(l => l.disambiguated).length > 0
+  }
+
   /**
    * Disambiguate homymyn objects with another
    * @param {Homonym} base the homonym to use to disambiguate
@@ -102,17 +106,33 @@ class Homonym {
    */
   static disambiguate (base, disambiguators) {
     if (disambiguators.length === 0) {
+      // nothing left to disamibugate with
       return base
     }
-    let lexemes = []
     let disambiguator = disambiguators.shift()
-    for (let lexeme of base.lexemes) {
-      for (let otherLexeme of disambiguator.lexemes) {
-        lexemes.push(Lexeme.disambiguate(lexeme, otherLexeme))
+    let lexemes = []
+    let missedLexemes = []
+    // iterate through the lexemes in the disambiguator and try
+    // to disambiguate the existing lexemes with each
+    for (let otherLexeme of disambiguator.lexemes) {
+      let lexemeMatched = false
+      for (let lexeme of base.lexemes) {
+        let newLex = Lexeme.disambiguate(lexeme, otherLexeme)
+        lexemes.push(newLex)
+        if (newLex.disambiguated) {
+          lexemeMatched = true
+        }
+      }
+      // if we couldn't find a matching lexeme, add the disambigutor's lexemes
+      // to the list of lexemes for the new Homonym
+      if (!lexemeMatched) {
+        otherLexeme.disambiguated = true
+        missedLexemes.push(otherLexeme)
       }
     }
-    let disambiguated = new Homonym(lexemes, base.targetWord)
-    return Homonym.disambiguate(disambiguated, disambiguators)
+    // create a new homonym with the disamibugated lexemes
+    let newHom = new Homonym([...lexemes, ...missedLexemes], base.targetWord)
+    return Homonym.disambiguate(newHom, disambiguators)
   }
 }
 export default Homonym
