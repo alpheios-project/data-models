@@ -350,7 +350,7 @@ class ArabicLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0_
 /*!**********************!*\
   !*** ./constants.js ***!
   \**********************/
-/*! exports provided: LANG_UNIT_WORD, LANG_UNIT_CHAR, LANG_DIR_LTR, LANG_DIR_RTL, LANG_UNDEFINED, LANG_LATIN, LANG_GREEK, LANG_ARABIC, LANG_PERSIAN, STR_LANG_CODE_UNDEFINED, STR_LANG_CODE_LAT, STR_LANG_CODE_LA, STR_LANG_CODE_GRC, STR_LANG_CODE_ARA, STR_LANG_CODE_AR, STR_LANG_CODE_FAS, STR_LANG_CODE_PER, STR_LANG_CODE_FA_IR, STR_LANG_CODE_FA, POFS_ADJECTIVE, POFS_ADVERB, POFS_ADVERBIAL, POFS_ARTICLE, POFS_CONJUNCTION, POFS_EXCLAMATION, POFS_INTERJECTION, POFS_NOUN, POFS_NOUN_PROPER, POFS_NUMERAL, POFS_PARTICLE, POFS_PREFIX, POFS_PREPOSITION, POFS_PRONOUN, POFS_SUFFIX, POFS_GERUNDIVE, POFS_SUPINE, POFS_VERB, POFS_VERB_PARTICIPLE, GEND_MASCULINE, GEND_FEMININE, GEND_NEUTER, GEND_COMMON, GEND_ANIMATE, GEND_INANIMATE, GEND_PERSONAL_MASCULINE, GEND_ANIMATE_MASCULINE, GEND_INANIMATE_MASCULINE, COMP_POSITIVE, COMP_COMPARITIVE, COMP_SUPERLATIVE, CASE_ABESSIVE, CASE_ABLATIVE, CASE_ABSOLUTIVE, CASE_ACCUSATIVE, CASE_ADDIRECTIVE, CASE_ADELATIVE, CASE_ADESSIVE, CASE_ADVERBIAL, CASE_ALLATIVE, CASE_ANTESSIVE, CASE_APUDESSIVE, CASE_AVERSIVE, CASE_BENEFACTIVE, CASE_CARITIVE, CASE_CAUSAL, CASE_CAUSAL_FINAL, CASE_COMITATIVE, CASE_DATIVE, CASE_DELATIVE, CASE_DIRECT, CASE_DISTRIBUTIVE, CASE_DISTRIBUTIVE_TEMPORAL, CASE_ELATIVE, CASE_ERGATIVE, CASE_ESSIVE, CASE_ESSIVE_FORMAL, CASE_ESSIVE_MODAL, CASE_EQUATIVE, CASE_EVITATIVE, CASE_EXESSIVE, CASE_FINAL, CASE_FORMAL, CASE_GENITIVE, CASE_ILLATIVE, CASE_INELATIVE, CASE_INESSIVE, CASE_INSTRUCTIVE, CASE_INSTRUMENTAL, CASE_INSTRUMENTAL_COMITATIVE, CASE_INTRANSITIVE, CASE_LATIVE, CASE_LOCATIVE, CASE_MODAL, CASE_MULTIPLICATIVE, CASE_NOMINATIVE, CASE_PARTITIVE, CASE_PEGATIVE, CASE_PERLATIVE, CASE_POSSESSIVE, CASE_POSTELATIVE, CASE_POSTDIRECTIVE, CASE_POSTESSIVE, CASE_POSTPOSITIONAL, CASE_PREPOSITIONAL, CASE_PRIVATIVE, CASE_PROLATIVE, CASE_PROSECUTIVE, CASE_PROXIMATIVE, CASE_SEPARATIVE, CASE_SOCIATIVE, CASE_SUBDIRECTIVE, CASE_SUBESSIVE, CASE_SUBELATIVE, CASE_SUBLATIVE, CASE_SUPERDIRECTIVE, CASE_SUPERESSIVE, CASE_SUPERLATIVE, CASE_SUPPRESSIVE, CASE_TEMPORAL, CASE_TERMINATIVE, CASE_TRANSLATIVE, CASE_VIALIS, CASE_VOCATIVE, MOOD_ADMIRATIVE, MOOD_COHORTATIVE, MOOD_CONDITIONAL, MOOD_DECLARATIVE, MOOD_DUBITATIVE, MOOD_ENERGETIC, MOOD_EVENTIVE, MOOD_GENERIC, MOOD_GERUNDIVE, MOOD_HYPOTHETICAL, MOOD_IMPERATIVE, MOOD_INDICATIVE, MOOD_INFERENTIAL, MOOD_INFINITIVE, MOOD_INTERROGATIVE, MOOD_JUSSIVE, MOOD_NEGATIVE, MOOD_OPTATIVE, MOOD_PARTICIPLE, MOOD_PRESUMPTIVE, MOOD_RENARRATIVE, MOOD_SUBJUNCTIVE, MOOD_SUPINE, NUM_SINGULAR, NUM_PLURAL, NUM_DUAL, NUM_TRIAL, NUM_PAUCAL, NUM_SINGULATIVE, NUM_COLLECTIVE, NUM_DISTRIBUTIVE_PLURAL, NRL_CARDINAL, NRL_ORDINAL, NRL_DISTRIBUTIVE, NURL_NUMERAL_ADVERB, ORD_1ST, ORD_2ND, ORD_3RD, ORD_4TH, ORD_5TH, ORD_6TH, ORD_7TH, ORD_8TH, ORD_9TH, TENSE_AORIST, TENSE_FUTURE, TENSE_FUTURE_PERFECT, TENSE_IMPERFECT, TENSE_PAST_ABSOLUTE, TENSE_PERFECT, TENSE_PLUPERFECT, TENSE_PRESENT, VKIND_TO_BE, VKIND_COMPOUNDS_OF_TO_BE, VKIND_TAKING_ABLATIVE, VKIND_TAKING_DATIVE, VKIND_TAKING_GENITIVE, VKIND_TRANSITIVE, VKIND_INTRANSITIVE, VKIND_IMPERSONAL, VKIND_DEPONENT, VKIND_SEMIDEPONENT, VKIND_PERFECT_DEFINITE, VOICE_ACTIVE, VOICE_PASSIVE, VOICE_MEDIOPASSIVE, VOICE_IMPERSONAL_PASSIVE, VOICE_MIDDLE, VOICE_ANTIPASSIVE, VOICE_REFLEXIVE, VOICE_RECIPROCAL, VOICE_CAUSATIVE, VOICE_ADJUTATIVE, VOICE_APPLICATIVE, VOICE_CIRCUMSTANTIAL, VOICE_DEPONENT, TYPE_IRREGULAR, TYPE_REGULAR, CLASS_PERSONAL, CLASS_REFLEXIVE, CLASS_POSSESSIVE, CLASS_DEMONSTRATIVE, CLASS_RELATIVE, CLASS_INTERROGATIVE, CLASS_GENERAL_RELATIVE, CLASS_INDEFINITE, CLASS_INTENSIVE, CLASS_RECIPROCAL */
+/*! exports provided: LANG_UNIT_WORD, LANG_UNIT_CHAR, LANG_DIR_LTR, LANG_DIR_RTL, LANG_UNDEFINED, LANG_LATIN, LANG_GREEK, LANG_ARABIC, LANG_PERSIAN, STR_LANG_CODE_UNDEFINED, STR_LANG_CODE_LAT, STR_LANG_CODE_LA, STR_LANG_CODE_GRC, STR_LANG_CODE_ARA, STR_LANG_CODE_AR, STR_LANG_CODE_FAS, STR_LANG_CODE_PER, STR_LANG_CODE_FA_IR, STR_LANG_CODE_FA, POFS_ADJECTIVE, POFS_ADVERB, POFS_ADVERBIAL, POFS_ARTICLE, POFS_CONJUNCTION, POFS_EXCLAMATION, POFS_INTERJECTION, POFS_NOUN, POFS_NOUN_PROPER, POFS_NUMERAL, POFS_PARTICLE, POFS_PREFIX, POFS_PREPOSITION, POFS_PRONOUN, POFS_SUFFIX, POFS_SUPINE, POFS_VERB, POFS_VERB_PARTICIPLE, GEND_MASCULINE, GEND_FEMININE, GEND_NEUTER, GEND_COMMON, GEND_ANIMATE, GEND_INANIMATE, GEND_PERSONAL_MASCULINE, GEND_ANIMATE_MASCULINE, GEND_INANIMATE_MASCULINE, COMP_POSITIVE, COMP_COMPARITIVE, COMP_SUPERLATIVE, CASE_ABESSIVE, CASE_ABLATIVE, CASE_ABSOLUTIVE, CASE_ACCUSATIVE, CASE_ADDIRECTIVE, CASE_ADELATIVE, CASE_ADESSIVE, CASE_ADVERBIAL, CASE_ALLATIVE, CASE_ANTESSIVE, CASE_APUDESSIVE, CASE_AVERSIVE, CASE_BENEFACTIVE, CASE_CARITIVE, CASE_CAUSAL, CASE_CAUSAL_FINAL, CASE_COMITATIVE, CASE_DATIVE, CASE_DELATIVE, CASE_DIRECT, CASE_DISTRIBUTIVE, CASE_DISTRIBUTIVE_TEMPORAL, CASE_ELATIVE, CASE_ERGATIVE, CASE_ESSIVE, CASE_ESSIVE_FORMAL, CASE_ESSIVE_MODAL, CASE_EQUATIVE, CASE_EVITATIVE, CASE_EXESSIVE, CASE_FINAL, CASE_FORMAL, CASE_GENITIVE, CASE_ILLATIVE, CASE_INELATIVE, CASE_INESSIVE, CASE_INSTRUCTIVE, CASE_INSTRUMENTAL, CASE_INSTRUMENTAL_COMITATIVE, CASE_INTRANSITIVE, CASE_LATIVE, CASE_LOCATIVE, CASE_MODAL, CASE_MULTIPLICATIVE, CASE_NOMINATIVE, CASE_PARTITIVE, CASE_PEGATIVE, CASE_PERLATIVE, CASE_POSSESSIVE, CASE_POSTELATIVE, CASE_POSTDIRECTIVE, CASE_POSTESSIVE, CASE_POSTPOSITIONAL, CASE_PREPOSITIONAL, CASE_PRIVATIVE, CASE_PROLATIVE, CASE_PROSECUTIVE, CASE_PROXIMATIVE, CASE_SEPARATIVE, CASE_SOCIATIVE, CASE_SUBDIRECTIVE, CASE_SUBESSIVE, CASE_SUBELATIVE, CASE_SUBLATIVE, CASE_SUPERDIRECTIVE, CASE_SUPERESSIVE, CASE_SUPERLATIVE, CASE_SUPPRESSIVE, CASE_TEMPORAL, CASE_TERMINATIVE, CASE_TRANSLATIVE, CASE_VIALIS, CASE_VOCATIVE, MOOD_ADMIRATIVE, MOOD_COHORTATIVE, MOOD_CONDITIONAL, MOOD_DECLARATIVE, MOOD_DUBITATIVE, MOOD_ENERGETIC, MOOD_EVENTIVE, MOOD_GENERIC, MOOD_GERUNDIVE, MOOD_HYPOTHETICAL, MOOD_IMPERATIVE, MOOD_INDICATIVE, MOOD_INFERENTIAL, MOOD_INFINITIVE, MOOD_INTERROGATIVE, MOOD_JUSSIVE, MOOD_NEGATIVE, MOOD_OPTATIVE, MOOD_PARTICIPLE, MOOD_PRESUMPTIVE, MOOD_RENARRATIVE, MOOD_SUBJUNCTIVE, MOOD_SUPINE, NUM_SINGULAR, NUM_PLURAL, NUM_DUAL, NUM_TRIAL, NUM_PAUCAL, NUM_SINGULATIVE, NUM_COLLECTIVE, NUM_DISTRIBUTIVE_PLURAL, NRL_CARDINAL, NRL_ORDINAL, NRL_DISTRIBUTIVE, NURL_NUMERAL_ADVERB, ORD_1ST, ORD_2ND, ORD_3RD, ORD_4TH, ORD_5TH, ORD_6TH, ORD_7TH, ORD_8TH, ORD_9TH, TENSE_AORIST, TENSE_FUTURE, TENSE_FUTURE_PERFECT, TENSE_IMPERFECT, TENSE_PAST_ABSOLUTE, TENSE_PERFECT, TENSE_PLUPERFECT, TENSE_PRESENT, VKIND_TO_BE, VKIND_COMPOUNDS_OF_TO_BE, VKIND_TAKING_ABLATIVE, VKIND_TAKING_DATIVE, VKIND_TAKING_GENITIVE, VKIND_TRANSITIVE, VKIND_INTRANSITIVE, VKIND_IMPERSONAL, VKIND_DEPONENT, VKIND_SEMIDEPONENT, VKIND_PERFECT_DEFINITE, VOICE_ACTIVE, VOICE_PASSIVE, VOICE_MEDIOPASSIVE, VOICE_IMPERSONAL_PASSIVE, VOICE_MIDDLE, VOICE_ANTIPASSIVE, VOICE_REFLEXIVE, VOICE_RECIPROCAL, VOICE_CAUSATIVE, VOICE_ADJUTATIVE, VOICE_APPLICATIVE, VOICE_CIRCUMSTANTIAL, VOICE_DEPONENT, TYPE_IRREGULAR, TYPE_REGULAR, CLASS_PERSONAL, CLASS_REFLEXIVE, CLASS_POSSESSIVE, CLASS_DEMONSTRATIVE, CLASS_RELATIVE, CLASS_INTERROGATIVE, CLASS_GENERAL_RELATIVE, CLASS_INDEFINITE, CLASS_INTENSIVE, CLASS_RECIPROCAL */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -389,7 +389,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_PREPOSITION", function() { return POFS_PREPOSITION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_PRONOUN", function() { return POFS_PRONOUN; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_SUFFIX", function() { return POFS_SUFFIX; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_GERUNDIVE", function() { return POFS_GERUNDIVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_SUPINE", function() { return POFS_SUPINE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_VERB", function() { return POFS_VERB; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "POFS_VERB_PARTICIPLE", function() { return POFS_VERB_PARTICIPLE; });
@@ -602,7 +601,6 @@ const POFS_PREFIX = 'prefix'
 const POFS_PREPOSITION = 'preposition'
 const POFS_PRONOUN = 'pronoun'
 const POFS_SUFFIX = 'suffix'
-const POFS_GERUNDIVE = 'gerundive'
 const POFS_SUPINE = 'supine'
 const POFS_VERB = 'verb'
 const POFS_VERB_PARTICIPLE = 'verb participle'
@@ -1366,18 +1364,6 @@ class Feature {
    */
   createFeatures (data) {
     return new Feature(this.type, data, this.languageID, this.sortOrder, this.allowedValues)
-  }
-
-  /**
-   * Creates an array of Feature objects where each Feature object is matching one feature value
-   * form the values of this object.
-   * Useful when the current objects is a type feature and it is necessary to create an array
-   * of Feature objects for the type from it.
-   * @return {Feature[]} - An array of Feature objects. Each object represents one feature value
-   * from the current object.
-   */
-  get ownFeatures () {
-    return this.values.map(v => new Feature(this.type, v, this.languageID, 1, this.allowedValues))
   }
 
   /**
@@ -2454,6 +2440,46 @@ class Homonym {
     }
     return inflections
   }
+
+  isDisambiguated () {
+    return this.lexemes.filter(l => l.disambiguated).length > 0
+  }
+
+  /**
+   * Disambiguate homymyn objects with another
+   * @param {Homonym} base the homonym to use to disambiguate
+   * @param {Homonym[]} disambiguators the homonyms to use to disambiguate
+   */
+  static disambiguate (base, disambiguators) {
+    if (disambiguators.length === 0) {
+      // nothing left to disamibugate with
+      return base
+    }
+    let disambiguator = disambiguators.shift()
+    let lexemes = []
+    let missedLexemes = []
+    // iterate through the lexemes in the disambiguator and try
+    // to disambiguate the existing lexemes with each
+    for (let otherLexeme of disambiguator.lexemes) {
+      let lexemeMatched = false
+      for (let lexeme of base.lexemes) {
+        let newLex = _lexeme_js__WEBPACK_IMPORTED_MODULE_1__["default"].disambiguate(lexeme, otherLexeme)
+        lexemes.push(newLex)
+        if (newLex.disambiguated) {
+          lexemeMatched = true
+        }
+      }
+      // if we couldn't find a matching lexeme, add the disambigutor's lexemes
+      // to the list of lexemes for the new Homonym
+      if (!lexemeMatched) {
+        otherLexeme.disambiguated = true
+        missedLexemes.push(otherLexeme)
+      }
+    }
+    // create a new homonym with the disamibugated lexemes
+    let newHom = new Homonym([...lexemes, ...missedLexemes], base.targetWord)
+    return Homonym.disambiguate(newHom, disambiguators)
+  }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Homonym);
 
@@ -2685,6 +2711,7 @@ class Inflection {
     this.languageCode = undefined
     ;({languageID: this.languageID, languageCode: this.languageCode} = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageAttrs(language))
     this.model = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageModel(this.languageID)
+    this.features = new Set() // Names of features of this inflection
 
     // A grammar constraints object
     this.constraints = {
@@ -2771,6 +2798,29 @@ class Inflection {
       : value === word
   }
 
+  /**
+   * Check to see if the supplied inflection can disambiguate this one
+   * @param {Inflection} infl Inflection object to be used for disambiguation
+   */
+  disambiguatedBy (infl) {
+    let matched = true
+    // an inflection can only be disambiguated by its features
+    if (this.features.length === 0 || infl.features.length === 0) {
+      matched = false
+    }
+    // the supplied inflection can be less specific but not more
+    if (infl.features.length > this.features.length) {
+      matched = false
+    }
+    for (let feature of infl.features) {
+      if (!this[feature] || !this[feature].isEqual(infl[feature])) {
+        matched = false
+        break
+      }
+    }
+    return matched
+  }
+
   static readObject (jsonObject) {
     let inflection =
       new Inflection(
@@ -2808,6 +2858,7 @@ class Inflection {
       }
 
       this[type].push(element)
+      this.features.add(type)
     }
   }
 
@@ -2830,6 +2881,7 @@ class Inflection {
     }
 
     this[feature.type] = feature
+    this.features.add(feature.type)
   }
 
   /**
@@ -3123,10 +3175,6 @@ class LanguageModel {
     return this.languageCode
   }
 
-  /**
-   * Return a list of feature values that are allowed for each feature type
-   * @return {Map<string, string[]>}
-   */
   static get featureValues () {
     /*
     This could be a static variable, but then it will create a circular reference:
@@ -4081,6 +4129,19 @@ class Lemma {
 
     this.translation = translation
   }
+
+  /**
+   * Test to see if two lemmas are full homonyms
+   * @param {Lemma} lemma the lemma to compare
+   * @return {Boolean} true or false
+   */
+  isFullHomonym (lemma) {
+    // returns true if the word and part of speech match
+    return this.word === lemma.word &&
+      this.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part] &&
+      lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part] &&
+      this.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part].isEqual(lemma.features[_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.part])
+  }
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Lemma);
@@ -4116,7 +4177,6 @@ class Lexeme {
    * @param {Lemma} lemma - A lemma object.
    * @param {Inflection[]} inflections - An array of inflections.
    * @param {DefinitionSet} meaning - A set of definitions.
-
    */
   constructor (lemma, inflections, meaning = null) {
     if (!lemma) {
@@ -4146,9 +4206,19 @@ class Lexeme {
     }
 
     this.lemma = lemma
-    this.inflections = inflections
-    this.inflections.forEach(i => { i.lemma = lemma })
+    this.inflections = []
+    inflections.forEach(i => { this.addInflection(i) })
     this.meaning = meaning || new _definition_set__WEBPACK_IMPORTED_MODULE_2__["default"](this.lemma.word, this.lemma.languageID)
+    this.disambiguated = false
+  }
+
+  /**
+   * add an inflection to the lexeme
+   * @param {Inflection} inflection
+   */
+  addInflection (inflection) {
+    inflection.lemma = this.lemma
+    this.inflections.push(inflection)
   }
 
   /**
@@ -4163,6 +4233,38 @@ class Lexeme {
     return Object.entries(this.lemma.features).length > 0 ||
       !this.meaning.isEmpty() ||
       this.inflections.length > 0
+  }
+
+  /**
+   * disambiguate with another supplied Lexeme
+   * @param {Lexeme} lexeme the lexeme to be disambiguated
+   * @param {Lexeme} disambiguator the lexeme to use to disambiguate
+   * @return {Lexeme} a new lexeme, if disamibugation was successful disambiguated flag will be set on it
+   */
+  static disambiguate (lexeme, disambiguator) {
+    let newLexeme = new Lexeme(lexeme.lemma, lexeme.inflections, lexeme.meaning)
+    if (lexeme.lemma.isFullHomonym(disambiguator.lemma) && disambiguator.inflections.length > 0) {
+      newLexeme.disambiguated = true
+      let keepInflections = []
+      // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
+      // we want to keep the original inflections rather than just replacing them
+      // because the original inflections may have more information
+      for (let inflection of newLexeme.inflections) {
+        for (let disambiguatorInflection of disambiguator.inflections) {
+          if (inflection.disambiguatedBy(disambiguatorInflection)) {
+            keepInflections.push(inflection)
+          }
+        }
+      }
+      newLexeme.inflections = keepInflections
+      // if we couldn't match any existing inflections, then add the disambiguated one
+      if (newLexeme.inflections.length === 0) {
+        for (let infl of disambiguator.inflections) {
+          newLexeme.addInflection(infl)
+        }
+      }
+    }
+    return newLexeme
   }
 
   getGroupedInflections () {
