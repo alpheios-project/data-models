@@ -22,9 +22,8 @@ class Translation {
     if (!translationsList || !Array.isArray(translationsList)) {
       throw new Error('Recieved not proper translation list', translationsList)
     }
-    console.info('***************translationsList', lemma, languageCode, translationsList)
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
-    return new Translation(lemma, languageCode, curTranslations.translations)
+    return this.constructor(lemma, languageCode, curTranslations.translations)
   }
 
   static loadTranslations (lemma, languageCode, translationsList) {

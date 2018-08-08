@@ -3935,7 +3935,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
 
 
-// import Translation from './translation.js'
 
 
 /**
@@ -3969,7 +3968,6 @@ class Lemma {
     this.principalParts = principalParts
     this.features = {}
     this.ID = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()()
-    this.translations = []
   }
 
   get language () {
@@ -4061,10 +4059,7 @@ class Lemma {
       throw new Error('translation data must be a Translation object.')
     }
 
-    // this.translation = translation
-    if (!this.translations.some(trans => trans.languageCode === translation.languageCode)) {
-      this.translations.push(translation)
-    }
+    this.translation = translation
   }
 }
 
@@ -4374,9 +4369,8 @@ class Translation {
     if (!translationsList || !Array.isArray(translationsList)) {
       throw new Error('Recieved not proper translation list', translationsList)
     }
-    console.info('***************translationsList', lemma, languageCode, translationsList)
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
-    return new Translation(lemma, languageCode, curTranslations.translations)
+    return this.constructor(lemma, languageCode, curTranslations.translations)
   }
 
   static loadTranslations (lemma, languageCode, translationsList) {

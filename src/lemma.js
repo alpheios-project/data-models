@@ -1,6 +1,5 @@
 import LMF from './language_model_factory.js'
 import Feature from './feature.js'
-// import Translation from './translation.js'
 import uuidv4 from 'uuid/v4'
 
 /**
@@ -34,7 +33,6 @@ class Lemma {
     this.principalParts = principalParts
     this.features = {}
     this.ID = uuidv4()
-    this.translations = []
   }
 
   get language () {
@@ -126,10 +124,7 @@ class Lemma {
       throw new Error('translation data must be a Translation object.')
     }
 
-    // this.translation = translation
-    if (!this.translations.some(trans => trans.languageCode === translation.languageCode)) {
-      this.translations.push(translation)
-    }
+    this.translation = translation
   }
 }
 
