@@ -23,7 +23,7 @@ class Translation {
       throw new Error('Recieved not proper translation list', translationsList)
     }
     let curTranslations = translationsList.find(function (element) { return element.in === lemma.word })
-    return this.constructor(lemma, languageCode, curTranslations.translations)
+    return new Translation(lemma, languageCode, curTranslations.translations)
   }
 
   static loadTranslations (lemma, languageCode, translationsList) {
