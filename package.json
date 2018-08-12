@@ -1,5 +1,5 @@
 {
-  "name": "alpheios-data-models",
+  "name": "alpheios-data-models-node",
   "version": "1.1.8",
   "description": "Alpheios Data Models",
   "main": "dist/alpheios-data-models.min.js",
