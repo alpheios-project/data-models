@@ -3,7 +3,8 @@ const webpack = {
     entry: './driver.js',
     externals: {
       'intl-messageformat': 'intl-messageformat'
-    }
+    },
+    target: "node"
   },
 
   production: {
