@@ -96,96 +96,87 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
-/***/ "../node_modules/uuid/lib/bytesToUuid.js":
-/*!***********************************************!*\
-  !*** ../node_modules/uuid/lib/bytesToUuid.js ***!
-  \***********************************************/
+/***/ "../node_modules/base64url/index.js":
+/*!******************************************!*\
+  !*** ../node_modules/base64url/index.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+function fromBase64(base64string) {
+  return (
+    base64string
+      .replace(/=/g, '')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+  );
 }
 
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]], 
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]],
-	bth[buf[i++]], bth[buf[i++]],
-	bth[buf[i++]], bth[buf[i++]]]).join('');
+function toBase64(base64UrlString) {
+  if (Buffer.isBuffer(base64UrlString))
+    base64UrlString = base64UrlString.toString();
+
+  var b64str = padString(base64UrlString)
+    .replace(/\-/g, '+')
+    .replace(/_/g, '/');
+  return b64str;
 }
 
-module.exports = bytesToUuid;
+function padString(string) {
+  var segmentLength = 4;
+  var stringLength = string.length;
+  var diff = string.length % segmentLength;
+  if (!diff)
+    return string;
+  var position = stringLength;
+  var padLength = segmentLength - diff;
+  var paddedStringLength = stringLength + padLength;
+  var buffer = Buffer(paddedStringLength);
+  buffer.write(string);
+  while (padLength--)
+    buffer.write('=', position++);
+  return buffer.toString();
+}
+
+function decodeBase64Url(base64UrlString, encoding) {
+  return Buffer(toBase64(base64UrlString), 'base64').toString(encoding);
+}
+
+function base64url(stringOrBuffer, encoding) {
+  return fromBase64(Buffer(stringOrBuffer, encoding).toString('base64'));
+}
+
+function toBuffer(base64string) {
+  return Buffer(toBase64(base64string), 'base64');
+}
+
+base64url.toBase64 = toBase64;
+base64url.fromBase64 = fromBase64;
+base64url.decode = decodeBase64Url;
+base64url.encode = base64url;
+base64url.toBuffer = toBuffer;
+
+module.exports = base64url;
 
 
 /***/ }),
 
-/***/ "../node_modules/uuid/lib/rng.js":
-/*!***************************************!*\
-  !*** ../node_modules/uuid/lib/rng.js ***!
-  \***************************************/
+/***/ "../node_modules/generate-safe-id/index.js":
+/*!*************************************************!*\
+  !*** ../node_modules/generate-safe-id/index.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-// Unique ID creation requires a high quality random # generator.  In node.js
-// this is pretty straight-forward - we use the crypto API.
+var Base64url = __webpack_require__(/*! base64url */ "../node_modules/base64url/index.js");
+var Crypto = __webpack_require__(/*! crypto */ "crypto");
 
-var crypto = __webpack_require__(/*! crypto */ "crypto");
-
-module.exports = function nodeRNG() {
-  return crypto.randomBytes(16);
-};
-
-
-/***/ }),
-
-/***/ "../node_modules/uuid/v4.js":
-/*!**********************************!*\
-  !*** ../node_modules/uuid/v4.js ***!
-  \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var rng = __webpack_require__(/*! ./lib/rng */ "../node_modules/uuid/lib/rng.js");
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "../node_modules/uuid/lib/bytesToUuid.js");
-
-function v4(options, buf, offset) {
-  var i = buf && offset || 0;
-
-  if (typeof(options) == 'string') {
-    buf = options === 'binary' ? new Array(16) : null;
-    options = null;
-  }
-  options = options || {};
-
-  var rnds = options.random || (options.rng || rng)();
-
-  // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-  rnds[6] = (rnds[6] & 0x0f) | 0x40;
-  rnds[8] = (rnds[8] & 0x3f) | 0x80;
-
-  // Copy bytes to buffer, if provided
-  if (buf) {
-    for (var ii = 0; ii < 16; ++ii) {
-      buf[i + ii] = rnds[ii];
-    }
-  }
-
-  return buf || bytesToUuid(rnds);
+function generateSafeId() {
+	// TODO add constant-time base64 encoding, just to be extra safe
+	return Base64url.encode(Crypto.randomBytes(30));
 }
 
-module.exports = v4;
+module.exports = generateSafeId;
 
 
 /***/ }),
@@ -3971,12 +3962,11 @@ class LatinLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
 /* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "../node_modules/uuid/v4.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
 
 
-
-
+// import uuidv4 from 'uuid/v4'
+const generateSafeId = __webpack_require__(/*! generate-safe-id */ "../node_modules/generate-safe-id/index.js")
+// import crypto from 'crypto'
 /**
  * Lemma, a canonical form of a word.
  */
@@ -4007,7 +3997,14 @@ class Lemma {
     this.word = word
     this.principalParts = principalParts
     this.features = {}
-    this.ID = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()()
+
+    /*    try {
+      this.ID = uuidv4()
+    } catch (err) {
+      */
+    // console.info('UUID get error', err, 'try direct crypto')
+    this.ID = generateSafeId()
+    // }
   }
 
   get language () {
