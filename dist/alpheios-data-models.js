@@ -4490,4 +4490,4 @@ module.exports = require("crypto");
 
 /******/ });
 });
-//# sourceMappingURL=alpheios-data-models-node.js.map
+//# sourceMappingURL=alpheios-data-models.js.map
