@@ -4179,6 +4179,7 @@ class Lexeme {
     }
 
     this.lemma = lemma
+    this.altLemmas = []
     this.inflections = []
     inflections.forEach(i => { this.addInflection(i) })
     this.meaning = meaning || new _definition_set__WEBPACK_IMPORTED_MODULE_2__["default"](this.lemma.word, this.lemma.languageID)
@@ -4192,6 +4193,14 @@ class Lexeme {
   addInflection (inflection) {
     inflection.lemma = this.lemma
     this.inflections.push(inflection)
+  }
+
+  /**
+   * add an alternative lemma to the lexeme
+   * @param {Lemma} lemma
+   */
+  addAltLemma (lemma) {
+    this.altLemmas.push(lemma)
   }
 
   /**
