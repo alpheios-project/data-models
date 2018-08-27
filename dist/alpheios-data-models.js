@@ -2566,11 +2566,11 @@ const i18n = {
     },
     comparative: {
       full: 'comparative',
-      abbr: 'com.'
+      abbr: 'comp.'
     },
     superlative: {
       full: 'superlative',
-      abbr: 'sup.'
+      abbr: 'super.'
     },
     singular: {
       full: 'singular',
@@ -2596,13 +2596,17 @@ const i18n = {
       full: 'perfect',
       abbr: 'perf.'
     },
+    pluperfect: {
+      full: 'pluperfect',
+      abbr: 'pluperf.'
+    },
     plusquamperfect: {
       full: 'plusquamperfect',
       abbr: 'pqpf.'
     },
     'future perfect': {
       full: 'future perfect',
-      abbr: 'fex.'
+      abbr: 'fut. perf.'
     },
     future: {
       full: 'future',
