@@ -1,6 +1,5 @@
 import LMF from './language_model_factory.js'
 import Feature from './feature.js'
-import Translation from './translation.js'
 import uuidv4 from 'uuid/v4'
 
 /**
@@ -25,6 +24,7 @@ class Lemma {
       throw new Error('Language should not be empty.')
     }
 
+    // Compatibility code for something providing languageCode instead of languageID
     this.languageID = undefined
     this.languageCode = undefined
     ;({languageID: this.languageID, languageCode: this.languageCode} = LMF.getLanguageAttrs(languageID))
@@ -32,6 +32,7 @@ class Lemma {
     this.word = word
     this.principalParts = principalParts
     this.features = {}
+
     this.ID = uuidv4()
   }
 
@@ -120,11 +121,24 @@ class Lemma {
       throw new Error('translation data cannot be empty.')
     }
 
-    if (!(translation instanceof Translation)) {
+    if (translation.constructor.name !== 'Translation') {
       throw new Error('translation data must be a Translation object.')
     }
 
     this.translation = translation
+  }
+
+  /**
+   * Test to see if two lemmas are full homonyms
+   * @param {Lemma} lemma the lemma to compare
+   * @return {Boolean} true or false
+   */
+  isFullHomonym (lemma) {
+    // returns true if the word and part of speech match
+    return this.word === lemma.word &&
+      this.features[Feature.types.part] &&
+      lemma.features[Feature.types.part] &&
+      this.features[Feature.types.part].isEqual(lemma.features[Feature.types.part])
   }
 }
 

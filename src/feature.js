@@ -161,12 +161,17 @@ export default class Feature {
   /**
    * Compares a feature's values to another feature's values for sorting
    * @param {Feature} otherFeature the feature to compare this feature's values to
-   * @return {integer} >=1 if this feature should be sorted first, 0 if they are equal and -1 if this feature should be sorted second
+   * @return {integer} < 1 if this feature should be sorted first, 0 if they are equal and -1 if this feature should be sorted second
    */
   compareTo (otherFeature) {
     // the data values are sorted upon construction and insertion so we only should need to look at the first values
     // feature sortOrders are descending (i.e. 5 sorts higher than 1)
-    return otherFeature._data[0].sortOrder - this._data[0].sortOrder
+    if (otherFeature) {
+      return otherFeature._data[0].sortOrder - this._data[0].sortOrder
+    } else {
+      // if the other feature isn't defined, this one sorts first
+      return -1
+    }
   }
 
   get items () {
@@ -275,7 +280,8 @@ export default class Feature {
    * @return {boolean} True if features are equal, false otherwise.
    */
   isEqual (feature) {
-    return this.type === feature.type &&
+    return feature &&
+      this.type === feature.type &&
       LanguageModelFactory.compareLanguages(this.languageID, feature.languageID) &&
       this.value === feature.value
   }
@@ -350,6 +356,18 @@ export default class Feature {
    */
   createFeatures (data) {
     return new Feature(this.type, data, this.languageID, this.sortOrder, this.allowedValues)
+  }
+
+  /**
+   * Creates an array of Feature objects where each Feature object is matching one feature value
+   * form the values of this object.
+   * Useful when the current objects is a type feature and it is necessary to create an array
+   * of Feature objects for the type from it.
+   * @return {Feature[]} - An array of Feature objects. Each object represents one feature value
+   * from the current object.
+   */
+  get ownFeatures () {
+    return this.values.map(v => new Feature(this.type, v, this.languageID, 1, this.allowedValues))
   }
 
   /**

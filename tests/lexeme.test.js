@@ -171,6 +171,38 @@ describe('lexeme.test.js', () => {
       }
     }
 
+    let mockLexemeEight = {
+      lemma: {
+        features: {
+          pofs: new Feature(Feature.types.part, [['more important pofs', 6]], Constants.LANG_GREEK, 1)
+        }
+      }
+    }
+
+    let mockLexemeNine = {
+      lemma: {
+        features: {
+          pofs: new Feature(Feature.types.part, [['less important pofs', 1]], Constants.LANG_GREEK, 1)
+        }
+      }
+    }
+
+    let mockLexemeTen = {
+      lemma: {
+        features: {
+          freq: new Feature(Feature.types.frequency, [['most frequent', 5]], Constants.LANG_GREEK, 2)
+        }
+      }
+    }
+
+    let mockLexemeEleven = {
+      lemma: {
+        features: {
+          freq: new Feature(Feature.types.frequency, [['less frequent', 4]], Constants.LANG_GREEK, 2)
+        }
+      }
+    }
+
     let lexemes = [ mockLexemeTwo, mockLexemeOne ] // freq=3, freq=5
     let sortFunc = Lexeme.getSortByTwoLemmaFeatures('freq', 'pofs')
 
@@ -202,5 +234,44 @@ describe('lexeme.test.js', () => {
 
     lexemes = [ mockLexemeSix, mockLexemeSeven ] // null, null
     expect(lexemes.sort(sortFunc)).toEqual([mockLexemeSix, mockLexemeSeven])
+
+    lexemes = [ mockLexemeEight, mockLexemeNine ] // freq=null, freq=null, pofs=6, pofs=1
+    expect(lexemes.sort(sortFunc)).toEqual([mockLexemeEight, mockLexemeNine])
+
+    lexemes = [ mockLexemeTen, mockLexemeEleven ] // freq=5, freq=4, pofs=null, pofs=null
+    expect(lexemes.sort(sortFunc)).toEqual([mockLexemeTen, mockLexemeEleven])
+  })
+  it('7 Lexeme - disambiguate', () => {
+    let lemma2 = new Lemma('word', 'grc')
+    lemma.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    lemma2.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    let inflection1 = new Inflection('stem1', 'grc')
+    inflection1.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    inflection1.addFeature(new Feature(Feature.types.voice, Constants.VOICE_ACTIVE, Constants.LANG_GREEK))
+    let inflection2 = new Inflection('stem1', 'grc')
+    inflection2.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    inflection2.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
+    let lex = new Lexeme(lemma, [inflection1, inflection2])
+    let inflection3 = new Inflection('word', 'grc')
+    inflection3.addFeature(new Feature(Feature.types.part, Constants.POFS_VERB, Constants.LANG_GREEK))
+    inflection3.addFeature(new Feature(Feature.types.voice, Constants.VOICE_PASSIVE, Constants.LANG_GREEK))
+    let disambiguator = new Lexeme(lemma2, [inflection3])
+    expect(lex.inflections).toEqual([inflection1, inflection2])
+    let retval = Lexeme.disambiguate(lex, disambiguator)
+    // disambiguator is a lexeme with an inflection which matches inflection2
+    expect(retval.inflections).toEqual([inflection2])
+    expect(retval.lemma).toEqual(lex.lemma)
+    expect(retval.meaning).toEqual(lex.meaning)
+    expect(retval.disambiguated).toBeTruthy()
+    // the original lexeme's inflections should be untouched
+    expect(lex.disambiguated).toBeFalsy()
+    expect(lex.inflections).toEqual([inflection1, inflection2])
+  })
+  it('8 Lexeme - adds alternate Lemmas', () => {
+    let lemma2 = new Lemma('word', 'grc')
+    let lex = new Lexeme(lemma, [])
+    expect(lex.altLemmas.length).toEqual(0)
+    lex.addAltLemma(lemma2)
+    expect(lex.altLemmas).toEqual([lemma2])
   })
 })

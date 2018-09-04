@@ -13,7 +13,6 @@ class Lexeme {
    * @param {Lemma} lemma - A lemma object.
    * @param {Inflection[]} inflections - An array of inflections.
    * @param {DefinitionSet} meaning - A set of definitions.
-
    */
   constructor (lemma, inflections, meaning = null) {
     if (!lemma) {
@@ -43,8 +42,28 @@ class Lexeme {
     }
 
     this.lemma = lemma
-    this.inflections = inflections
+    this.altLemmas = []
+    this.inflections = []
+    inflections.forEach(i => { this.addInflection(i) })
     this.meaning = meaning || new DefinitionSet(this.lemma.word, this.lemma.languageID)
+    this.disambiguated = false
+  }
+
+  /**
+   * add an inflection to the lexeme
+   * @param {Inflection} inflection
+   */
+  addInflection (inflection) {
+    inflection.lemma = this.lemma
+    this.inflections.push(inflection)
+  }
+
+  /**
+   * add an alternative lemma to the lexeme
+   * @param {Lemma} lemma
+   */
+  addAltLemma (lemma) {
+    this.altLemmas.push(lemma)
   }
 
   /**
@@ -59,6 +78,38 @@ class Lexeme {
     return Object.entries(this.lemma.features).length > 0 ||
       !this.meaning.isEmpty() ||
       this.inflections.length > 0
+  }
+
+  /**
+   * disambiguate with another supplied Lexeme
+   * @param {Lexeme} lexeme the lexeme to be disambiguated
+   * @param {Lexeme} disambiguator the lexeme to use to disambiguate
+   * @return {Lexeme} a new lexeme, if disamibugation was successful disambiguated flag will be set on it
+   */
+  static disambiguate (lexeme, disambiguator) {
+    let newLexeme = new Lexeme(lexeme.lemma, lexeme.inflections, lexeme.meaning)
+    if (lexeme.lemma.isFullHomonym(disambiguator.lemma) && disambiguator.inflections.length > 0) {
+      newLexeme.disambiguated = true
+      let keepInflections = []
+      // iterate through this lexemes inflections and keep only thoes that are disambiguatedBy by the supplied lexeme's inflection
+      // we want to keep the original inflections rather than just replacing them
+      // because the original inflections may have more information
+      for (let inflection of newLexeme.inflections) {
+        for (let disambiguatorInflection of disambiguator.inflections) {
+          if (inflection.disambiguatedBy(disambiguatorInflection)) {
+            keepInflections.push(inflection)
+          }
+        }
+      }
+      newLexeme.inflections = keepInflections
+      // if we couldn't match any existing inflections, then add the disambiguated one
+      if (newLexeme.inflections.length === 0) {
+        for (let infl of disambiguator.inflections) {
+          newLexeme.addInflection(infl)
+        }
+      }
+    }
+    return newLexeme
   }
 
   getGroupedInflections () {
@@ -88,8 +139,16 @@ class Lexeme {
    */
   static getSortByTwoLemmaFeatures (primary, secondary) {
     return (a, b) => {
-      if (a.lemma.features[primary] && b.lemma.features[primary]) {
-        let primarySort = a.lemma.features[primary].compareTo(b.lemma.features[primary])
+      if ((a.lemma.features[primary] && b.lemma.features[primary]) ||
+          (!a.lemma.features[primary] && !b.lemma.features[[primary]])) {
+        let primarySort
+        if (a.lemma.features[primary] && b.lemma.features[primary]) {
+          // if both lemmas have the primary sort key, then sort
+          primarySort = a.lemma.features[primary].compareTo(b.lemma.features[primary])
+        } else {
+          // if neither lemma has the primary sort key, then the primary sort is equal
+          primarySort = 0
+        }
         if (primarySort !== 0) {
           return primarySort
         } else if (a.lemma.features[secondary] && b.lemma.features[secondary]) {
@@ -98,6 +157,9 @@ class Lexeme {
           return -1
         } else if (!a.lemma.features[secondary] && b.lemma.features[secondary]) {
           return 1
+        } else {
+          // neither have the secondary sort key so they are equal
+          return 0
         }
       } else if (a.lemma.features[primary] && !b.lemma.features[primary]) {
         return -1

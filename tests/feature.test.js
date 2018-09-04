@@ -121,8 +121,9 @@ describe('feature.test.js', () => {
     b = new Feature(Feature.types.note, 'valuea', Constants.LANG_LATIN)
     expect(a.isEqual(b)).toBeFalsy()
 
+    // expects isEqual to correctly not throw an error for a null value
     a = new Feature(Feature.types.note, 'valuea', Constants.LANG_GREEK)
-    b = new Feature(Feature.types.note, 'valuea', Constants.LANG_LATIN)
+    b = null
     expect(a.isEqual(b)).toBeFalsy()
   })
 
@@ -152,6 +153,11 @@ describe('feature.test.js', () => {
     b = new Feature(Feature.types.frequency, [['higher', 2]], Constants.LANG_GREEK)
     expect(a.compareTo(b)).toBeLessThan(0)
     expect([a, b].sort((a, b) => a.compareTo(b))).toEqual([a, b])
+
+    // expects null values to be handled
+    a = new Feature(Feature.types.frequency, [['lower', 1], ['highest', 3]], Constants.LANG_GREEK)
+    b = null
+    expect(a.compareTo(b)).toBeLessThan(0)
   })
 
   it('7 Feature - check get types, isAllowedType, defaultSortOrder, joinSeparator, defaultImporterName', () => {

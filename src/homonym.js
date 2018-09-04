@@ -1,5 +1,6 @@
 import LMF from './language_model_factory'
 import Lexeme from './lexeme.js'
+import Lemma from './lemma.js'
 
 class Homonym {
   /**
@@ -24,6 +25,21 @@ class Homonym {
 
     this.lexemes = lexemes
     this.targetWord = form
+  }
+
+  /**
+   * Creates a simple form of inflection with one lexeme and zero or more inflections
+   * attached to it. The lexeme will have lemma whose `word` will be set to
+   * a homonym's target word.
+   * @param {string} word - A word that will populate homonym's `targetWord` prop and lemma `word` one.
+   * @param {symbol} languageID - A language identificator as defined in Constants.LANG_XXX.
+   * @param {Inflection[]} inflections - Zero or more inflection objects that will be attached to the lexeme
+   * @return {Homonym} A newly created homonym object.
+   */
+  static createSimpleForm (word, languageID, inflections = []) {
+    let lemma = new Lemma(word, languageID)
+    let lexeme = new Lexeme(lemma, inflections)
+    return new Homonym([lexeme], word)
   }
 
   static readObject (jsonObject) {
@@ -77,6 +93,46 @@ class Homonym {
       inflections = inflections.concat(lexeme.inflections)
     }
     return inflections
+  }
+
+  isDisambiguated () {
+    return this.lexemes.filter(l => l.disambiguated).length > 0
+  }
+
+  /**
+   * Disambiguate homymyn objects with another
+   * @param {Homonym} base the homonym to use to disambiguate
+   * @param {Homonym[]} disambiguators the homonyms to use to disambiguate
+   */
+  static disambiguate (base, disambiguators) {
+    if (disambiguators.length === 0) {
+      // nothing left to disamibugate with
+      return base
+    }
+    let disambiguator = disambiguators.shift()
+    let lexemes = []
+    let missedLexemes = []
+    // iterate through the lexemes in the disambiguator and try
+    // to disambiguate the existing lexemes with each
+    for (let otherLexeme of disambiguator.lexemes) {
+      let lexemeMatched = false
+      for (let lexeme of base.lexemes) {
+        let newLex = Lexeme.disambiguate(lexeme, otherLexeme)
+        lexemes.push(newLex)
+        if (newLex.disambiguated) {
+          lexemeMatched = true
+        }
+      }
+      // if we couldn't find a matching lexeme, add the disambigutor's lexemes
+      // to the list of lexemes for the new Homonym
+      if (!lexemeMatched) {
+        otherLexeme.disambiguated = true
+        missedLexemes.push(otherLexeme)
+      }
+    }
+    // create a new homonym with the disamibugated lexemes
+    let newHom = new Homonym([...lexemes, ...missedLexemes], base.targetWord)
+    return Homonym.disambiguate(newHom, disambiguators)
   }
 }
 export default Homonym
