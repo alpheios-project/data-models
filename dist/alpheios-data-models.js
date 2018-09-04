@@ -2831,7 +2831,6 @@ class Inflection {
    * @param {Boolean} normalize whether or not to apply normalization
    */
   modelCompareWords (wordA, wordB, normalize = true) {
-    console.info(`Compare ${wordA}, ${wordB}`)
     const model = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageModel(this.languageID)
     let matched = false
     if (normalize) {

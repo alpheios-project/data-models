@@ -137,7 +137,6 @@ class Inflection {
    * @param {Boolean} normalize whether or not to apply normalization
    */
   modelCompareWords (wordA, wordB, normalize = true) {
-    console.info(`Compare ${wordA}, ${wordB}`)
     const model = LMF.getLanguageModel(this.languageID)
     let matched = false
     if (normalize) {
