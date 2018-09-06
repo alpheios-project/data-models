@@ -142,7 +142,6 @@ class Inflection {
     if (normalize) {
       let altWordA = model.alternateWordEncodings(wordA, null, null, 'strippedDiacritics')
       let altWordB = model.alternateWordEncodings(wordB, null, null, 'strippedDiacritics')
-      console.info(`Alt word A ${altWordA}`)
       for (let i = 0; i < altWordA.length; i++) {
         matched = altWordA[i] === altWordB[i]
         if (matched) {
