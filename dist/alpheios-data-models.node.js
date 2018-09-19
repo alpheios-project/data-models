@@ -1643,7 +1643,7 @@ class FeatureType {
     this.type = type
     this.languageID = undefined
     this.languageCode = undefined
-    ;({languageID: this.languageID, languageCode: this.languageCode} = _language_model_factory__WEBPACK_IMPORTED_MODULE_2__["default"].getLanguageAttrs(language))
+    ;({ languageID: this.languageID, languageCode: this.languageCode } = _language_model_factory__WEBPACK_IMPORTED_MODULE_2__["default"].getLanguageAttrs(language))
 
     /*
      This is a sort order index for a grammatical feature values. It is determined by the order of values in
@@ -2336,7 +2336,7 @@ class GrmFeature {
     this.type = type
     this.languageID = undefined
     this.languageCode = undefined
-    ;({languageID: this.languageID, languageCode: this.languageCode} = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageAttrs(language))
+    ;({ languageID: this.languageID, languageCode: this.languageCode } = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageAttrs(language))
     this.sortOrder = sortOrder
   }
 
@@ -2857,7 +2857,7 @@ class Inflection {
     this.stem = stem
     this.languageID = undefined
     this.languageCode = undefined
-    ;({languageID: this.languageID, languageCode: this.languageCode} = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageAttrs(language))
+    ;({ languageID: this.languageID, languageCode: this.languageCode } = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageAttrs(language))
     this.model = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageModel(this.languageID)
     this.features = new Set() // Names of features of this inflection
 
@@ -2880,11 +2880,24 @@ class Inflection {
     this.example = example
   }
 
+  /**
+   * Returns a full form of a word using ' - ' as a divider for suffix-based inflections.
+   * @return {string} A word form.
+   */
   get form () {
-    let form, prefix, suffix, divider, stem
+    const divider = this.stem ? ' - ' : ''
+    return this.getForm(divider)
+  }
 
-    stem = this.stem ? this.stem : ''
-    divider = this.stem ? ' - ' : ''
+  /**
+   * Returns a full form of a word using user specified divider for suffix-based inflections.
+   * @param {string} divider - A divider to use between stem and suffix.
+   * @return {string} A word form.
+   */
+  getForm (divider = '') {
+    let form, prefix, suffix
+
+    let stem = this.stem ? this.stem : ''
 
     if (this.model.direction === _constants_js__WEBPACK_IMPORTED_MODULE_2__["LANG_DIR_RTL"]) {
       prefix = this.prefix ? divider + this.prefix : ''
@@ -2920,7 +2933,23 @@ class Inflection {
     }
   }
 
-  compareWithWordDependsOnType (word, className, normalize = true) {
+  /**
+   * Compares if two words are the same. Options allows to specify
+   * comparison algorithms for cases when word info is not fully correct.
+   * @param {string} word - A word or suffix to compare with inflection.
+   * @param {string} className - A type of word: 'Suffix' or "Form'.
+   * @param {comparison} options - These settings define comparison algorithm:
+   *        'normalize' - normalize word and inflection before comparison.
+   *        'fuzzySuffix' - if suffix contained in a 'word' does not match our suffix data,
+   *                        try to find a match by checking if inflection full form
+   *                        ends with this suffix.
+   * @return {boolean} True for match, false otherwise.
+   */
+  smartWordCompare (word, className, options = {}) {
+    // Default values
+    if (!options.hasOwnProperty(`normalize`)) { options.normalize = true }
+    if (!options.hasOwnProperty(`fuzzySuffix`)) { options.fuzzySuffix = false }
+
     let value
     if (!this.constraints.irregular) {
       value = this.constraints.suffixBased ? this.suffix : this.form
@@ -2931,12 +2960,23 @@ class Inflection {
         value = this[_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].types.fullForm] ? this[_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].types.fullForm].value : this.form
       }
     }
-    return this.modelCompareWords(word, value)
+
+    let matchResult = this.modelCompareWords(word, value, options.normalize)
+
+    if (!matchResult && className === 'Suffix' && options.fuzzySuffix) {
+      let form = this.getForm()
+      if (form && word && form.length >= word.length) {
+        let altSuffix = form.substring(form.length - word.length)
+        matchResult = this.modelCompareWords(word, altSuffix, options.normalize)
+      }
+    }
+
+    return matchResult
   }
 
   compareWithWord (word, normalize = true) {
     const value = this.constraints.suffixBased ? this.suffix : this.form
-    return this.modelCompareWords(word, value)
+    return this.modelCompareWords(word, value, normalize)
   }
 
   /**
@@ -3701,7 +3741,7 @@ class LanguageModel {
           // grouping on adverbs without case or tense
           // everything else
         }
-        let groupingKey = new _inflection_grouping_key_js__WEBPACK_IMPORTED_MODULE_4__["default"](infl, [keyprop], {isCaseInflectionSet: isCaseInflectionSet})
+        let groupingKey = new _inflection_grouping_key_js__WEBPACK_IMPORTED_MODULE_4__["default"](infl, [keyprop], { isCaseInflectionSet: isCaseInflectionSet })
         let groupingKeyStr = groupingKey.toString()
         if (inflgrp.has(groupingKeyStr)) {
           inflgrp.get(groupingKeyStr).append(infl)
@@ -4209,7 +4249,7 @@ class Lemma {
     // Compatibility code for something providing languageCode instead of languageID
     this.languageID = undefined
     this.languageCode = undefined
-    ;({languageID: this.languageID, languageCode: this.languageCode} = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageAttrs(languageID))
+    ;({ languageID: this.languageID, languageCode: this.languageCode } = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageAttrs(languageID))
 
     this.word = word
     this.principalParts = principalParts
