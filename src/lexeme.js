@@ -119,6 +119,7 @@ class Lexeme {
   }
 
   static readObject (jsonObject) {
+    console.info('*******************Lexeme readObject', jsonObject.lemma)
     let lemma = Lemma.readObject(jsonObject.lemma)
     let inflections = []
     for (let inflection of jsonObject.inflections) {

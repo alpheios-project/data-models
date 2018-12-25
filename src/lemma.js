@@ -42,7 +42,8 @@ class Lemma {
   }
 
   static readObject (jsonObject) {
-    return new Lemma(jsonObject.word, jsonObject.language, jsonObject.principalParts, jsonObject.pronunciation)
+    let language = jsonObject.language ? jsonObject.language : jsonObject.languageCode
+    return new Lemma(jsonObject.word, language, jsonObject.principalParts, jsonObject.pronunciation)
   }
 
   /**

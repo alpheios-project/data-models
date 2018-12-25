@@ -3169,6 +3169,14 @@ class Inflection {
     string += `\n  example: ${this.example}`
     return string
   }
+
+  static readObject (jsonObject) {
+    let inflection =
+      new Inflection(
+        jsonObject.stem, jsonObject.languageCode, jsonObject.suffix, jsonObject.prefix, jsonObject.example)
+    inflection.languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageIdFromCode(inflection.languageCode)
+    return inflection
+  }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Inflection);
 
@@ -3993,6 +4001,13 @@ class LanguageModelFactory {
    */
   static getLanguageCodeFromId (languageID) {
     for (const languageModel of MODELS.values()) {
+      /*
+      console.info('***************getLanguageCodeFromId step1-1', languageModel.languageID)
+      console.info('***************getLanguageCodeFromId step1-2', languageModel.languageID.toString())
+
+      console.info('***************getLanguageCodeFromId step2-1', languageID)
+      console.info('***************getLanguageCodeFromId step2-2', languageID.toString())
+    */
       if (languageModel.languageID.toString() === languageID.toString()) {
         return languageModel.languageCode
       }
@@ -4330,7 +4345,8 @@ class Lemma {
   }
 
   static readObject (jsonObject) {
-    return new Lemma(jsonObject.word, jsonObject.language, jsonObject.principalParts, jsonObject.pronunciation)
+    let language = jsonObject.language ? jsonObject.language : jsonObject.languageCode
+    return new Lemma(jsonObject.word, language, jsonObject.principalParts, jsonObject.pronunciation)
   }
 
   /**
@@ -4569,6 +4585,7 @@ class Lexeme {
   }
 
   static readObject (jsonObject) {
+    console.info('*******************Lexeme readObject', jsonObject.lemma)
     let lemma = _lemma_js__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(jsonObject.lemma)
     let inflections = []
     for (let inflection of jsonObject.inflections) {
