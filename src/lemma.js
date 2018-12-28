@@ -55,7 +55,7 @@ class Lemma {
     return resLemma
   }
 
-  convertToJSON () {
+  convertToJSONObject () {
     let resultFeatures = []
     for (let feature of Object.values(this.features)) {
       resultFeatures.push({

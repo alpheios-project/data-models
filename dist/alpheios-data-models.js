@@ -804,6 +804,8 @@ const CLASS_RECIPROCAL = 'reciprocal'
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DefinitionSet; });
 /* harmony import */ var _definition__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./definition */ "./definition.js");
+/* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
+
 
 
 class DefinitionSet {
@@ -821,6 +823,9 @@ class DefinitionSet {
    * @return {DefinitionSet} A DefinitionSet object populated with data from JSON object.
    */
   static readObject (jsonObject) {
+    if (!jsonObject.languageID && jsonObject.languageCode) {
+      jsonObject.languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageIdFromCode(jsonObject.languageCode)
+    }
     let definitionSet = new DefinitionSet(jsonObject.lemmaWord, jsonObject.languageID)
 
     for (let shortDef of jsonObject.shortDefs) {
@@ -882,6 +887,16 @@ class DefinitionSet {
   clearFullDefs () {
     this.fullDefs = []
   }
+
+  convertToJSONObject () {
+    let languageCode = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageCodeFromId(this.languageID)
+    return {
+      lemmaWord: this.lemmaWord,
+      languageCode: languageCode,
+      shortDefs: this.shortDefs.map(def => def.convertToJSONObject()),
+      fullDefs: this.fullDefs.map(def => def.convertToJSONObject())
+    }
+  }
 }
 
 
@@ -906,6 +921,15 @@ class Definition {
 
   static readObject (jsonObject) {
     return new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
+  }
+
+  convertToJSONObject () {
+    return {
+      text: this.text,
+      language: this.language,
+      format: this.format,
+      lemmaText: this.lemmaText
+    }
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Definition);
@@ -3170,12 +3194,43 @@ class Inflection {
     return string
   }
 
-  static readObject (jsonObject) {
+  static readObject (jsonObject, lemma) {
     let inflection =
       new Inflection(
         jsonObject.stem, jsonObject.languageCode, jsonObject.suffix, jsonObject.prefix, jsonObject.example)
     inflection.languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageIdFromCode(inflection.languageCode)
+
+    if (jsonObject.features && jsonObject.features.length > 0) {
+      jsonObject.features.forEach(featureSource => {
+        inflection[featureSource.type] = featureSource.value
+        inflection.features.add(featureSource.type)
+      })
+    }
+
+    if (lemma) {
+      inflection.lemma = lemma
+    }
     return inflection
+  }
+
+  convertToJSONObject () {
+    let resultFeatures = []
+    for (let [key, value] of this.features.entries()) {
+      resultFeatures.push({
+        type: key,
+        value: value
+      })
+    }
+
+    let languageCode = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageCodeFromId(this.languageID)
+    return {
+      stem: this.stem,
+      languageCode: languageCode,
+      suffix: this.suffix,
+      prefix: this.prefix,
+      example: this.example,
+      features: resultFeatures
+    }
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Inflection);
@@ -4358,7 +4413,7 @@ class Lemma {
     return resLemma
   }
 
-  convertToJSON () {
+  convertToJSONObject () {
     let resultFeatures = []
     for (let feature of Object.values(this.features)) {
       resultFeatures.push({
@@ -4614,7 +4669,6 @@ class Lexeme {
   }
 
   static readObject (jsonObject) {
-    console.info('*******************Lexeme readObject', jsonObject.lemma)
     let lemma = _lemma_js__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(jsonObject.lemma)
     let inflections = []
     for (let inflection of jsonObject.inflections) {
