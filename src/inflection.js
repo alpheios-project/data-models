@@ -326,5 +326,13 @@ class Inflection {
     string += `\n  example: ${this.example}`
     return string
   }
+
+  static readObject (jsonObject) {
+    let inflection =
+      new Inflection(
+        jsonObject.stem, jsonObject.languageCode, jsonObject.suffix, jsonObject.prefix, jsonObject.example)
+    inflection.languageID = LMF.getLanguageIdFromCode(inflection.languageCode)
+    return inflection
+  }
 }
 export default Inflection

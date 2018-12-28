@@ -43,7 +43,36 @@ class Lemma {
 
   static readObject (jsonObject) {
     let language = jsonObject.language ? jsonObject.language : jsonObject.languageCode
-    return new Lemma(jsonObject.word, language, jsonObject.principalParts, jsonObject.pronunciation)
+    let resLemma = new Lemma(jsonObject.word, language, jsonObject.principalParts, jsonObject.pronunciation)
+
+    if (jsonObject.features && jsonObject.features.length > 0) {
+      let languageID = LMF.getLanguageIdFromCode(language)
+
+      jsonObject.features.forEach(featureSource => {
+        resLemma.addFeature(new Feature(featureSource.type, featureSource.data, languageID, featureSource.sortOrder, featureSource.allowedValues))
+      })
+    }
+    return resLemma
+  }
+
+  convertToJSON () {
+    let resultFeatures = []
+    for (let feature of Object.values(this.features)) {
+      resultFeatures.push({
+        type: feature.type,
+        data: feature._data,
+        language: this.languageCode,
+        sortOrder: feature.sortOrder,
+        allowedValues: feature.allowedValues
+      })
+    }
+    let resultLemma = {
+      word: this.word,
+      language: this.languageCode,
+      principalParts: this.principalParts,
+      features: resultFeatures
+    }
+    return resultLemma
   }
 
   /**
