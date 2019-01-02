@@ -348,13 +348,15 @@ class Inflection {
 
   convertToJSONObject () {
     let resultFeatures = []
+    console.info('*********************Inflection convertToJSONObject1', this)
     for (let [key, value] of this.features.entries()) {
+      console.info('*********************Inflection convertToJSONObject2', key, value)
       resultFeatures.push({
         type: key,
         value: value
       })
     }
-
+    console.info('*********************Inflection convertToJSONObject3', resultFeatures)
     let languageCode = LMF.getLanguageCodeFromId(this.languageID)
     return {
       stem: this.stem,
