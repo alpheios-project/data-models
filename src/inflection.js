@@ -335,11 +335,9 @@ class Inflection {
 
     if (jsonObject.features && jsonObject.features.length > 0) {
       jsonObject.features.forEach(featureSource => {
-        inflection[featureSource.type] = featureSource.value
-        inflection.features.add(featureSource.type)
+        inflection.addFeature(Feature.readObject(featureSource))
       })
     }
-
     if (lemma) {
       inflection.lemma = lemma
     }
@@ -348,15 +346,9 @@ class Inflection {
 
   convertToJSONObject () {
     let resultFeatures = []
-    console.info('*********************Inflection convertToJSONObject1', this)
-    for (let [key, value] of this.features.entries()) {
-      console.info('*********************Inflection convertToJSONObject2', key, value)
-      resultFeatures.push({
-        type: key,
-        value: value
-      })
+    for (let key of this.features.keys()) {
+      resultFeatures.push(this[key].convertToJSONObject())
     }
-    console.info('*********************Inflection convertToJSONObject3', resultFeatures)
     let languageCode = LMF.getLanguageCodeFromId(this.languageID)
     return {
       stem: this.stem,

@@ -1475,6 +1475,22 @@ class Feature {
     values = values.reduce((acc, cv) => acc.concat(cv), [])
     return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues)
   }
+
+  convertToJSONObject () {
+    let data = this._data.map(dataItem => [dataItem.value, dataItem.sortOrder])
+    return {
+      type: this.type,
+      languageCode: _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageCodeFromId(this.languageID),
+      sortOrder: this.sortOrder,
+      allowedValues: this.allowedValues,
+      data: data
+    }
+  }
+
+  static readObject (jsonObject) {
+    let languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageIdFromCode(jsonObject.languageCode)
+    return new Feature(jsonObject.type, jsonObject.data, languageID, jsonObject.sortOrder, jsonObject.allowedValues)
+  }
 }
 
 
@@ -3176,11 +3192,9 @@ class Inflection {
 
     if (jsonObject.features && jsonObject.features.length > 0) {
       jsonObject.features.forEach(featureSource => {
-        inflection[featureSource.type] = featureSource.value
-        inflection.features.add(featureSource.type)
+        inflection.addFeature(_feature_js__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(featureSource))
       })
     }
-
     if (lemma) {
       inflection.lemma = lemma
     }
@@ -3189,15 +3203,9 @@ class Inflection {
 
   convertToJSONObject () {
     let resultFeatures = []
-    console.info('*********************Inflection convertToJSONObject1', this)
-    for (let [key, value] of this.features.entries()) {
-      console.info('*********************Inflection convertToJSONObject2', key, value)
-      resultFeatures.push({
-        type: key,
-        value: value
-      })
+    for (let key of this.features.keys()) {
+      resultFeatures.push(this[key].convertToJSONObject())
     }
-    console.info('*********************Inflection convertToJSONObject3', resultFeatures)
     let languageCode = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageCodeFromId(this.languageID)
     return {
       stem: this.stem,
@@ -4380,10 +4388,8 @@ class Lemma {
     let resLemma = new Lemma(jsonObject.word, language, jsonObject.principalParts, jsonObject.pronunciation)
 
     if (jsonObject.features && jsonObject.features.length > 0) {
-      let languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__["default"].getLanguageIdFromCode(language)
-
       jsonObject.features.forEach(featureSource => {
-        resLemma.addFeature(new _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"](featureSource.type, featureSource.data, languageID, featureSource.sortOrder, featureSource.allowedValues))
+        resLemma.addFeature(_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(featureSource))
       })
     }
     return resLemma
@@ -4392,13 +4398,7 @@ class Lemma {
   convertToJSONObject () {
     let resultFeatures = []
     for (let feature of Object.values(this.features)) {
-      resultFeatures.push({
-        type: feature.type,
-        data: feature._data,
-        language: this.languageCode,
-        sortOrder: feature.sortOrder,
-        allowedValues: feature.allowedValues
-      })
+      resultFeatures.push(feature.convertToJSONObject())
     }
     let resultLemma = {
       word: this.word,
