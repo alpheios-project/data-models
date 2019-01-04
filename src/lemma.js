@@ -1,5 +1,6 @@
 import LMF from './language_model_factory.js'
 import Feature from './feature.js'
+import Translation from './translation.js'
 import uuidv4 from 'uuid/v4'
 
 /**
@@ -50,6 +51,10 @@ class Lemma {
         resLemma.addFeature(Feature.readObject(featureSource))
       })
     }
+
+    if (jsonObject.translation) {
+      resLemma.translation = Translation.readObject(jsonObject.translation, resLemma)
+    }
     return resLemma
   }
 
@@ -63,6 +68,10 @@ class Lemma {
       language: this.languageCode,
       principalParts: this.principalParts,
       features: resultFeatures
+    }
+
+    if (this.translation) {
+      resultLemma.translation = this.translation.convertToJSONObject()
     }
     return resultLemma
   }

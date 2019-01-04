@@ -4364,8 +4364,10 @@ class LatinLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
 /* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "../node_modules/uuid/v4.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _translation_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./translation.js */ "./translation.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid/v4 */ "../node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -4401,7 +4403,7 @@ class Lemma {
     this.principalParts = principalParts
     this.features = {}
 
-    this.ID = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()()
+    this.ID = uuid_v4__WEBPACK_IMPORTED_MODULE_3___default()()
   }
 
   get language () {
@@ -4418,6 +4420,10 @@ class Lemma {
         resLemma.addFeature(_feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(featureSource))
       })
     }
+
+    if (jsonObject.translation) {
+      resLemma.translation = _translation_js__WEBPACK_IMPORTED_MODULE_2__["default"].readObject(jsonObject.translation, resLemma)
+    }
     return resLemma
   }
 
@@ -4431,6 +4437,10 @@ class Lemma {
       language: this.languageCode,
       principalParts: this.principalParts,
       features: resultFeatures
+    }
+
+    if (this.translation) {
+      resultLemma.translation = this.translation.convertToJSONObject()
     }
     return resultLemma
   }
@@ -5030,6 +5040,17 @@ class Translation {
 
   static loadTranslations (lemma, languageCode, translationsList, provider) {
     lemma.addTranslation(this.readTranslationFromJSONList(lemma, languageCode, translationsList, provider))
+  }
+
+  convertToJSONObject () {
+    return {
+      languageCode: this.languageCode,
+      translations: this.glosses
+    }
+  }
+
+  static readObject (jsonObject, lemma) {
+    return new Translation(lemma, jsonObject.languageCode, jsonObject.translations)
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Translation);
