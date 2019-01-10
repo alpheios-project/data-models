@@ -2594,6 +2594,14 @@ class Homonym {
     return homonym
   }
 
+  convertToJSONObject (addMeaning = false) {
+    let resultHomonym = { lexemes: [], form: this.targetWord }
+    for (let lexeme of this.lexemes) {
+      resultHomonym.lexemes.push(lexeme.convertToJSONObject(addMeaning))
+    }
+    return resultHomonym
+  }
+
   /**
    * Returns a language code of a homonym (ISO 639-3).
    * Homonym does not have a language property, only lemmas and inflections do. We assume that all lemmas
@@ -4662,8 +4670,27 @@ class Lexeme {
     }
 
     let lexeme = new Lexeme(lemma, inflections)
-    lexeme.meaning = _definition_set__WEBPACK_IMPORTED_MODULE_2__["default"].readObject(jsonObject.meaning)
+    if (jsonObject.meaning) {
+      lexeme.meaning = _definition_set__WEBPACK_IMPORTED_MODULE_2__["default"].readObject(jsonObject.meaning)
+    }
     return lexeme
+  }
+
+  convertToJSONObject (addMeaning = false) {
+    let resInflections = []
+    this.inflections.forEach(inflection => { resInflections.push(inflection.convertToJSONObject()) })
+
+    let resLexeme = {
+      lemma: this.lemma.convertToJSONObject(),
+      inflections: resInflections
+    }
+
+    if (addMeaning) {
+      let resMeaning = this.meaning.convertToJSONObject()
+      resLexeme.meaning = resMeaning
+    }
+
+    return resLexeme
   }
 
   /**

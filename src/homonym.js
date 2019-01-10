@@ -56,6 +56,14 @@ class Homonym {
     return homonym
   }
 
+  convertToJSONObject (addMeaning = false) {
+    let resultHomonym = { lexemes: [], form: this.targetWord }
+    for (let lexeme of this.lexemes) {
+      resultHomonym.lexemes.push(lexeme.convertToJSONObject(addMeaning))
+    }
+    return resultHomonym
+  }
+
   /**
    * Returns a language code of a homonym (ISO 639-3).
    * Homonym does not have a language property, only lemmas and inflections do. We assume that all lemmas
