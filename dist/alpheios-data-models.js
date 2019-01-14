@@ -5121,7 +5121,6 @@ class TextQuoteSelector {
   }
 
   static readObject (jsonObject) {
-    console.info('******************TextQuoteSelector readObject', jsonObject)
     let tq = new TextQuoteSelector(jsonObject.languageCode, jsonObject.target.selector.exact)
     tq.prefix = jsonObject.target.selector.prefix
     tq.suffix = jsonObject.target.selector.suffix
