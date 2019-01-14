@@ -22,6 +22,7 @@ import PsEvent from './ps-events/ps-event.js'
 import PsEventData from './ps-events/ps-event-data.js'
 
 import Translation from './translation.js'
+import TextQuoteSelector from './w3c/text-quote-selector.js'
 
 export {
   Constants,
@@ -45,4 +46,5 @@ export {
   ResourceProvider,
   Translation,
   PsEvent,
-  PsEventData }
+  PsEventData,
+  TextQuoteSelector }

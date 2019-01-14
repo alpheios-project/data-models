@@ -941,7 +941,7 @@ class Definition {
 /*!*******************!*\
   !*** ./driver.js ***!
   \*******************/
-/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData */
+/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1010,6 +1010,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _translation_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./translation.js */ "./translation.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Translation", function() { return _translation_js__WEBPACK_IMPORTED_MODULE_21__["default"]; });
+
+/* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextQuoteSelector", function() { return _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+
 
 
 
@@ -2613,10 +2617,7 @@ class Homonym {
         lexemes.push(_lexeme_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(lexeme))
       }
     }
-    let homonym = new Homonym(lexemes)
-    if (jsonObject.targetWord) {
-      homonym.targetWord = jsonObject.targetWord
-    }
+    let homonym = new Homonym(lexemes, jsonObject.form)
     return homonym
   }
 
@@ -5081,6 +5082,54 @@ class Translation {
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Translation);
+
+
+/***/ }),
+
+/***/ "./w3c/text-quote-selector.js":
+/*!************************************!*\
+  !*** ./w3c/text-quote-selector.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TextQuoteSelector; });
+/**
+ * Implements a W3C Text Quote Selector (https://www.w3.org/TR/annotation-model/#h-text-quote-selector)
+ */
+
+class TextQuoteSelector {
+  constructor (languageCode, normalizedText) {
+    this.languageCode = languageCode
+    this.normalizedText = normalizedText
+    this.contextForward = 6
+    this.contextBackward = 6
+  }
+
+  get contextHTML () {
+    return `${this.prefix}<span class="alpheios_worditem_incontext">${this.text}</span>${this.suffix}`
+  }
+
+  createContext (selection, textSelector) {
+    this.prefix = selection.anchorNode.data.substr(0, textSelector.start)
+    this.suffix = selection.anchorNode.data.substr(textSelector.end)
+    this.text = textSelector.text
+    this.source = window.location.href
+    this.languageCode = textSelector.languageCode
+  }
+
+  static readObject (jsonObject) {
+    console.info('******************TextQuoteSelector readObject', jsonObject)
+    let tq = new TextQuoteSelector(jsonObject.languageCode, jsonObject.target.selector.exact)
+    tq.prefix = jsonObject.target.selector.prefix
+    tq.suffix = jsonObject.target.selector.suffix
+    tq.text = jsonObject.targetWord
+    tq.source = jsonObject.target.source
+    return tq
+  }
+}
 
 
 /***/ })

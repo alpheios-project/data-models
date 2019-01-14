@@ -49,10 +49,7 @@ class Homonym {
         lexemes.push(Lexeme.readObject(lexeme))
       }
     }
-    let homonym = new Homonym(lexemes)
-    if (jsonObject.targetWord) {
-      homonym.targetWord = jsonObject.targetWord
-    }
+    let homonym = new Homonym(lexemes, jsonObject.form)
     return homonym
   }
 
