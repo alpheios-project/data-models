@@ -5070,9 +5070,12 @@ class Translation {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TextQuoteSelector; });
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v4 */ "../node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * Implements a W3C Text Quote Selector (https://www.w3.org/TR/annotation-model/#h-text-quote-selector)
  */
+
 
 class TextQuoteSelector {
   constructor (languageCode, normalizedText) {
@@ -5080,10 +5083,16 @@ class TextQuoteSelector {
     this.normalizedText = normalizedText
     this.contextForward = 6
     this.contextBackward = 6
+    this.ID = uuid_v4__WEBPACK_IMPORTED_MODULE_0___default()()
   }
 
   get contextHTML () {
-    return `${this.prefix}<span class="alpheios_worditem_incontext">${this.text}</span>${this.suffix}`
+    let templateWord = `<span class="alpheios_worditem_incontext_add">${this.text}</span>`
+    let checkPrefix = this.prefix.replace(this.text, templateWord)
+    let checkSuffix = this.suffix.replace(this.text, templateWord)
+
+    let fullText = `${checkPrefix}<span class="alpheios_worditem_incontext">${this.text}</span>${checkSuffix}`
+    return fullText
   }
 
   createContext (selection, textSelector) {

@@ -1,6 +1,7 @@
 /**
  * Implements a W3C Text Quote Selector (https://www.w3.org/TR/annotation-model/#h-text-quote-selector)
  */
+import uuidv4 from 'uuid/v4'
 
 export default class TextQuoteSelector {
   constructor (languageCode, normalizedText) {
@@ -8,10 +9,16 @@ export default class TextQuoteSelector {
     this.normalizedText = normalizedText
     this.contextForward = 6
     this.contextBackward = 6
+    this.ID = uuidv4()
   }
 
   get contextHTML () {
-    return `${this.prefix}<span class="alpheios_worditem_incontext">${this.text}</span>${this.suffix}`
+    let templateWord = `<span class="alpheios_worditem_incontext_add">${this.text}</span>`
+    let checkPrefix = this.prefix.replace(this.text, templateWord)
+    let checkSuffix = this.suffix.replace(this.text, templateWord)
+
+    let fullText = `${checkPrefix}<span class="alpheios_worditem_incontext">${this.text}</span>${checkSuffix}`
+    return fullText
   }
 
   createContext (selection, textSelector) {
