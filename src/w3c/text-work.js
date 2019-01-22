@@ -33,8 +33,12 @@ class TextWork {
 
   extractIDFromURN () {
     let partsUrn = this.urn.split(':')
-    let workIDPart = partsUrn[3].indexOf('.') === -1 ? partsUrn[3] : partsUrn[3].substr(partsUrn[3].indexOf('.') + 1)
-    return parseInt(workIDPart.replace(TextWork.defaultIDPrefix, ''))
+
+    if (Array.isArray(partsUrn) && partsUrn.length >= 4) {
+      let workIDPart = partsUrn[3].indexOf('.') === -1 ? null : partsUrn[3].substr(partsUrn[3].indexOf('.') + 1)
+      return parseInt(workIDPart.replace(TextWork.defaultIDPrefix, ''))
+    }
+    return null
   }
 }
 

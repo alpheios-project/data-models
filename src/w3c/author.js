@@ -42,8 +42,11 @@ class Author {
 
   extractIDFromURN () {
     let partsUrn = this.urn.split(':')
-    let workIDPart = partsUrn[3].indexOf('.') === -1 ? partsUrn[3] : partsUrn[3].substr(0, partsUrn[3].indexOf('.'))
-    return parseInt(workIDPart.replace(Author.defaultIDPrefix, ''))
+    if (Array.isArray(partsUrn) && partsUrn.length >= 4) {
+      let workIDPart = partsUrn[3].indexOf('.') === -1 ? partsUrn[3] : partsUrn[3].substr(0, partsUrn[3].indexOf('.'))
+      return parseInt(workIDPart.replace(Author.defaultIDPrefix, ''))
+    }
+    return null
   }
 }
 
