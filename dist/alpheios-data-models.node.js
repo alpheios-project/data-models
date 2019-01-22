@@ -915,7 +915,7 @@ class Definition {
 /*!*******************!*\
   !*** ./driver.js ***!
   \*******************/
-/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector */
+/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector, WordUsageExample, Author, TextWork */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -987,6 +987,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextQuoteSelector", function() { return _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+
+/* harmony import */ var _w3c_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./w3c/word-usage-example.js */ "./w3c/word-usage-example.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordUsageExample", function() { return _w3c_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+
+/* harmony import */ var _w3c_author_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./w3c/author.js */ "./w3c/author.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Author", function() { return _w3c_author_js__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+
+/* harmony import */ var _w3c_text_work_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./w3c/text-work.js */ "./w3c/text-work.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextWork", function() { return _w3c_text_work_js__WEBPACK_IMPORTED_MODULE_25__["default"]; });
+
+
+
 
 
 
@@ -5060,6 +5072,70 @@ class Translation {
 
 /***/ }),
 
+/***/ "./w3c/author.js":
+/*!***********************!*\
+  !*** ./w3c/author.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _text_work__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./text-work */ "./w3c/text-work.js");
+
+
+class Author {
+  constructor (urn, titles) {
+    this.urn = urn
+    this.titles = titles
+    this.ID = this.extractIDFromURN()
+  }
+
+  static get defaultLang () {
+    return 'eng'
+  }
+
+  static get defaultIDPrefix () {
+    return 'phi'
+  }
+
+  get title () {
+    if (this.titles[Author.defaultLang]) {
+      return this.titles[Author.defaultLang]
+    }
+
+    return Object.values(this.titles)[0]
+  }
+
+  static create (jsonObj) {
+    let titles = {}
+    jsonObj.title.forEach(titleItem => {
+      titles[titleItem['@lang']] = titleItem['@value']
+    })
+
+    let author = new Author(jsonObj.urn, titles)
+    let works = []
+
+    jsonObj.works.forEach(workItem => {
+      works.push(_text_work__WEBPACK_IMPORTED_MODULE_0__["default"].create(author, workItem))
+    })
+
+    author.works = works
+    return author
+  }
+
+  extractIDFromURN () {
+    let partsUrn = this.urn.split(':')
+    let workIDPart = partsUrn[3].indexOf('.') === -1 ? partsUrn[3] : partsUrn[3].substr(0, partsUrn[3].indexOf('.'))
+    return parseInt(workIDPart.replace(Author.defaultIDPrefix, ''))
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Author);
+
+
+/***/ }),
+
 /***/ "./w3c/text-quote-selector.js":
 /*!************************************!*\
   !*** ./w3c/text-quote-selector.js ***!
@@ -5110,6 +5186,97 @@ class TextQuoteSelector {
     tq.text = jsonObject.targetWord
     tq.source = jsonObject.target.source
     return tq
+  }
+}
+
+
+/***/ }),
+
+/***/ "./w3c/text-work.js":
+/*!**************************!*\
+  !*** ./w3c/text-work.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class TextWork {
+  constructor (author, urn, titles) {
+    this.urn = urn
+    this.titles = titles
+    this.author = author
+    this.ID = this.extractIDFromURN()
+  }
+
+  static get defaultLang () {
+    return 'eng'
+  }
+
+  static get defaultIDPrefix () {
+    return 'phi'
+  }
+
+  get title () {
+    if (this.titles[TextWork.defaultLang]) {
+      return this.titles[TextWork.defaultLang]
+    }
+
+    return Object.values(this.titles)[0]
+  }
+
+  static create (author, jsonObj) {
+    let titles = {}
+    jsonObj.title.forEach(titleItem => {
+      titles[titleItem['@lang']] = titleItem['@value']
+    })
+
+    return new TextWork(author, jsonObj.urn, titles)
+  }
+
+  extractIDFromURN () {
+    let partsUrn = this.urn.split(':')
+    let workIDPart = partsUrn[3].indexOf('.') === -1 ? partsUrn[3] : partsUrn[3].substr(partsUrn[3].indexOf('.') + 1)
+    return parseInt(workIDPart.replace(TextWork.defaultIDPrefix, ''))
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (TextWork);
+
+
+/***/ }),
+
+/***/ "./w3c/word-usage-example.js":
+/*!***********************************!*\
+  !*** ./w3c/word-usage-example.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WordUsageExample; });
+/* harmony import */ var _text_quote_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./text-quote-selector */ "./w3c/text-quote-selector.js");
+
+
+class WordUsageExample extends _text_quote_selector__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  createContext () {
+    return null // not implemented in the current child-class
+  }
+  static readObject (jsonObj, homonym, author, textWork, sourceLink) {
+    let wordUsageExample = new WordUsageExample(homonym.language, jsonObj.target)
+    wordUsageExample.prefix = jsonObj.left
+    wordUsageExample.suffix = jsonObj.right
+    wordUsageExample.source = sourceLink + jsonObj.link
+    wordUsageExample.cit = jsonObj.cit
+    wordUsageExample.author = author
+    wordUsageExample.textWork = textWork
+
+    return wordUsageExample
+  }
+
+  get htmlExample () {
+    return `${this.prefix}<span class="alpheios_word_usage_list_item__text_targetword">${this.normalizedText}</span>${this.suffix}`
   }
 }
 
