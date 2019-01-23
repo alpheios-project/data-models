@@ -4,12 +4,14 @@ class TextWork {
   * @param {Author} author - author of the textWork
   * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
   * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
   * @returns {TextWork}
   */
-  constructor (author, urn, titles) {
+  constructor (author, urn, titles, abbreviations) {
     this.urn = urn
     this.titles = titles
     this.author = author
+    this.abbreviations = abbreviations
     this.ID = this.extractIDFromURN()
   }
 
@@ -43,6 +45,19 @@ class TextWork {
   }
 
   /**
+    * Method returns abbreviation in default language or (if not exists) it returns first available abbreviation
+    * @returns {String}
+    */
+  get abbreviation () {
+    if (this.abbreviations[TextWork.defaultLang]) {
+      return this.abbreviations[TextWork.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+
+  /**
   * Method returns TextWork for given jsonObj (from concordance API)
   * @param {Author} author - author of the textWork
   * @param {Object} jsonObj - json object with data of the TextWork
@@ -54,7 +69,12 @@ class TextWork {
       titles[titleItem['@lang']] = titleItem['@value']
     })
 
-    return new TextWork(author, jsonObj.urn, titles)
+    let abbreviations = {}
+    jsonObj.abbreviations.forEach(abbrItem => {
+      abbreviations[abbrItem['@lang']] = abbrItem['@value']
+    })
+
+    return new TextWork(author, jsonObj.urn, titles, abbreviations)
   }
 
   /**

@@ -60,6 +60,11 @@ describe('text-work.test.js', () => {
         { '@lang': 'eng',
           '@value': 'Aeneid'
         }
+      ],
+      'abbreviations': [
+        { '@lang': 'eng',
+          '@value': 'A.'
+        }
       ]
     }
 
@@ -67,6 +72,7 @@ describe('text-work.test.js', () => {
     expect(textWork.urn).toEqual('urn:cts:latinLit:phi0690.phi003')
     expect(textWork.author).toEqual('fooAuthor')
     expect(Object.values(textWork.titles).length).toEqual(2)
+    expect(Object.values(textWork.abbreviations).length).toEqual(1)
   })
 
   it('5 TextWork - extractIDFromURN methods extract ID from textWork urn (concordance API)', () => {

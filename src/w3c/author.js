@@ -5,11 +5,13 @@ class Author {
   * Constructor, extracts ID from urn
   * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
   * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
   * @returns {Author}
   */
-  constructor (urn, titles) {
+  constructor (urn, titles, abbreviations) {
     this.urn = urn
     this.titles = titles
+    this.abbreviations = abbreviations
     this.ID = this.extractIDFromURN()
   }
 
@@ -43,6 +45,19 @@ class Author {
   }
 
   /**
+  * Method returns abbreviation in default language or (if not exists) it returns first available abbreviation
+  * @returns {String}
+  */
+  get abbreviation () {
+    if (this.abbreviations[Author.defaultLang]) {
+      return this.abbreviations[Author.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+
+  /**
   * Method returns Author for given jsonObj (from concordance API)
   * @param {Object} jsonObj - json object with data of the Author
   * @returns {Author}
@@ -53,7 +68,12 @@ class Author {
       titles[titleItem['@lang']] = titleItem['@value']
     })
 
-    let author = new Author(jsonObj.urn, titles)
+    let abbreviations = {}
+    jsonObj.abbreviations.forEach(abbrItem => {
+      abbreviations[abbrItem['@lang']] = abbrItem['@value']
+    })
+
+    let author = new Author(jsonObj.urn, titles, abbreviations)
     let works = []
 
     jsonObj.works.forEach(workItem => {
