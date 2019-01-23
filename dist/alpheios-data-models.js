@@ -5435,6 +5435,10 @@ class WordUsageExample extends _text_quote_selector__WEBPACK_IMPORTED_MODULE_0__
       res = this.author.title
       if (this.textWork) {
         res = res + ' ' + this.textWork.title
+      } else {
+        if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
+          res = res + ' ' + this.cit.split('.')[1] + '.'
+        }
       }
 
       if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {

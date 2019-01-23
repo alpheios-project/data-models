@@ -126,7 +126,7 @@ describe('word-usage-example.test.js', () => {
     expect(wordUsageExample1.fullCit).toEqual('Virgil Aeneid 484')
 
     wordUsageExample1.textWork = undefined
-    expect(wordUsageExample1.fullCit).toEqual('Virgil 484')
+    expect(wordUsageExample1.fullCit).toEqual('Virgil Aeneid. 484') // gets from cit
 
     wordUsageExample1.author = undefined
     expect(wordUsageExample1.fullCit).toEqual('Virgil.Aeneid.484')

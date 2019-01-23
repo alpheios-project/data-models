@@ -45,6 +45,10 @@ export default class WordUsageExample extends TextQuoteSelector {
       res = this.author.title
       if (this.textWork) {
         res = res + ' ' + this.textWork.title
+      } else {
+        if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
+          res = res + ' ' + this.cit.split('.')[1] + '.'
+        }
       }
 
       if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
