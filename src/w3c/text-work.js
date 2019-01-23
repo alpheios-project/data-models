@@ -71,7 +71,7 @@ class TextWork {
 
     let abbreviations = {}
     jsonObj.abbreviations.forEach(abbrItem => {
-      abbreviations[abbrItem['@lang']] = abbrItem['@value']
+      abbreviations[abbrItem['@lang']] = abbrItem['@value'].replace('.', '')
     })
 
     return new TextWork(author, jsonObj.urn, titles, abbreviations)

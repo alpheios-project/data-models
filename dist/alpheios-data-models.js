@@ -5115,11 +5115,13 @@ class Author {
   * Constructor, extracts ID from urn
   * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
   * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
   * @returns {Author}
   */
-  constructor (urn, titles) {
+  constructor (urn, titles, abbreviations) {
     this.urn = urn
     this.titles = titles
+    this.abbreviations = abbreviations
     this.ID = this.extractIDFromURN()
   }
 
@@ -5153,6 +5155,19 @@ class Author {
   }
 
   /**
+  * Method returns abbreviation in default language or (if not exists) it returns first available abbreviation
+  * @returns {String}
+  */
+  get abbreviation () {
+    if (this.abbreviations[Author.defaultLang]) {
+      return this.abbreviations[Author.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+
+  /**
   * Method returns Author for given jsonObj (from concordance API)
   * @param {Object} jsonObj - json object with data of the Author
   * @returns {Author}
@@ -5163,7 +5178,12 @@ class Author {
       titles[titleItem['@lang']] = titleItem['@value']
     })
 
-    let author = new Author(jsonObj.urn, titles)
+    let abbreviations = {}
+    jsonObj.abbreviations.forEach(abbrItem => {
+      abbreviations[abbrItem['@lang']] = abbrItem['@value'].replace('.', '')
+    })
+
+    let author = new Author(jsonObj.urn, titles, abbreviations)
     let works = []
 
     jsonObj.works.forEach(workItem => {
@@ -5264,12 +5284,14 @@ class TextWork {
   * @param {Author} author - author of the textWork
   * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
   * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
   * @returns {TextWork}
   */
-  constructor (author, urn, titles) {
+  constructor (author, urn, titles, abbreviations) {
     this.urn = urn
     this.titles = titles
     this.author = author
+    this.abbreviations = abbreviations
     this.ID = this.extractIDFromURN()
   }
 
@@ -5303,6 +5325,19 @@ class TextWork {
   }
 
   /**
+    * Method returns abbreviation in default language or (if not exists) it returns first available abbreviation
+    * @returns {String}
+    */
+  get abbreviation () {
+    if (this.abbreviations[TextWork.defaultLang]) {
+      return this.abbreviations[TextWork.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+
+  /**
   * Method returns TextWork for given jsonObj (from concordance API)
   * @param {Author} author - author of the textWork
   * @param {Object} jsonObj - json object with data of the TextWork
@@ -5314,7 +5349,12 @@ class TextWork {
       titles[titleItem['@lang']] = titleItem['@value']
     })
 
-    return new TextWork(author, jsonObj.urn, titles)
+    let abbreviations = {}
+    jsonObj.abbreviations.forEach(abbrItem => {
+      abbreviations[abbrItem['@lang']] = abbrItem['@value'].replace('.', '')
+    })
+
+    return new TextWork(author, jsonObj.urn, titles, abbreviations)
   }
 
   /**
@@ -5383,6 +5423,27 @@ class WordUsageExample extends _text_quote_selector__WEBPACK_IMPORTED_MODULE_0__
   */
   get htmlExample () {
     return `${this.prefix}<span class="alpheios_word_usage_list_item__text_targetword">${this.normalizedText}</span>${this.suffix}`
+  }
+
+  /**
+  * Creates a full description - author + textWork + cit number
+  * @returns {String}
+  */
+  get fullCit () {
+    let res = ''
+    if (this.author) {
+      res = this.author.title
+      if (this.textWork) {
+        res = res + ' ' + this.textWork.title
+      }
+
+      if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
+        res = res + ' ' + this.cit.split('.')[2]
+      }
+    } else {
+      res = this.cit
+    }
+    return res
   }
 }
 

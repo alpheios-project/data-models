@@ -70,7 +70,7 @@ class Author {
 
     let abbreviations = {}
     jsonObj.abbreviations.forEach(abbrItem => {
-      abbreviations[abbrItem['@lang']] = abbrItem['@value']
+      abbreviations[abbrItem['@lang']] = abbrItem['@value'].replace('.', '')
     })
 
     let author = new Author(jsonObj.urn, titles, abbreviations)

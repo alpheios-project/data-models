@@ -34,4 +34,25 @@ export default class WordUsageExample extends TextQuoteSelector {
   get htmlExample () {
     return `${this.prefix}<span class="alpheios_word_usage_list_item__text_targetword">${this.normalizedText}</span>${this.suffix}`
   }
+
+  /**
+  * Creates a full description - author + textWork + cit number
+  * @returns {String}
+  */
+  get fullCit () {
+    let res = ''
+    if (this.author) {
+      res = this.author.title
+      if (this.textWork) {
+        res = res + ' ' + this.textWork.title
+      }
+
+      if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
+        res = res + ' ' + this.cit.split('.')[2]
+      }
+    } else {
+      res = this.cit
+    }
+    return res
+  }
 }
