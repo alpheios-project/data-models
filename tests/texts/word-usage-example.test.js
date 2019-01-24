@@ -25,10 +25,14 @@ describe('word-usage-example.test.js', () => {
   })
 
   it('1 WordUsageExample - constructor creates languageCode and normalizedText', () => {
-    let wordUsageExample = new WordUsageExample('lat', 'cepit')
+    let wordUsageExample = new WordUsageExample('lat', 'cepit', 'fooleft', 'fooright', 'foosource', 'foocit')
 
     expect(wordUsageExample.languageCode).toEqual('lat')
     expect(wordUsageExample.normalizedText).toEqual('cepit')
+    expect(wordUsageExample.prefix).toEqual('fooleft')
+    expect(wordUsageExample.suffix).toEqual('fooright')
+    expect(wordUsageExample.source).toEqual('foosource')
+    expect(wordUsageExample.cit).toEqual('foocit')
   })
 
   it('2 WordUsageExample - htmlExample is a get method that returns constructed HTML for wordUsageExample', () => {

@@ -5021,6 +5021,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class WordUsageExample extends _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor (language, targetWord, prefix, suffix, source, cit) {
+    super(language, targetWord)
+    this.prefix = prefix
+    this.suffix = suffix
+    this.source = source
+    this.cit = cit
+  }
   createContext () {
     return null // not implemented in the current child-class
   }

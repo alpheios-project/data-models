@@ -1,6 +1,13 @@
 import TextQuoteSelector from '../w3c/text-quote-selector.js'
 
 export default class WordUsageExample extends TextQuoteSelector {
+  constructor (language, targetWord, prefix, suffix, source, cit) {
+    super(language, targetWord)
+    this.prefix = prefix
+    this.suffix = suffix
+    this.source = source
+    this.cit = cit
+  }
   createContext () {
     return null // not implemented in the current child-class
   }
