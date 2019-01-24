@@ -23,9 +23,9 @@ import PsEventData from './ps-events/ps-event-data.js'
 
 import Translation from './translation.js'
 import TextQuoteSelector from './w3c/text-quote-selector.js'
-import WordUsageExample from './w3c/word-usage-example.js'
-import Author from './w3c/author.js'
-import TextWork from './w3c/text-work.js'
+import WordUsageExample from './texts/word-usage-example.js'
+import Author from './texts/author.js'
+import TextWork from './texts/text-work.js'
 
 export {
   Constants,

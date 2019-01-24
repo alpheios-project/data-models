@@ -988,14 +988,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextQuoteSelector", function() { return _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__["default"]; });
 
-/* harmony import */ var _w3c_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./w3c/word-usage-example.js */ "./w3c/word-usage-example.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordUsageExample", function() { return _w3c_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+/* harmony import */ var _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./texts/word-usage-example.js */ "./texts/word-usage-example.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordUsageExample", function() { return _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__["default"]; });
 
-/* harmony import */ var _w3c_author_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./w3c/author.js */ "./w3c/author.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Author", function() { return _w3c_author_js__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+/* harmony import */ var _texts_author_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./texts/author.js */ "./texts/author.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Author", function() { return _texts_author_js__WEBPACK_IMPORTED_MODULE_24__["default"]; });
 
-/* harmony import */ var _w3c_text_work_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./w3c/text-work.js */ "./w3c/text-work.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextWork", function() { return _w3c_text_work_js__WEBPACK_IMPORTED_MODULE_25__["default"]; });
+/* harmony import */ var _texts_text_work_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./texts/text-work.js */ "./texts/text-work.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextWork", function() { return _texts_text_work_js__WEBPACK_IMPORTED_MODULE_25__["default"]; });
 
 
 
@@ -4833,6 +4833,210 @@ class ResourceProvider {
 
 /***/ }),
 
+/***/ "./texts/author.js":
+/*!*************************!*\
+  !*** ./texts/author.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Author {
+  /**
+  * Constructor, extracts ID from urn
+  * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
+  * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
+  * @returns {Author}
+  */
+  constructor (urn, titles, abbreviations) {
+    this.urn = urn
+    this.titles = titles
+    this.abbreviations = abbreviations
+  }
+
+  /**
+  * This property is used to define title for panel
+  * @returns {String}
+  */
+  static get defaultLang () {
+    return 'eng'
+  }
+
+  /**
+  * Method returns title in the lang from arguments, otherwise in default language or (if not exists) it returns first available title
+  * @param {String} lang - language for getting title
+  * @returns {String}
+  */
+  title (lang) {
+    if (this.titles[lang]) {
+      return this.titles[lang]
+    } else if (this.titles[Author.defaultLang]) {
+      return this.titles[Author.defaultLang]
+    } else if (Object.values(this.titles).length > 0) {
+      return Object.values(this.titles)[0]
+    }
+    return null
+  }
+
+  /**
+  * Method returns abbreviation in the lang from arguments, otherwise in default language or (if not exists) it returns first available abbreviation
+  * @param {String} lang - language for getting abbreviation
+  * @returns {String}
+  */
+  abbreviation (lang) {
+    if (this.abbreviations[lang]) {
+      return this.abbreviations[lang]
+    } else if (this.abbreviations[Author.defaultLang]) {
+      return this.abbreviations[Author.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Author);
+
+
+/***/ }),
+
+/***/ "./texts/text-work.js":
+/*!****************************!*\
+  !*** ./texts/text-work.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class TextWork {
+  /**
+  * Constructor, extracts ID from urn
+  * @param {Author} author - author of the textWork
+  * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
+  * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
+  * @returns {TextWork}
+  */
+  constructor (author, urn, titles, abbreviations) {
+    this.urn = urn
+    this.titles = titles
+    this.author = author
+    this.abbreviations = abbreviations
+  }
+
+  /**
+  * This property is used to define title for panel
+  * @returns {String}
+  */
+  static get defaultLang () {
+    return 'eng'
+  }
+
+  /**
+  * This property is used to define prefix fr extract ID
+  * @returns {String}
+  */
+  static get defaultIDPrefix () {
+    return 'phi'
+  }
+
+  /**
+  * Method returns title in the lang from arguments, otherwise in default language or (if not exists) it returns first available title
+  * @param {String} lang - language for getting title
+  * @returns {String}
+  */
+  title (lang) {
+    if (this.titles[lang]) {
+      return this.titles[lang]
+    } else if (this.titles[TextWork.defaultLang]) {
+      return this.titles[TextWork.defaultLang]
+    } else if (Object.values(this.titles).length > 0) {
+      return Object.values(this.titles)[0]
+    }
+    return null
+  }
+
+  /**
+  * Method returns abbreviation in the lang from arguments, otherwise in default language or (if not exists) it returns first available abbreviation
+  * @param {String} lang - language for getting abbreviation
+  * @returns {String}
+  */
+  abbreviation (lang) {
+    if (this.abbreviations[lang]) {
+      return this.abbreviations[lang]
+    } else if (this.abbreviations[TextWork.defaultLang]) {
+      return this.abbreviations[TextWork.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (TextWork);
+
+
+/***/ }),
+
+/***/ "./texts/word-usage-example.js":
+/*!*************************************!*\
+  !*** ./texts/word-usage-example.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WordUsageExample; });
+/* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
+
+
+class WordUsageExample extends _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  createContext () {
+    return null // not implemented in the current child-class
+  }
+
+  /**
+  * Creates a full text of example prefix + word + suffix
+  * @returns {String}
+  */
+  get htmlExample () {
+    return `${this.prefix}<span class="alpheios_word_usage_list_item__text_targetword">${this.normalizedText}</span>${this.suffix}`
+  }
+
+  /**
+  * Creates a full description - author + textWork + cit number
+  * @param {String} lang - language for getting text
+  * @returns {String}
+  */
+  fullCit (lang) {
+    let res = ''
+    if (this.author) {
+      res = this.author.title(lang)
+      if (this.textWork) {
+        res = res + ' ' + this.textWork.title(lang)
+      } else {
+        if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
+          res = res + ' ' + this.cit.split('.')[1] + '.'
+        }
+      }
+
+      if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
+        res = res + ' ' + this.cit.split('.')[2]
+      }
+    } else {
+      res = this.cit
+    }
+    return res
+  }
+}
+
+
+/***/ }),
+
 /***/ "./translation.js":
 /*!************************!*\
   !*** ./translation.js ***!
@@ -4897,121 +5101,6 @@ class Translation {
 
 /***/ }),
 
-/***/ "./w3c/author.js":
-/*!***********************!*\
-  !*** ./w3c/author.js ***!
-  \***********************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _text_work__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./text-work */ "./w3c/text-work.js");
-
-
-class Author {
-  /**
-  * Constructor, extracts ID from urn
-  * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
-  * @param {Object} titles - has the following format { languageCode: title }
-  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
-  * @returns {Author}
-  */
-  constructor (urn, titles, abbreviations) {
-    this.urn = urn
-    this.titles = titles
-    this.abbreviations = abbreviations
-    this.ID = this.extractIDFromURN()
-  }
-
-  /**
-  * This property is used to define title for panel
-  * @returns {String}
-  */
-  static get defaultLang () {
-    return 'eng'
-  }
-
-  /**
-  * This property is used to define prefix fr extract ID
-  * @returns {String}
-  */
-  static get defaultIDPrefix () {
-    return 'phi'
-  }
-
-  /**
-  * Method returns title in default language or (if not exists) it returns first available title
-  * @returns {String}
-  */
-  get title () {
-    if (this.titles[Author.defaultLang]) {
-      return this.titles[Author.defaultLang]
-    } else if (Object.values(this.titles).length > 0) {
-      return Object.values(this.titles)[0]
-    }
-    return null
-  }
-
-  /**
-  * Method returns abbreviation in default language or (if not exists) it returns first available abbreviation
-  * @returns {String}
-  */
-  get abbreviation () {
-    if (this.abbreviations[Author.defaultLang]) {
-      return this.abbreviations[Author.defaultLang]
-    } else if (Object.values(this.abbreviations).length > 0) {
-      return Object.values(this.abbreviations)[0]
-    }
-    return null
-  }
-
-  /**
-  * Method returns Author for given jsonObj (from concordance API)
-  * @param {Object} jsonObj - json object with data of the Author
-  * @returns {Author}
-  */
-  static create (jsonObj) {
-    let titles = {}
-    jsonObj.title.forEach(titleItem => {
-      titles[titleItem['@lang']] = titleItem['@value']
-    })
-
-    let abbreviations = {}
-    jsonObj.abbreviations.forEach(abbrItem => {
-      abbreviations[abbrItem['@lang']] = abbrItem['@value'].replace('.', '')
-    })
-
-    let author = new Author(jsonObj.urn, titles, abbreviations)
-    let works = []
-
-    jsonObj.works.forEach(workItem => {
-      works.push(_text_work__WEBPACK_IMPORTED_MODULE_0__["default"].create(author, workItem))
-    })
-
-    author.works = works
-    return author
-  }
-
-  /**
-  * Method extracts ID from the urn, if it is correct. Otherwise it returns null.
-  * @returns {Number, null}
-  */
-  extractIDFromURN () {
-    let partsUrn = this.urn.split(':')
-    if (Array.isArray(partsUrn) && partsUrn.length >= 4) {
-      let workIDPart = partsUrn[3].indexOf('.') === -1 ? partsUrn[3] : partsUrn[3].substr(0, partsUrn[3].indexOf('.'))
-      return parseInt(workIDPart.replace(Author.defaultIDPrefix, ''))
-    }
-    return null
-  }
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (Author);
-
-
-/***/ }),
-
 /***/ "./w3c/text-quote-selector.js":
 /*!************************************!*\
   !*** ./w3c/text-quote-selector.js ***!
@@ -5062,191 +5151,6 @@ class TextQuoteSelector {
     tq.text = jsonObject.targetWord
     tq.source = jsonObject.target.source
     return tq
-  }
-}
-
-
-/***/ }),
-
-/***/ "./w3c/text-work.js":
-/*!**************************!*\
-  !*** ./w3c/text-work.js ***!
-  \**************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-class TextWork {
-  /**
-  * Constructor, extracts ID from urn
-  * @param {Author} author - author of the textWork
-  * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
-  * @param {Object} titles - has the following format { languageCode: title }
-  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
-  * @returns {TextWork}
-  */
-  constructor (author, urn, titles, abbreviations) {
-    this.urn = urn
-    this.titles = titles
-    this.author = author
-    this.abbreviations = abbreviations
-    this.ID = this.extractIDFromURN()
-  }
-
-  /**
-  * This property is used to define title for panel
-  * @returns {String}
-  */
-  static get defaultLang () {
-    return 'eng'
-  }
-
-  /**
-  * This property is used to define prefix fr extract ID
-  * @returns {String}
-  */
-  static get defaultIDPrefix () {
-    return 'phi'
-  }
-
-  /**
-  * Method returns title in default language or (if not exists) it returns first available title
-  * @returns {String}
-  */
-  get title () {
-    if (this.titles[TextWork.defaultLang]) {
-      return this.titles[TextWork.defaultLang]
-    } else if (Object.values(this.titles).length > 0) {
-      return Object.values(this.titles)[0]
-    }
-    return null
-  }
-
-  /**
-    * Method returns abbreviation in default language or (if not exists) it returns first available abbreviation
-    * @returns {String}
-    */
-  get abbreviation () {
-    if (this.abbreviations[TextWork.defaultLang]) {
-      return this.abbreviations[TextWork.defaultLang]
-    } else if (Object.values(this.abbreviations).length > 0) {
-      return Object.values(this.abbreviations)[0]
-    }
-    return null
-  }
-
-  /**
-  * Method returns TextWork for given jsonObj (from concordance API)
-  * @param {Author} author - author of the textWork
-  * @param {Object} jsonObj - json object with data of the TextWork
-  * @returns {TextWork}
-  */
-  static create (author, jsonObj) {
-    let titles = {}
-    jsonObj.title.forEach(titleItem => {
-      titles[titleItem['@lang']] = titleItem['@value']
-    })
-
-    let abbreviations = {}
-    jsonObj.abbreviations.forEach(abbrItem => {
-      abbreviations[abbrItem['@lang']] = abbrItem['@value'].replace('.', '')
-    })
-
-    return new TextWork(author, jsonObj.urn, titles, abbreviations)
-  }
-
-  /**
-  * Method extracts ID from the urn, if it is correct. Otherwise it returns null.
-  * @returns {Number, null}
-  */
-  extractIDFromURN () {
-    let partsUrn = this.urn.split(':')
-
-    if (Array.isArray(partsUrn) && partsUrn.length >= 4) {
-      let workIDPart = partsUrn[3].indexOf('.') === -1 ? null : partsUrn[3].substr(partsUrn[3].indexOf('.') + 1)
-      return parseInt(workIDPart.replace(TextWork.defaultIDPrefix, ''))
-    }
-    return null
-  }
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (TextWork);
-
-
-/***/ }),
-
-/***/ "./w3c/word-usage-example.js":
-/*!***********************************!*\
-  !*** ./w3c/word-usage-example.js ***!
-  \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WordUsageExample; });
-/* harmony import */ var _text_quote_selector__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./text-quote-selector */ "./w3c/text-quote-selector.js");
-
-
-class WordUsageExample extends _text_quote_selector__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  createContext () {
-    return null // not implemented in the current child-class
-  }
-
-  /**
-  * Creates WordUsageExample object from jsonObj, homonym, author, textWork and link from the adapter config
-  * @param {Object} jsonObj - json object from concordance api
-  * @param {Homonym} homonym - source homonym object
-  * @param {Author} author - source author object, could be undefined
-  * @param {TextWork} textWork - source textWork object, could be undefined
-  * @param {String} sourceLink - sourceTextUrl from the adapter config file
-  * @returns {WordUsageExample}
-  */
-  static readObject (jsonObj, homonym, author, textWork, sourceLink) {
-    let wordUsageExample = new WordUsageExample(homonym.language, jsonObj.target)
-    wordUsageExample.prefix = jsonObj.left
-    wordUsageExample.suffix = jsonObj.right
-    wordUsageExample.source = sourceLink + jsonObj.link
-    wordUsageExample.cit = jsonObj.cit
-    wordUsageExample.author = author
-    wordUsageExample.textWork = textWork
-    wordUsageExample.homonym = homonym
-
-    return wordUsageExample
-  }
-
-  /**
-  * Creates a full text of example prefix + word + suffix
-  * @returns {String}
-  */
-  get htmlExample () {
-    return `${this.prefix}<span class="alpheios_word_usage_list_item__text_targetword">${this.normalizedText}</span>${this.suffix}`
-  }
-
-  /**
-  * Creates a full description - author + textWork + cit number
-  * @returns {String}
-  */
-  get fullCit () {
-    let res = ''
-    if (this.author) {
-      res = this.author.title
-      if (this.textWork) {
-        res = res + ' ' + this.textWork.title
-      } else {
-        if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
-          res = res + ' ' + this.cit.split('.')[1] + '.'
-        }
-      }
-
-      if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
-        res = res + ' ' + this.cit.split('.')[2]
-      }
-    } else {
-      res = this.cit
-    }
-    return res
   }
 }
 

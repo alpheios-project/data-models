@@ -1,8 +1,8 @@
 /* eslint-env jest */
 /* eslint-disable no-unused-vars */
-import Author from '@/w3c/author'
-import TextWork from '@/w3c/text-work'
-import WordUsageExample from '@/w3c/word-usage-example'
+import Author from '@/texts/author'
+import WordUsageExample from '@/texts/word-usage-example'
+import TextWork from '../../src/texts/text-work'
 
 describe('word-usage-example.test.js', () => {
   console.error = function () {}
@@ -31,7 +31,7 @@ describe('word-usage-example.test.js', () => {
     expect(wordUsageExample.normalizedText).toEqual('cepit')
   })
 
-  it('2 WordUsageExample - readObject creates WordUsageExample from jsonObj, homonym, author, textWork and sourceLink', () => {
+  it.skip('2 WordUsageExample - readObject creates WordUsageExample from jsonObj, homonym, author, textWork and sourceLink', () => {
     let testJsonObj = {
       cit: 'SenPhil.Med.484',
       left: 'felix uicem. ex opibus illis, quas procul raptas Scythae ',
@@ -65,12 +65,9 @@ describe('word-usage-example.test.js', () => {
       target: 'usque'
     }
 
-    let testHomonym = { language: 'lat', targetWord: 'usque' }
-    let testAuthor = 'fooAuthor'
-    let testTextWork = 'fooTextWork'
-    let testSourceLink = 'https://latin.packhum.org'
-
-    let wordUsageExample = WordUsageExample.readObject(testJsonObj, testHomonym, testAuthor, testTextWork, testSourceLink)
+    let wordUsageExample = new WordUsageExample(testJsonObj.target, 'lat')
+    wordUsageExample.prefix = testJsonObj.left
+    wordUsageExample.suffix = testJsonObj.right
 
     expect(typeof wordUsageExample.htmlExample).toEqual('string')
     expect(typeof wordUsageExample.htmlExample.includes(testJsonObj.left)).toBeTruthy()
@@ -79,56 +76,22 @@ describe('word-usage-example.test.js', () => {
   })
 
   it('4 WordUsageExample - fullCit constructs full description of author + textWork + citNumber', () => {
-    let testJsonObj = {
-      cit: 'Virgil.Aeneid.484',
-      left: 'felix uicem. ex opibus illis, quas procul raptas Scythae ',
-      link: '/loc/1017/4/9/2890-2895',
-      right: ' a perustis Indiae populis agunt, quas quia referta uix',
-      target: 'usque'
-    }
+    let testAuthor = new Author('urn:cts:latinLit:phi0690', { eng: 'Virgil' }, { eng: 'Verg.' })
+    let testTextWork = new TextWork(testAuthor, 'urn:cts:latinLit:phi0690.phi003', { lat: 'LatAeneid', eng: 'EngAeneid' }, { eng: 'A.' })
 
-    let testAuthorJson = { 'urn': 'urn:cts:latinLit:phi0690',
-      'title': [
-        { '@lang': 'eng',
-          '@value': 'Virgil'
-        }
-      ],
-      'abbreviations': [
-        { '@lang': 'eng',
-          '@value': 'Verg.'
-        }
-      ],
-      'works': [
-        { 'urn': 'urn:cts:latinLit:phi0690.phi003',
-          'title': [
-            { '@lang': 'lat',
-              '@value': 'Aeneid'
-            },
-            { '@lang': 'eng',
-              '@value': 'Aeneid'
-            }
-          ],
-          'abbreviations': [
-            { '@lang': 'eng',
-              '@value': 'A.'
-            }
-          ]
-        }
-      ]
-    }
-    let testHomonym = { language: 'lat', targetWord: 'usque' }
-    let testAuthor = Author.create(testAuthorJson)
-    let testTextWork = testAuthor.works[0]
-    let testSourceLink = 'https://latin.packhum.org'
+    let wordUsageExample = new WordUsageExample('usque', 'lat')
+    wordUsageExample.author = testAuthor
+    wordUsageExample.textWork = testTextWork
+    wordUsageExample.cit = 'Virgil.Aeneid.484'
 
-    let wordUsageExample1 = WordUsageExample.readObject(testJsonObj, testHomonym, testAuthor, testTextWork, testSourceLink)
+    expect(wordUsageExample.fullCit()).toEqual('Virgil EngAeneid 484')
+    expect(wordUsageExample.fullCit('lat')).toEqual('Virgil LatAeneid 484')
+    expect(wordUsageExample.fullCit('eng')).toEqual('Virgil EngAeneid 484')
 
-    expect(wordUsageExample1.fullCit).toEqual('Virgil Aeneid 484')
+    wordUsageExample.textWork = undefined
+    expect(wordUsageExample.fullCit()).toEqual('Virgil Aeneid. 484') // gets from cit
 
-    wordUsageExample1.textWork = undefined
-    expect(wordUsageExample1.fullCit).toEqual('Virgil Aeneid. 484') // gets from cit
-
-    wordUsageExample1.author = undefined
-    expect(wordUsageExample1.fullCit).toEqual('Virgil.Aeneid.484')
+    wordUsageExample.author = undefined
+    expect(wordUsageExample.fullCit()).toEqual('Virgil.Aeneid.484')
   })
 })
