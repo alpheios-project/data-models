@@ -31,32 +31,7 @@ describe('word-usage-example.test.js', () => {
     expect(wordUsageExample.normalizedText).toEqual('cepit')
   })
 
-  it.skip('2 WordUsageExample - readObject creates WordUsageExample from jsonObj, homonym, author, textWork and sourceLink', () => {
-    let testJsonObj = {
-      cit: 'SenPhil.Med.484',
-      left: 'felix uicem. ex opibus illis, quas procul raptas Scythae ',
-      link: '/loc/1017/4/9/2890-2895',
-      right: ' a perustis Indiae populis agunt, quas quia referta uix',
-      target: 'usque'
-    }
-
-    let testHomonym = { language: 'lat', targetWord: 'usque' }
-    let testAuthor = 'fooAuthor'
-    let testTextWork = 'fooTextWork'
-    let testSourceLink = 'https://latin.packhum.org'
-
-    let wordUsageExample = WordUsageExample.readObject(testJsonObj, testHomonym, testAuthor, testTextWork, testSourceLink)
-
-    expect(wordUsageExample.languageCode).toEqual('lat')
-    expect(wordUsageExample.prefix).toEqual(testJsonObj.left)
-    expect(wordUsageExample.suffix).toEqual(testJsonObj.right)
-    expect(wordUsageExample.source).toEqual(testSourceLink + testJsonObj.link)
-    expect(wordUsageExample.cit).toEqual(testJsonObj.cit)
-    expect(wordUsageExample.author).toEqual(testAuthor)
-    expect(wordUsageExample.textWork).toEqual(testTextWork)
-  })
-
-  it('3 WordUsageExample - htmlExample is a get method that returns constructed HTML for wordUsageExample', () => {
+  it('2 WordUsageExample - htmlExample is a get method that returns constructed HTML for wordUsageExample', () => {
     let testJsonObj = {
       cit: 'SenPhil.Med.484',
       left: 'felix uicem. ex opibus illis, quas procul raptas Scythae ',
@@ -75,7 +50,7 @@ describe('word-usage-example.test.js', () => {
     expect(typeof wordUsageExample.htmlExample.includes(testJsonObj.target)).toBeTruthy()
   })
 
-  it('4 WordUsageExample - fullCit constructs full description of author + textWork + citNumber', () => {
+  it('3 WordUsageExample - fullCit constructs full description of author + textWork + citNumber', () => {
     let testAuthor = new Author('urn:cts:latinLit:phi0690', { eng: 'Virgil' }, { eng: 'Verg.' })
     let testTextWork = new TextWork(testAuthor, 'urn:cts:latinLit:phi0690.phi003', { lat: 'LatAeneid', eng: 'EngAeneid' }, { eng: 'A.' })
 

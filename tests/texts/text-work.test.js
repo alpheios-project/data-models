@@ -30,12 +30,10 @@ describe('text-work.test.js', () => {
     expect(textWork.urn).toEqual(testURN)
     expect(textWork.titles).toEqual('fooTitles')
     expect(textWork.author).toEqual('fooAuthor')
-    // expect(textWork.ID).toBeDefined()
   })
 
   it('2 TextWork - static methods defaultLang and defaultIDPrefix are defined', () => {
     expect(TextWork.defaultLang).toBeDefined()
-    // expect(TextWork.defaultIDPrefix).toBeDefined()
   })
 
   it('3 TextWork - title method returns title for the language from arguments, otherwise in the defaultLang or if not exists it returns the first title from the list', () => {
@@ -63,40 +61,5 @@ describe('text-work.test.js', () => {
 
     let textWork2 = new TextWork('fooAuthor', testURN, 'fooTitles', testAbbreviationsWithoutDefaultLang)
     expect(textWork2.abbreviation()).toEqual('FooLatAbbr')
-  })
-
-  it.skip('5 TextWork - create method returns TextWork object from jsonObj', () => {
-    let testJsonObj = {
-      'urn': 'urn:cts:latinLit:phi0690.phi003',
-      'title': [
-        { '@lang': 'lat',
-          '@value': 'Aeneid'
-        },
-        { '@lang': 'eng',
-          '@value': 'Aeneid'
-        }
-      ],
-      'abbreviations': [
-        { '@lang': 'eng',
-          '@value': 'A.'
-        }
-      ]
-    }
-
-    let textWork = TextWork.create('fooAuthor', testJsonObj)
-    expect(textWork.urn).toEqual('urn:cts:latinLit:phi0690.phi003')
-    expect(textWork.author).toEqual('fooAuthor')
-    expect(Object.values(textWork.titles).length).toEqual(2)
-    expect(Object.values(textWork.abbreviations).length).toEqual(1)
-  })
-
-  it.skip('6 TextWork - extractIDFromURN methods extract ID from textWork urn (concordance API)', () => {
-    let testCorrectURN = 'urn:cts:latinLit:phi0690.phi003'
-
-    let textWork = new TextWork('fooAuthor', testCorrectURN, 'fooTitles')
-    expect(textWork.extractIDFromURN()).toEqual(3)
-
-    textWork.urn = 'urn:cts:latinLit'
-    expect(textWork.extractIDFromURN()).toBeNull()
   })
 })
