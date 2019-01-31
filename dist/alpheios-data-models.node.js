@@ -915,7 +915,7 @@ class Definition {
 /*!*******************!*\
   !*** ./driver.js ***!
   \*******************/
-/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector */
+/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector, WordUsageExample, Author, TextWork */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -988,6 +988,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextQuoteSelector", function() { return _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__["default"]; });
 
+/* harmony import */ var _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./texts/word-usage-example.js */ "./texts/word-usage-example.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordUsageExample", function() { return _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+
+/* harmony import */ var _texts_author_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./texts/author.js */ "./texts/author.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Author", function() { return _texts_author_js__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+
+/* harmony import */ var _texts_text_work_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./texts/text-work.js */ "./texts/text-work.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextWork", function() { return _texts_text_work_js__WEBPACK_IMPORTED_MODULE_25__["default"]; });
+
+
+
+
 
 
 
@@ -1031,8 +1043,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Feature; });
 /* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
 /* harmony import */ var _feature_importer_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feature_importer.js */ "./feature_importer.js");
-/* harmony import */ var _i18n_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./i18n.js */ "./i18n.js");
-
 
 
 
@@ -1410,14 +1420,6 @@ class Feature {
   getCopy () {
     let values = this._data.map(item => [item.value, item.sortOrder])
     return new Feature(this.type, values, this.languageID, this.sortOrder, this.allowedValues.slice())
-  }
-
-  /**
-   * A locale-specific abbreviation for a feature's values.
-   * @return {string[]}
-   */
-  toLocaleStringAbbr (lang = 'en') {
-    return this.values.map(v => _i18n_js__WEBPACK_IMPORTED_MODULE_2__["i18n"][lang][v] ? _i18n_js__WEBPACK_IMPORTED_MODULE_2__["i18n"][lang][v].abbr : v).join(this.constructor.joinSeparator)
   }
 
   /**
@@ -2348,8 +2350,6 @@ class GreekLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _language_model_factory_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model_factory.js */ "./language_model_factory.js");
 /* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
-/* harmony import */ var _i18n_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./i18n.js */ "./i18n.js");
-
 
 
 
@@ -2454,18 +2454,6 @@ class GrmFeature {
       return this.value.join(',')
     } else {
       return this.value
-    }
-  }
-
-  /**
-   * a locale-specific abbreviation for a feature's values
-   * @return {string}
-   */
-  toLocaleStringAbbr (lang = 'en') {
-    if (Array.isArray(this.value)) {
-      return this.value.map((v) => this.toLocaleStringAbbr(v, lang))
-    } else {
-      return _i18n_js__WEBPACK_IMPORTED_MODULE_2__["i18n"][lang][this.value].abbr
     }
   }
 
@@ -2683,171 +2671,6 @@ class Homonym {
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Homonym);
-
-
-/***/ }),
-
-/***/ "./i18n.js":
-/*!*****************!*\
-  !*** ./i18n.js ***!
-  \*****************/
-/*! exports provided: i18n */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i18n", function() { return i18n; });
-/**
- * This is a temporary placeholder for an i18n library
- */
-const i18n = {
-  en: {
-    feminine: {
-      full: 'feminine',
-      abbr: 'f.'
-    },
-    masculine: {
-      full: 'masculine',
-      abbr: 'm.'
-    },
-    neuter: {
-      full: 'neuter',
-      abbr: 'n.'
-    },
-    nominative: {
-      full: 'nominative',
-      abbr: 'nom.'
-    },
-    accusative: {
-      full: 'accusative',
-      abbr: 'acc.'
-    },
-    genitive: {
-      full: 'genitive',
-      abbr: 'gen.'
-    },
-    vocative: {
-      full: 'vocative',
-      abbr: 'voc.'
-    },
-    ablative: {
-      full: 'ablative',
-      abbr: 'abl.'
-    },
-    locative: {
-      full: 'locative',
-      abbr: 'loc.'
-    },
-    dative: {
-      full: 'dative',
-      abbr: 'dat.'
-    },
-    positive: {
-      full: 'positive',
-      abbr: 'pos.'
-    },
-    comparative: {
-      full: 'comparative',
-      abbr: 'comp.'
-    },
-    superlative: {
-      full: 'superlative',
-      abbr: 'super.'
-    },
-    singular: {
-      full: 'singular',
-      abbr: 'sing.'
-    },
-    plural: {
-      full: 'plural',
-      abbr: 'plur.'
-    },
-    dual: {
-      full: 'dual',
-      abbr: 'dl.'
-    },
-    present: {
-      full: 'present',
-      abbr: 'pres.'
-    },
-    imperfect: {
-      full: 'imperfect',
-      abbr: 'impf.'
-    },
-    perfect: {
-      full: 'perfect',
-      abbr: 'perf.'
-    },
-    pluperfect: {
-      full: 'pluperfect',
-      abbr: 'plup.'
-    },
-    plusquamperfect: {
-      full: 'plusquamperfect',
-      abbr: 'pqpf.'
-    },
-    'future perfect': {
-      full: 'future perfect',
-      abbr: 'fut. perf.'
-    },
-    future: {
-      full: 'future',
-      abbr: 'fut.'
-    },
-    aorist: {
-      full: 'aorist',
-      abbr: 'aor.'
-    },
-    indicative: {
-      full: 'indicative',
-      abbr: 'ind.'
-    },
-    subjunctive: {
-      full: 'subjunctive',
-      abbr: 'sub.'
-    },
-    infinitive: {
-      full: 'infinitive',
-      abbr: 'infin.'
-    },
-    imperative: {
-      full: 'imperative',
-      abbr: 'imp.'
-    },
-    supine: {
-      full: 'supine',
-      abbr: 'sup.'
-    },
-    participle: {
-      full: 'participle',
-      abbr: 'part.'
-    },
-    optative: {
-      full: 'optative',
-      abbr: 'opt.'
-    },
-    active: {
-      full: 'active',
-      abbr: 'act.'
-    },
-    passive: {
-      full: 'passive',
-      abbr: 'pass.'
-    },
-    middle: {
-      full: 'middle',
-      abbr: 'mid.'
-    },
-    mediopassive: {
-      full: 'mediopassive',
-      abbr: 'mp.'
-    },
-    deponens: {
-      full: 'deponens',
-      abbr: 'dep.'
-    }
-  }
-}
 
 
 /***/ }),
@@ -4856,10 +4679,23 @@ __webpack_require__.r(__webpack_exports__);
 class PsEventData {
   /**
    * @param {PsEvent} event - An event that is being published.
+   * @param {string} [caller=''] - The name of the function from where an event was published.
    */
-  constructor (event) {
+  constructor (event, caller = '') {
     this.name = event.name
     this.publisher = event.publisher
+    this.caller = caller
+  }
+
+  /**
+   * Returns a description of an event data in a printable form. Example:
+   *     LexicalQuery.finalize -> [Lexical Query Complete]
+   * If caller function is not specified during a `pub()` call, description will be:
+   *     LexicalQuery -> [Lexical Query Complete]
+   * @return {string} - An event data description.
+   */
+  get description () {
+    return this.caller ? `${this.publisher}.${this.caller} -> [${this.name}]` : `${this.publisher} -> [${this.name}]`
   }
 }
 
@@ -4938,9 +4774,10 @@ class PsEvent {
    * Publishes an event with data related to it. All subscribers will receive an
    * event notification along with event data.
    * @param {Object} [data={}] - An event-specific data associated with the event.
+   * @param {string} [caller=''] - The name of the function that called `pub`.
    */
-  pub (data = {}) {
-    this._subscribers.forEach(l => l(data, new _src_ps_events_ps_event_data_js__WEBPACK_IMPORTED_MODULE_0__["default"](this)))
+  pub (data = {}, caller = '') {
+    this._subscribers.forEach(l => l(data, new _src_ps_events_ps_event_data_js__WEBPACK_IMPORTED_MODULE_0__["default"](this, caller)))
   }
 }
 
@@ -5000,6 +4837,217 @@ class ResourceProvider {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (ResourceProvider);
+
+
+/***/ }),
+
+/***/ "./texts/author.js":
+/*!*************************!*\
+  !*** ./texts/author.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Author {
+  /**
+  * Constructor, extracts ID from urn
+  * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
+  * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
+  * @returns {Author}
+  */
+  constructor (urn, titles, abbreviations) {
+    this.urn = urn
+    this.titles = titles
+    this.abbreviations = abbreviations
+  }
+
+  /**
+  * This property is used to define title for panel
+  * @returns {String}
+  */
+  static get defaultLang () {
+    return 'eng'
+  }
+
+  /**
+  * Method returns title in the lang from arguments, otherwise in default language or (if not exists) it returns first available title
+  * @param {String} lang - language for getting title
+  * @returns {String}
+  */
+  title (lang) {
+    if (this.titles[lang]) {
+      return this.titles[lang]
+    } else if (this.titles[Author.defaultLang]) {
+      return this.titles[Author.defaultLang]
+    } else if (Object.values(this.titles).length > 0) {
+      return Object.values(this.titles)[0]
+    }
+    return null
+  }
+
+  /**
+  * Method returns abbreviation in the lang from arguments, otherwise in default language or (if not exists) it returns first available abbreviation
+  * @param {String} lang - language for getting abbreviation
+  * @returns {String}
+  */
+  abbreviation (lang) {
+    if (this.abbreviations[lang]) {
+      return this.abbreviations[lang]
+    } else if (this.abbreviations[Author.defaultLang]) {
+      return this.abbreviations[Author.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Author);
+
+
+/***/ }),
+
+/***/ "./texts/text-work.js":
+/*!****************************!*\
+  !*** ./texts/text-work.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class TextWork {
+  /**
+  * Constructor, extracts ID from urn
+  * @param {Author} author - author of the textWork
+  * @param {String} urn - string identificator in special format, for example 'urn:cts:latinLit:phi0959'
+  * @param {Object} titles - has the following format { languageCode: title }
+  * @param {Object} abbreviations - has the following format { languageCode: abbreviation }
+  * @returns {TextWork}
+  */
+  constructor (author, urn, titles, abbreviations) {
+    this.urn = urn
+    this.titles = titles
+    this.author = author
+    this.abbreviations = abbreviations
+  }
+
+  /**
+  * This property is used to define title for panel
+  * @returns {String}
+  */
+  static get defaultLang () {
+    return 'eng'
+  }
+
+  /**
+  * This property is used to define prefix fr extract ID
+  * @returns {String}
+  */
+  static get defaultIDPrefix () {
+    return 'phi'
+  }
+
+  /**
+  * Method returns title in the lang from arguments, otherwise in default language or (if not exists) it returns first available title
+  * @param {String} lang - language for getting title
+  * @returns {String}
+  */
+  title (lang) {
+    if (this.titles[lang]) {
+      return this.titles[lang]
+    } else if (this.titles[TextWork.defaultLang]) {
+      return this.titles[TextWork.defaultLang]
+    } else if (Object.values(this.titles).length > 0) {
+      return Object.values(this.titles)[0]
+    }
+    return null
+  }
+
+  /**
+  * Method returns abbreviation in the lang from arguments, otherwise in default language or (if not exists) it returns first available abbreviation
+  * @param {String} lang - language for getting abbreviation
+  * @returns {String}
+  */
+  abbreviation (lang) {
+    if (this.abbreviations[lang]) {
+      return this.abbreviations[lang]
+    } else if (this.abbreviations[TextWork.defaultLang]) {
+      return this.abbreviations[TextWork.defaultLang]
+    } else if (Object.values(this.abbreviations).length > 0) {
+      return Object.values(this.abbreviations)[0]
+    }
+    return null
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (TextWork);
+
+
+/***/ }),
+
+/***/ "./texts/word-usage-example.js":
+/*!*************************************!*\
+  !*** ./texts/word-usage-example.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return WordUsageExample; });
+/* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
+
+
+class WordUsageExample extends _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  constructor (language, targetWord, prefix, suffix, source, cit) {
+    super(language, targetWord)
+    this.prefix = prefix
+    this.suffix = suffix
+    this.source = source
+    this.cit = cit
+  }
+  createContext () {
+    return null // not implemented in the current child-class
+  }
+
+  /**
+  * Creates a full text of example prefix + word + suffix
+  * @returns {String}
+  */
+  get htmlExample () {
+    return `${this.prefix}<span class="alpheios_word_usage_list_item__text_targetword">${this.normalizedText}</span>${this.suffix}`
+  }
+
+  /**
+  * Creates a full description - author + textWork + cit number
+  * @param {String} lang - language for getting text
+  * @returns {String}
+  */
+  fullCit (lang) {
+    let res = ''
+    if (this.author) {
+      res = this.author.title(lang)
+      if (this.textWork) {
+        res = res + ' ' + this.textWork.title(lang)
+      } else {
+        if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
+          res = res + ' ' + this.cit.split('.')[1] + '.'
+        }
+      }
+
+      if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
+        res = res + ' ' + this.cit.split('.')[2]
+      }
+    } else {
+      res = this.cit
+    }
+    return res
+  }
+}
 
 
 /***/ }),
@@ -5123,10 +5171,6 @@ class TextQuoteSelector {
   isEqual (otherTqs) {
     let checkContextThis = `${this.prefix}${this.text}${this.suffix}`
     let checkContextOther = `${otherTqs.prefix}${otherTqs.text}${otherTqs.suffix}`
-
-    console.info('*******************************TQ isEqual 1', checkContextThis === checkContextOther)
-    console.info('*******************************TQ isEqual 2', checkContextThis.length, checkContextThis)
-    console.info('*******************************TQ isEqual 3', checkContextOther.length, checkContextOther)
 
     return this.text === otherTqs.text &&
       this.source === otherTqs.source &&
