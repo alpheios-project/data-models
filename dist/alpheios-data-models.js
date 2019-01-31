@@ -5147,12 +5147,17 @@ class TextQuoteSelector {
   }
 
   isEqual (otherTqs) {
+    let checkContextThis = `${this.prefix}${this.text}${this.suffix}`
+    let checkContextOther = `${otherTqs.prefix}${otherTqs.text}${otherTqs.suffix}`
+
+    console.info('*******************************TQ isEqual 1', checkContextThis === checkContextOther)
+    console.info('*******************************TQ isEqual 2', checkContextThis.length, checkContextThis)
+    console.info('*******************************TQ isEqual 3', checkContextOther.length, checkContextOther)
+
     return this.text === otherTqs.text &&
       this.source === otherTqs.source &&
       this.languageCode === otherTqs.languageCode &&
-      this.prefix === otherTqs.prefix &&
-      this.suffix === otherTqs.suffix &&
-      this.normalizedText === otherTqs.normalizedText
+      checkContextThis === checkContextOther
   }
 }
 

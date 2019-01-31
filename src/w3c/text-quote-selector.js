@@ -39,11 +39,12 @@ export default class TextQuoteSelector {
   }
 
   isEqual (otherTqs) {
+    let checkContextThis = `${this.prefix}${this.text}${this.suffix}`
+    let checkContextOther = `${otherTqs.prefix}${otherTqs.text}${otherTqs.suffix}`
+
     return this.text === otherTqs.text &&
       this.source === otherTqs.source &&
       this.languageCode === otherTqs.languageCode &&
-      this.prefix === otherTqs.prefix &&
-      this.suffix === otherTqs.suffix &&
-      this.normalizedText === otherTqs.normalizedText
+      checkContextThis === checkContextOther
   }
 }
