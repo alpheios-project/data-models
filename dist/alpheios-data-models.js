@@ -5177,11 +5177,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class TextQuoteSelector {
-  constructor (languageCode, normalizedText) {
+  constructor (languageCode, normalizedText, prefix = null, suffix = null, source = null) {
     this.languageCode = languageCode
     this.normalizedText = normalizedText
     this.contextForward = 6
     this.contextBackward = 6
+    this.text = this.normalizedText
+    this.prefix = prefix
+    this.suffix = suffix
+    this.source = source
     this.ID = uuid_v4__WEBPACK_IMPORTED_MODULE_0___default()()
   }
 
