@@ -5191,14 +5191,7 @@ class TextQuoteSelector {
 
     let checkContextOther = `${otherTqs.prefix}${otherTqs.text}${otherTqs.suffix}`
     checkContextOther = checkContextOther.trim()
-    /*
-    console.info('****************isEqual1', this.text === otherTqs.text)
-    console.info('****************isEqual2', this.source === otherTqs.source)
-    console.info('****************isEqual3', this.languageCode === otherTqs.languageCode)
-    console.info('****************isEqual4', checkContextThis === checkContextOther)
-    console.info('****************isEqual4 checkContextThis "' + checkContextThis + '"')
-    console.info('****************isEqual4 checkContextOther "' + checkContextOther + '"')
-    */
+
     return this.text === otherTqs.text &&
       this.source === otherTqs.source &&
       this.languageCode === otherTqs.languageCode &&
@@ -5383,6 +5376,9 @@ class WordList {
     })
   }
 
+  get size () {
+    return Object.keys(this.items).length
+  }
   /**
    * get the items of the list
    */
