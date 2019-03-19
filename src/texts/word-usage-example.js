@@ -49,7 +49,7 @@ export default class WordUsageExample extends TextQuoteSelector {
 
   authorForSort (lang) {
     if (this.author) {
-      return this.author(lang).toUpperCase()
+      return this.author.title(lang).toUpperCase()
     } else {
       if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
         return this.cit.split('.')[0].toUpperCase()
@@ -60,7 +60,7 @@ export default class WordUsageExample extends TextQuoteSelector {
 
   textWorkForSort (lang) {
     if (this.textWork) {
-      return this.textWork(lang).toUpperCase()
+      return this.textWork.title(lang).toUpperCase()
     } else {
       if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
         return this.cit.split('.')[1].toUpperCase()
@@ -71,11 +71,11 @@ export default class WordUsageExample extends TextQuoteSelector {
 
   get prefixForSort () {
     let model = LanguageModelFactory.getLanguageModelFromCode(this.languageCode)
-    return this.prefix.replace(new RegExp('[' + model.getPunctuation() + ']', 'g'), '').toUpperCase()
+    return this.prefix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), '').toUpperCase()
   }
 
   get suffixForSort () {
     let model = LanguageModelFactory.getLanguageModelFromCode(this.languageCode)
-    return this.suffix.replace(new RegExp('[' + model.getPunctuation() + ']', 'g'), '').toUpperCase()
+    return this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), '').toUpperCase()
   }
 }
