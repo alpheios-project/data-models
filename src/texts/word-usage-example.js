@@ -77,7 +77,6 @@ export default class WordUsageExample extends TextQuoteSelector {
 
   get suffixForSort () {
     let model = LanguageModelFactory.getLanguageModelFromCode(this.languageCode)
-    let clearSuffix = this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), ' ').toUpperCase().split(' ').filter(item => item.length > 0)
-    return clearSuffix[0]
+    return this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), ' ').toUpperCase()
   }
 }
