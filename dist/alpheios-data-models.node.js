@@ -5109,7 +5109,7 @@ class WordUsageExample extends _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MOD
 
   get suffixForSort () {
     let model = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageModelFromCode(this.languageCode)
-    return this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), ' ').toUpperCase()
+    return this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), '').toUpperCase()
   }
 }
 
