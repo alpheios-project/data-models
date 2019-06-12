@@ -5135,8 +5135,7 @@ class WordUsageExample extends _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MOD
 
   get suffixForSort () {
     let model = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageModelFromCode(this.languageCode)
-    let clearSuffix = this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), ' ').toUpperCase().split(' ').filter(item => item.length > 0)
-    return clearSuffix[0]
+    return this.suffix.replace(new RegExp('[' + model.getPunctuation() + ' ]', 'g'), ' ').toUpperCase()
   }
 }
 
