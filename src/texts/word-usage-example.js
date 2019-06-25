@@ -27,24 +27,16 @@ export default class WordUsageExample extends TextQuoteSelector {
   * @returns {String}
   */
   fullCit (lang) {
-    let res = ''
-    if (this.author) {
-      res = this.author.title(lang)
-      if (this.textWork) {
-        res = res + ' ' + this.textWork.title(lang)
-      } else {
-        if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 2) {
-          res = res + ' ' + this.cit.split('.')[1] + '.'
-        }
-      }
-
-      if (this.cit && this.cit.split('.') && this.cit.split('.').length >= 3) {
-        res = res + ' ' + this.cit.split('.')[2]
-      }
-    } else {
-      res = this.cit
+    if (!this.cit) {
+      return ''
     }
-    return res
+
+    let citSplitArr = this.cit.split('.')
+    let finalFullCit = this.author ? this.author.title(lang) + ' ' : citSplitArr[0] + '.'
+    finalFullCit = finalFullCit + (this.textWork ? this.textWork.title(lang) + ' ' : citSplitArr[1] + '.')
+    finalFullCit = finalFullCit + citSplitArr.slice(2).join('.')
+
+    return finalFullCit
   }
 
   authorForSort (lang) {
