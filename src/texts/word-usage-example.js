@@ -32,11 +32,40 @@ export default class WordUsageExample extends TextQuoteSelector {
     }
 
     let citSplitArr = this.cit.split('.')
-    let finalFullCit = this.author ? this.author.title(lang) + ' ' : citSplitArr[0] + '.'
-    finalFullCit = finalFullCit + (this.textWork ? this.textWork.title(lang) + ' ' : citSplitArr[1] + '.')
-    finalFullCit = finalFullCit + citSplitArr.slice(2).join('.')
+    let finalFullCit = ''
+    if (!lang) {
+      finalFullCit = this.formattedAuthor + ' ' + this.formattedTextWork + ' ' + this.formattedPassage
+    } else {
+      finalFullCit = this.author ? this.author.title(lang) : citSplitArr[0] + '.'
+      finalFullCit = finalFullCit + ' ' + (this.textWork ? this.textWork.title(lang) : citSplitArr[1] + '.')
+      finalFullCit = finalFullCit + ' ' + this.formattedPassage
+    }
 
-    return finalFullCit
+    return finalFullCit.trim()
+  }
+
+  get formattedAuthor () {
+    if (!this.cit) {
+      return ''
+    }
+    let citSplitArr = this.cit.split('.')
+    return this.author ? this.author.title() : citSplitArr[0] + '.'
+  }
+
+  get formattedTextWork () {
+    if (!this.cit) {
+      return ''
+    }
+    let citSplitArr = this.cit.split('.')
+    return this.textWork ? this.textWork.title() : citSplitArr[1] + '.'
+  }
+
+  get formattedPassage () {
+    if (!this.cit) {
+      return ''
+    }
+    let citSplitArr = this.cit.split('.')
+    return citSplitArr.slice(2).join('.')
   }
 
   authorForSort (lang) {
