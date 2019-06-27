@@ -5065,6 +5065,7 @@ class WordUsageExample extends _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MOD
 
     let citSplitArr = this.cit.split('.')
     let finalFullCit = ''
+
     if (!lang) {
       finalFullCit = this.formattedAuthor + ' ' + this.formattedTextWork + ' ' + this.formattedPassage
     } else {

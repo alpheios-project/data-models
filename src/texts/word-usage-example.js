@@ -33,6 +33,7 @@ export default class WordUsageExample extends TextQuoteSelector {
 
     let citSplitArr = this.cit.split('.')
     let finalFullCit = ''
+
     if (!lang) {
       finalFullCit = this.formattedAuthor + ' ' + this.formattedTextWork + ' ' + this.formattedPassage
     } else {
