@@ -346,6 +346,96 @@ class ArabicLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0_
 
 /***/ }),
 
+/***/ "./chinese_language_model.js":
+/*!***********************************!*\
+  !*** ./chinese_language_model.js ***!
+  \***********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ChineseLanguageModel; });
+/* harmony import */ var _language_model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./language_model.js */ "./language_model.js");
+/* harmony import */ var _feature_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./feature.js */ "./feature.js");
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants.js */ "./constants.js");
+
+
+
+
+let typeFeatures = new Map()
+let typeFeaturesInitialized = false
+
+/**
+ * @class  LatinLanguageModel is the lass for Latin specific behavior
+ */
+class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0__["default"] {
+  static get languageID () { return _constants_js__WEBPACK_IMPORTED_MODULE_2__["LANG_CHINESE"] }
+  static get languageCode () { return _constants_js__WEBPACK_IMPORTED_MODULE_2__["STR_LANG_CODE_ZHO"] }
+  static get languageCodes () { return [_constants_js__WEBPACK_IMPORTED_MODULE_2__["STR_LANG_CODE_ZH"], _constants_js__WEBPACK_IMPORTED_MODULE_2__["STR_LANG_CODE_ZHO"]] }
+  static get contextForward () { return 1 }
+  static get contextBackward () { return 0 }
+  static get direction () { return _constants_js__WEBPACK_IMPORTED_MODULE_2__["LANG_DIR_LTR"] }
+  static get baseUnit () { return _constants_js__WEBPACK_IMPORTED_MODULE_2__["LANG_UNIT_WORD"] }
+
+  static get featureValues () {
+    return new Map([
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.fullForm,
+        []
+      ],
+
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.frequency,
+        []
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.pronunciation,
+        []
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.dialect,
+        [
+          'simp',
+          'trad'
+        ]
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.mandarin,
+        []
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.cantonese,
+        []
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.tang,
+        []
+      ],
+      [
+        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.radical,
+        []
+      ]
+
+    ])
+  }
+
+  static get typeFeatures () {
+    if (!typeFeaturesInitialized) { this.initTypeFeatures() }
+    return typeFeatures
+  }
+
+  static initTypeFeatures () {
+    for (const featureName of this.featureNames) {
+      typeFeatures.set(featureName, this.getFeature(featureName))
+    }
+    typeFeaturesInitialized = true
+  }
+}
+
+
+/***/ }),
+
 /***/ "./constants.js":
 /*!**********************!*\
   !*** ./constants.js ***!
@@ -3882,7 +3972,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _arabic_language_model_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./arabic_language_model.js */ "./arabic_language_model.js");
 /* harmony import */ var _persian_language_model_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./persian_language_model.js */ "./persian_language_model.js");
 /* harmony import */ var _geez_language_model_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./geez_language_model.js */ "./geez_language_model.js");
-/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./constants.js */ "./constants.js");
+/* harmony import */ var _chinese_language_model_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./chinese_language_model.js */ "./chinese_language_model.js");
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./constants.js */ "./constants.js");
+
 
 
 
@@ -3892,13 +3984,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const MODELS = new Map([
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_LA"], _latin_language_model_js__WEBPACK_IMPORTED_MODULE_1__["default"] ],
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_LAT"], _latin_language_model_js__WEBPACK_IMPORTED_MODULE_1__["default"] ],
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_GRC"], _greek_language_model_js__WEBPACK_IMPORTED_MODULE_2__["default"] ],
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_ARA"], _arabic_language_model_js__WEBPACK_IMPORTED_MODULE_3__["default"] ],
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_AR"], _arabic_language_model_js__WEBPACK_IMPORTED_MODULE_3__["default"] ],
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_PER"], _persian_language_model_js__WEBPACK_IMPORTED_MODULE_4__["default"] ],
-  [ _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_GEZ"], _geez_language_model_js__WEBPACK_IMPORTED_MODULE_5__["default"] ]
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_LA"], _latin_language_model_js__WEBPACK_IMPORTED_MODULE_1__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_LAT"], _latin_language_model_js__WEBPACK_IMPORTED_MODULE_1__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_GRC"], _greek_language_model_js__WEBPACK_IMPORTED_MODULE_2__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_ARA"], _arabic_language_model_js__WEBPACK_IMPORTED_MODULE_3__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_AR"], _arabic_language_model_js__WEBPACK_IMPORTED_MODULE_3__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_PER"], _persian_language_model_js__WEBPACK_IMPORTED_MODULE_4__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_GEZ"], _geez_language_model_js__WEBPACK_IMPORTED_MODULE_5__["default"] ],
+  [ _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_ZHO"], _chinese_language_model_js__WEBPACK_IMPORTED_MODULE_6__["default"] ]
 ])
 
 class LanguageModelFactory {
@@ -3961,7 +4054,7 @@ class LanguageModelFactory {
       }
     }
     // Noting found, return a Symbol with an undefined value (to keep return value type the same)
-    return _constants_js__WEBPACK_IMPORTED_MODULE_6__["LANG_UNDEFINED"]
+    return _constants_js__WEBPACK_IMPORTED_MODULE_7__["LANG_UNDEFINED"]
   }
 
   /**
@@ -3976,7 +4069,7 @@ class LanguageModelFactory {
       }
     }
     // Noting found, return a string with an undefined value (to keep return value type the same)
-    return _constants_js__WEBPACK_IMPORTED_MODULE_6__["STR_LANG_CODE_UNDEFINED"]
+    return _constants_js__WEBPACK_IMPORTED_MODULE_7__["STR_LANG_CODE_UNDEFINED"]
   }
 
   /**
