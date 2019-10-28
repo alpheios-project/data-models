@@ -1036,7 +1036,7 @@ class Definition {
 /*!*******************!*\
   !*** ./driver.js ***!
   \*******************/
-/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector, WordUsageExample, Author, TextWork, WordItem, WordList */
+/*! exports provided: Constants, Definition, DefinitionSet, Feature, GrmFeature, FeatureType, FeatureList, FeatureImporter, Inflection, LanguageModelFactory, Homonym, Lexeme, Lemma, LatinLanguageModel, GreekLanguageModel, ArabicLanguageModel, PersianLanguageModel, GeezLanguageModel, ChineseLanguageModel, ResourceProvider, Translation, PsEvent, PsEventData, TextQuoteSelector, WordUsageExample, Author, TextWork, WordItem, WordList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1094,35 +1094,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _geez_language_model_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./geez_language_model.js */ "./geez_language_model.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "GeezLanguageModel", function() { return _geez_language_model_js__WEBPACK_IMPORTED_MODULE_17__["default"]; });
 
-/* harmony import */ var _resource_provider_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./resource_provider.js */ "./resource_provider.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResourceProvider", function() { return _resource_provider_js__WEBPACK_IMPORTED_MODULE_18__["default"]; });
+/* harmony import */ var _chinese_language_model_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./chinese_language_model.js */ "./chinese_language_model.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ChineseLanguageModel", function() { return _chinese_language_model_js__WEBPACK_IMPORTED_MODULE_18__["default"]; });
 
-/* harmony import */ var _ps_events_ps_event_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./ps-events/ps-event.js */ "./ps-events/ps-event.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PsEvent", function() { return _ps_events_ps_event_js__WEBPACK_IMPORTED_MODULE_19__["default"]; });
+/* harmony import */ var _resource_provider_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./resource_provider.js */ "./resource_provider.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ResourceProvider", function() { return _resource_provider_js__WEBPACK_IMPORTED_MODULE_19__["default"]; });
 
-/* harmony import */ var _ps_events_ps_event_data_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./ps-events/ps-event-data.js */ "./ps-events/ps-event-data.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PsEventData", function() { return _ps_events_ps_event_data_js__WEBPACK_IMPORTED_MODULE_20__["default"]; });
+/* harmony import */ var _ps_events_ps_event_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./ps-events/ps-event.js */ "./ps-events/ps-event.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PsEvent", function() { return _ps_events_ps_event_js__WEBPACK_IMPORTED_MODULE_20__["default"]; });
 
-/* harmony import */ var _translation_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./translation.js */ "./translation.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Translation", function() { return _translation_js__WEBPACK_IMPORTED_MODULE_21__["default"]; });
+/* harmony import */ var _ps_events_ps_event_data_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./ps-events/ps-event-data.js */ "./ps-events/ps-event-data.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "PsEventData", function() { return _ps_events_ps_event_data_js__WEBPACK_IMPORTED_MODULE_21__["default"]; });
 
-/* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextQuoteSelector", function() { return _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+/* harmony import */ var _translation_js__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./translation.js */ "./translation.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Translation", function() { return _translation_js__WEBPACK_IMPORTED_MODULE_22__["default"]; });
 
-/* harmony import */ var _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./texts/word-usage-example.js */ "./texts/word-usage-example.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordUsageExample", function() { return _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+/* harmony import */ var _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./w3c/text-quote-selector.js */ "./w3c/text-quote-selector.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextQuoteSelector", function() { return _w3c_text_quote_selector_js__WEBPACK_IMPORTED_MODULE_23__["default"]; });
 
-/* harmony import */ var _texts_author_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./texts/author.js */ "./texts/author.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Author", function() { return _texts_author_js__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+/* harmony import */ var _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./texts/word-usage-example.js */ "./texts/word-usage-example.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordUsageExample", function() { return _texts_word_usage_example_js__WEBPACK_IMPORTED_MODULE_24__["default"]; });
 
-/* harmony import */ var _texts_text_work_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./texts/text-work.js */ "./texts/text-work.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextWork", function() { return _texts_text_work_js__WEBPACK_IMPORTED_MODULE_25__["default"]; });
+/* harmony import */ var _texts_author_js__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./texts/author.js */ "./texts/author.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Author", function() { return _texts_author_js__WEBPACK_IMPORTED_MODULE_25__["default"]; });
 
-/* harmony import */ var _word_item_js__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./word-item.js */ "./word-item.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordItem", function() { return _word_item_js__WEBPACK_IMPORTED_MODULE_26__["default"]; });
+/* harmony import */ var _texts_text_work_js__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./texts/text-work.js */ "./texts/text-work.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TextWork", function() { return _texts_text_work_js__WEBPACK_IMPORTED_MODULE_26__["default"]; });
 
-/* harmony import */ var _word_list_js__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./word-list.js */ "./word-list.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordList", function() { return _word_list_js__WEBPACK_IMPORTED_MODULE_27__["default"]; });
+/* harmony import */ var _word_item_js__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./word-item.js */ "./word-item.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordItem", function() { return _word_item_js__WEBPACK_IMPORTED_MODULE_27__["default"]; });
+
+/* harmony import */ var _word_list_js__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./word-list.js */ "./word-list.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "WordList", function() { return _word_list_js__WEBPACK_IMPORTED_MODULE_28__["default"]; });
+
 
 
 
