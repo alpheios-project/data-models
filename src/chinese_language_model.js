@@ -35,8 +35,8 @@ export default class ChineseLanguageModel extends LanguageModel {
       [
         Feature.types.dialect,
         [
-          'simp',
-          'trad'
+          'simple',
+          'traditional'
         ]
       ],
       [

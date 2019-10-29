@@ -370,8 +370,8 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
       [
         _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.dialect,
         [
-          'simp',
-          'trad'
+          'simple',
+          'traditional'
         ]
       ],
       [
