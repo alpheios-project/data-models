@@ -1296,9 +1296,6 @@ class Feature {
       stemtype: 'stemtype',
       morph: 'morph', // general morphological information
       var: 'var', // variance?
-      mandarin: 'mandarin',
-      cantonese: 'cantonese',
-      tang: 'tang',
       radical: 'radical'
     }
   }
