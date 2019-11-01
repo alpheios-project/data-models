@@ -15,7 +15,7 @@ export default class ChineseLanguageModel extends LanguageModel {
   static get contextForward () { return 1 }
   static get contextBackward () { return 0 }
   static get direction () { return Constants.LANG_DIR_LTR }
-  static get baseUnit () { return Constants.LANG_UNIT_WORD }
+  static get baseUnit () { return Constants.LANG_UNIT_CHAR }
 
   static get featureValues () {
     return new Map([
