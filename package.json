@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "standard --fix && jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
-    "test-c": "standard --fix && jest tests/texts/word-usage-example.test.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test-c": "standard --fix && jest tests/chinese/chinese.test.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test-l": "standard --fix && jest tests/lexeme.test.js --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "build-lib": "standard --fix && node --experimental-modules ./node_modules/alpheios-node-build/dist/build.mjs all all lib",
     "build-node": "standard --fix && node --experimental-modules ./node_modules/alpheios-node-build/dist/build.mjs all all node-lib config-node.mjs",
     "build": "npm run build-lib && npm run build-node",
@@ -27,14 +28,14 @@
   },
   "homepage": "https://github.com/alpheios-project/data-models#readme",
   "devDependencies": {
-    "alpheios-node-build": "github:alpheios-project/node-build",
+    "alpheios-node-build": "github:alpheios-project/node-build#v0.6.3",
     "coveralls": "^3.0.6",
     "intl-messageformat": "^2.1.0",
     "jest": "^23.6.0",
     "jest-fetch-mock": "1.7.5",
     "standard": "^12.0.1",
     "terser": "3.14.1",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.3"
   },
   "dependencies": {},
   "jest": {
