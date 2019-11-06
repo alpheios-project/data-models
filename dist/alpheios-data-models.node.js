@@ -368,25 +368,6 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
         []
       ],
       [
-        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.dialect,
-        [
-          'simple',
-          'traditional'
-        ]
-      ],
-      [
-        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.mandarin,
-        []
-      ],
-      [
-        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.cantonese,
-        []
-      ],
-      [
-        _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.tang,
-        []
-      ],
-      [
         _feature_js__WEBPACK_IMPORTED_MODULE_1__["default"].types.radical,
         []
       ]

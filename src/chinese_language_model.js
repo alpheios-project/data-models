@@ -33,25 +33,6 @@ export default class ChineseLanguageModel extends LanguageModel {
         []
       ],
       [
-        Feature.types.dialect,
-        [
-          'simple',
-          'traditional'
-        ]
-      ],
-      [
-        Feature.types.mandarin,
-        []
-      ],
-      [
-        Feature.types.cantonese,
-        []
-      ],
-      [
-        Feature.types.tang,
-        []
-      ],
-      [
         Feature.types.radical,
         []
       ]
