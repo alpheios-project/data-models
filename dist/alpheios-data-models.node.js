@@ -388,7 +388,7 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
   }
 
   static getPunctuation () {
-    return ".,;:!?'\"(){}\\[\\]<>/\\\n\r\uFF0C\u3001\u3002\u300C\u300D\u300A\u300B"
+    return ".,;:!?'\"(){}\\[\\]<>/\\\n\r\uFF0C\u3001\u3002\u300C\u300D\u300A\u300B\u200C\u200D"
   }
 }
 
