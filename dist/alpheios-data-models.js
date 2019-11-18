@@ -906,10 +906,9 @@ class DefinitionSet {
    * @return {DefinitionSet} A DefinitionSet object populated with data from JSON object.
    */
   static readObject (jsonObject) {
-    if (!jsonObject.languageID && jsonObject.languageCode) {
-      jsonObject.languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageIdFromCode(jsonObject.languageCode)
-    }
-    let definitionSet = new DefinitionSet(jsonObject.lemmaWord, jsonObject.languageID)
+    const languageID = _language_model_factory_js__WEBPACK_IMPORTED_MODULE_1__["default"].getLanguageIdFromCode(jsonObject.languageCode)
+
+    let definitionSet = new DefinitionSet(jsonObject.lemmaWord, languageID)
 
     for (let shortDef of jsonObject.shortDefs) {
       definitionSet.shortDefs.push(_definition__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(shortDef))
@@ -1031,6 +1030,10 @@ class Definition {
 
     if (jsonObject.provider) {
       resDefinition.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(jsonObject.provider)
+    }
+
+    if (jsonObject.ID) {
+      resDefinition.ID = jsonObject.ID
     }
 
     return resDefinition

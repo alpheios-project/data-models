@@ -18,6 +18,10 @@ class Definition {
       resDefinition.provider = ResourceProvider.readObject(jsonObject.provider)
     }
 
+    if (jsonObject.ID) {
+      resDefinition.ID = jsonObject.ID
+    }
+
     return resDefinition
   }
 
