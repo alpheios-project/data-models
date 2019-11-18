@@ -1,4 +1,5 @@
 import uuidv4 from 'uuid/v4'
+import ResourceProvider from './resource_provider.js'
 
 class Definition {
   constructor (text, language, format, lemmaText) {
@@ -11,17 +12,28 @@ class Definition {
   }
 
   static readObject (jsonObject) {
-    return new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
+    let resDefinition = new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
+
+    if (jsonObject.provider) {
+      resDefinition.provider = ResourceProvider.readObject(jsonObject.provider)
+    }
+
+    return resDefinition
   }
 
   convertToJSONObject () {
-    return {
+    let result = {
       text: this.text,
       language: this.language,
       format: this.format,
       lemmaText: this.lemmaText,
       ID: this.ID
     }
+
+    if (this.provider) {
+      result.provider = this.provider.convertToJSONObject()
+    }
+    return result
   }
 }
 export default Definition

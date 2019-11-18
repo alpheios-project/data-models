@@ -1008,6 +1008,8 @@ class DefinitionSet {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v4 */ "../node_modules/uuid/v4.js");
 /* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _resource_provider_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resource_provider.js */ "./resource_provider.js");
+
 
 
 class Definition {
@@ -1021,17 +1023,28 @@ class Definition {
   }
 
   static readObject (jsonObject) {
-    return new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
+    let resDefinition = new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
+
+    if (jsonObject.provider) {
+      resDefinition.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(jsonObject.provider)
+    }
+
+    return resDefinition
   }
 
   convertToJSONObject () {
-    return {
+    let result = {
       text: this.text,
       language: this.language,
       format: this.format,
       lemmaText: this.lemmaText,
       ID: this.ID
     }
+
+    if (this.provider) {
+      result.provider = this.provider.convertToJSONObject()
+    }
+    return result
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Definition);
@@ -4533,6 +4546,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _inflection_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./inflection.js */ "./inflection.js");
 /* harmony import */ var _definition_set__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./definition-set */ "./definition-set.js");
 /* harmony import */ var _language_model_factory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./language_model_factory */ "./language_model_factory.js");
+/* harmony import */ var _resource_provider_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./resource_provider.js */ "./resource_provider.js");
+
 
 
 
@@ -4680,6 +4695,10 @@ class Lexeme {
     if (jsonObject.meaning) {
       lexeme.meaning = _definition_set__WEBPACK_IMPORTED_MODULE_2__["default"].readObject(jsonObject.meaning)
     }
+
+    if (jsonObject.provider) {
+      lexeme.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_4__["default"].readObject(jsonObject.provider)
+    }
     return lexeme
   }
 
@@ -4695,6 +4714,10 @@ class Lexeme {
     if (addMeaning) {
       let resMeaning = this.meaning.convertToJSONObject()
       resLexeme.meaning = resMeaning
+    }
+
+    if (this.provider) {
+      resLexeme.provider = this.provider.convertToJSONObject()
     }
 
     return resLexeme
@@ -5024,6 +5047,30 @@ class ResourceProvider {
       }
     })
   }
+
+  convertToJSONObject () {
+    let rights = {}
+    for (const [key, value] of this.rights.entries()) {
+      rights[key] = value
+    }
+
+    let resultProvider = {
+      uri: this.uri,
+      rights
+    }
+    return resultProvider
+  }
+
+  static readObject (jsonObject) {
+    let rights = new Map()
+    if (jsonObject.rights) {
+      Object.keys(jsonObject.rights).forEach(key => {
+        rights.set(key, jsonObject.rights[key])
+      })
+    }
+
+    return new ResourceProvider(jsonObject.uri, '', rights)
+  }
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (ResourceProvider);
@@ -5330,10 +5377,15 @@ class Translation {
   }
 
   convertToJSONObject () {
-    return {
+    let result = {
       languageCode: this.languageCode,
       translations: this.glosses
     }
+
+    if (this.provider) {
+      result.provider = this.provider.convertToJSONObject()
+    }
+    return result
   }
 
   static readObject (jsonObject, lemma) {

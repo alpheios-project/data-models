@@ -37,10 +37,15 @@ class Translation {
   }
 
   convertToJSONObject () {
-    return {
+    let result = {
       languageCode: this.languageCode,
       translations: this.glosses
     }
+
+    if (this.provider) {
+      result.provider = this.provider.convertToJSONObject()
+    }
+    return result
   }
 
   static readObject (jsonObject, lemma) {
