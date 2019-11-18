@@ -5389,7 +5389,11 @@ class Translation {
   }
 
   static readObject (jsonObject, lemma) {
-    return new Translation(lemma, jsonObject.languageCode, jsonObject.translations)
+    let translation = new Translation(lemma, jsonObject.languageCode, jsonObject.translations)
+    if (jsonObject.provider) {
+      translation.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(jsonObject.provider)
+    }
+    return translation
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Translation);
