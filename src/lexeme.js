@@ -148,9 +148,11 @@ class Lexeme {
     }
 
     if (jsonObject.provider) {
-      lexeme.provider = ResourceProvider.readObject(jsonObject.provider)
+      let provider = ResourceProvider.readObject(jsonObject.provider)
+      return ResourceProvider.getProxy(provider, lexeme)
+    } else {
+      return lexeme
     }
-    return lexeme
   }
 
   convertToJSONObject (addMeaning = false) {

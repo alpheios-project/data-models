@@ -51,9 +51,11 @@ class Translation {
   static readObject (jsonObject, lemma) {
     let translation = new Translation(lemma, jsonObject.languageCode, jsonObject.translations)
     if (jsonObject.provider) {
-      translation.provider = ResourceProvider.readObject(jsonObject.provider)
+      let provider = ResourceProvider.readObject(jsonObject.provider)
+      return ResourceProvider.getProxy(provider, translation)
+    } else {
+      return translation
     }
-    return translation
   }
 }
 export default Translation

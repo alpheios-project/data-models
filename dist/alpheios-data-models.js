@@ -1026,17 +1026,18 @@ class Definition {
   }
 
   static readObject (jsonObject) {
-    let resDefinition = new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
-
-    if (jsonObject.provider) {
-      resDefinition.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(jsonObject.provider)
-    }
+    let definition = new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
 
     if (jsonObject.ID) {
-      resDefinition.ID = jsonObject.ID
+      definition.ID = jsonObject.ID
     }
 
-    return resDefinition
+    if (jsonObject.provider) {
+      let provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_1__["default"].readObject(jsonObject.provider)
+      return _resource_provider_js__WEBPACK_IMPORTED_MODULE_1__["default"].getProxy(provider, definition)
+    } else {
+      return definition
+    }
   }
 
   convertToJSONObject () {
@@ -4704,9 +4705,11 @@ class Lexeme {
     }
 
     if (jsonObject.provider) {
-      lexeme.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_4__["default"].readObject(jsonObject.provider)
+      let provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_4__["default"].readObject(jsonObject.provider)
+      return _resource_provider_js__WEBPACK_IMPORTED_MODULE_4__["default"].getProxy(provider, lexeme)
+    } else {
+      return lexeme
     }
-    return lexeme
   }
 
   convertToJSONObject (addMeaning = false) {
@@ -5398,9 +5401,11 @@ class Translation {
   static readObject (jsonObject, lemma) {
     let translation = new Translation(lemma, jsonObject.languageCode, jsonObject.translations)
     if (jsonObject.provider) {
-      translation.provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(jsonObject.provider)
+      let provider = _resource_provider_js__WEBPACK_IMPORTED_MODULE_0__["default"].readObject(jsonObject.provider)
+      return _resource_provider_js__WEBPACK_IMPORTED_MODULE_0__["default"].getProxy(provider, translation)
+    } else {
+      return translation
     }
-    return translation
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Translation);

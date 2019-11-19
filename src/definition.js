@@ -12,17 +12,18 @@ class Definition {
   }
 
   static readObject (jsonObject) {
-    let resDefinition = new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
-
-    if (jsonObject.provider) {
-      resDefinition.provider = ResourceProvider.readObject(jsonObject.provider)
-    }
+    let definition = new Definition(jsonObject.text, jsonObject.language, jsonObject.format, jsonObject.lemmaText)
 
     if (jsonObject.ID) {
-      resDefinition.ID = jsonObject.ID
+      definition.ID = jsonObject.ID
     }
 
-    return resDefinition
+    if (jsonObject.provider) {
+      let provider = ResourceProvider.readObject(jsonObject.provider)
+      return ResourceProvider.getProxy(provider, definition)
+    } else {
+      return definition
+    }
   }
 
   convertToJSONObject () {
