@@ -55,6 +55,10 @@
     "parserOptions": {
       "ecmaVersion": 2017,
       "sourceType": "module"
+    },
+    "rules": {
+      "no-prototype-builtins": "off",
+      "dot-notation": "off"
     }
   },
   "standard": {

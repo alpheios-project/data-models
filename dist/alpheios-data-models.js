@@ -417,7 +417,12 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
     return ".,;:!?'\"(){}\\[\\]<>/\\\n\r\uFF0C\u3001\u3002\u300C\u300D\u300A\u300B\u200C\u200D"
   }
 
+  static _isVowel (aLetter) {
+    return ['a', 'e', 'i', 'o', 'u'].includes(aLetter)
+  }
+
   static formatPinyin (aPinyin) {
+    console.info('Format pinyin has started', aPinyin)
     const _a = ['\u0101', '\u00E1', '\u01CE', '\u00E0', 'a']
     const _e = ['\u0113', '\u00E9', '\u011B', '\u00E8', 'e']
     const _i = ['\u012B', '\u00ED', '\u01D0', '\u00EC', 'i']
@@ -428,7 +433,7 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
     // Remove spaces before and after split parts; eliminate empty split parts
     aPinyin = aPinyin.split(/(\d)/).map(el => el.trim()).filter(el => Boolean(el))
 
-    const formatedPinyin = []
+    let formatedPinyin = []
     const toneFormat = {
       1: 0, 2: 1, 3: 2, 4: 3
     }
@@ -446,7 +451,7 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
           pin = pin.replace('o', _o[tone])
         } else {
           for (let k = pin.length - 1; k >= 0; k--) {
-            if (this.isVowel(pin[k])) {
+            if (this._isVowel(pin[k])) {
               switch (pin[k]) {
                 case 'i':
                   pin = pin.replace('i', _i[tone])
