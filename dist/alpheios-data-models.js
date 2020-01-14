@@ -422,7 +422,6 @@ class ChineseLanguageModel extends _language_model_js__WEBPACK_IMPORTED_MODULE_0
   }
 
   static formatPinyin (aPinyin) {
-    console.info('Format pinyin has started', aPinyin)
     const _a = ['\u0101', '\u00E1', '\u01CE', '\u00E0', 'a']
     const _e = ['\u0113', '\u00E9', '\u011B', '\u00E8', 'e']
     const _i = ['\u012B', '\u00ED', '\u01D0', '\u00EC', 'i']
